@@ -13,7 +13,7 @@ const Order = require('./order');
  *    BlogPost.belongsTo(User)
  */
 Product.hasMany(Category);
-Category.belongsToMany(Product, { through: "ProductCatAssoc" });
+Category.belongsToMany(Product, { through: "productCatAssoc" });
 CartItem.belongsTo(User);
 User.hasMany(CartItem);
 CartItem.belongsTo(Product)
