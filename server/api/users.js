@@ -30,10 +30,8 @@ router.post('/', (req, res, next) => {
 })
 
 router.get('/:id', (req, res, next) =>{
-  req.requestedUser.reload()
-  .then(requestedUser => res.json(requestedUser))
-  .catch(next);
-
+ return res.json(req.requestedUser)
+  
 })
 
 
