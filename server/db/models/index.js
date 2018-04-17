@@ -18,8 +18,8 @@ CartItem.belongsTo(Product, { foreignKey: { allowNull: false } });
 // Reviews
 Product.hasMany(Review);
 User.hasMany(Review);
-Review.belongsTo(Product);
-Review.belongsTo(User);
+Review.belongsTo(Product, { foreignKey: { allowNull: false } });
+Review.belongsTo(User, { foreignKey: { allowNull: false } });
 
 // Orders
 User.hasMany(Order);

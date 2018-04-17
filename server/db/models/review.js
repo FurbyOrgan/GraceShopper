@@ -3,7 +3,8 @@ const db = require('../db');
 
 const Review = db.define('reviews', {
   body: {
-    type: Sequelize.TEXT
+    type: Sequelize.TEXT,
+    validate: { len: { msg: 'Review body must be at least 50 characters long.', min: 50}}
   },
   rating: {
     type: Sequelize.INTEGER,
