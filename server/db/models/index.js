@@ -12,8 +12,8 @@ Category.belongsToMany(Product, { through: 'product_category' });
 
 // Cart Items
 User.hasMany(CartItem);
-CartItem.belongsTo(User);
-CartItem.belongsTo(Product);
+CartItem.belongsTo(User, { foreignKey: { allowNull: false } });
+CartItem.belongsTo(Product, { foreignKey: { allowNull: false } });
 
 // Reviews
 Product.hasMany(Review);
