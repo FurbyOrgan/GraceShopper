@@ -16,6 +16,7 @@ Product.hasMany(Category);
 Category.hasMany(Product);
 User.hasMany(CartItem);
 CartItem.hasOne(User);
+CartItem.hasOne(Product)
 User.hasMany(Review);
 Review.hasOne(User);
 
