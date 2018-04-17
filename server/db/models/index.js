@@ -6,24 +6,26 @@ const Review = require('./review');
 const Address = require('./address');
 const Order = require('./order');
 
-/**
- * If we had any associations to make, this would be a great place to put them!
- * ex. if we had another model called BlogPost, we might say:
- *
- *    BlogPost.belongsTo(User)
- */
-Product.hasMany(Category);
-Category.belongsToMany(Product, { through: "productCatAssoc" });
-CartItem.belongsTo(User);
+// Categories
+Product.belongsToMany(Category, { through: 'product_category' });
+Category.belongsToMany(Product, { through: 'product_category' });
+
+// Cart Items
 User.hasMany(CartItem);
-CartItem.belongsTo(Product)
+CartItem.belongsTo(User);
+CartItem.belongsTo(Product);
+
+// Reviews
+Product.hasMany(Review);
 User.hasMany(Review);
+Review.belongsTo(Product);
 Review.belongsTo(User);
 
-// User <> Orders
+// Orders
 User.hasMany(Order);
 Order.belongsTo(User);
 
+// Addresses
 Order.hasOne(Address, { as: 'billingAddress' });
 Order.hasOne(Address, { as: 'shippingAddress' });
 Address.belongsTo(User);
