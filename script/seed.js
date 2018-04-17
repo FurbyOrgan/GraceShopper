@@ -88,9 +88,8 @@ async function seed() {
     rating: 2
   });
   console.log('Setting associations');
-  review.setUser(users[0]);
-  review.setProduct(products[1]);
-  console.log('Review:', review);
+  review.setUser(users[0], { save: false });
+  review.setProduct(products[1], { save: false });
   await review.save();
 
   console.log(`seeded successfully`);
