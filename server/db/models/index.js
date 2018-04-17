@@ -13,20 +13,20 @@ const Order = require('./order');
  *    BlogPost.belongsTo(User)
  */
 Product.hasMany(Category);
-Category.hasMany(Product);
+Category.belongsToMany(Product, { through: "ProductCatAssoc" });
+CartItem.belongsTo(User);
 User.hasMany(CartItem);
-CartItem.hasOne(User);
-CartItem.hasOne(Product)
+CartItem.belongsTo(Product)
 User.hasMany(Review);
-Review.hasOne(User);
+Review.belongsTo(User);
 
 // User <> Orders
 User.hasMany(Order);
-Order.hasOne(User);
+Order.belongsTo(User);
 
 Order.hasOne(Address, { as: 'billingAddress' });
 Order.hasOne(Address, { as: 'shippingAddress' });
-Address.hasOne(User);
+Address.belongsTo(User);
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
