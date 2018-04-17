@@ -1,9 +1,9 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const {User, Review} = require('../db/models')
 module.exports = router
 
 
-router.param('id', (req, res, next) => {
+router.param('id', (req, res, next, id) => {
   User.findById(id)
   .then(user => {
     if(!user) throw "Cannot find User"
@@ -30,8 +30,8 @@ router.post('/', (req, res, next) => {
 })
 
 router.get('/:id', (req, res, next) =>{
- return res.json(req.requestedUser)
-  
+
+  return res.json(req.requestedUser)
 })
 
 
@@ -48,3 +48,23 @@ router.delete('/:id', (req, res, next) =>{
   })
   .catch(next)
 })
+/* -----routes reviews by users-----*/
+router.get('/:id/reviews', (req, res, next) => {
+ Review.findAll({
+  where: {
+    userId: req.params.id
+  }
+}).then(
+  reviewByUser => res.json(reviewByUser)
+)
+.catch(next)
+
+})
+
+router.post('/:id/reviews', (req, res, next) =>{
+Review.create(req.body)
+.then(review => res.sendStatus(204))
+.catch(next)
+
+})
+
