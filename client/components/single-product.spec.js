@@ -17,6 +17,10 @@ describe('product', () => {
   it('renders name in an h3', () => {
     expect(product.find('h3').text()).to.be.equal('NAME')
   })
+  
+  it('has an image of the product', function () {
+    expect(product.find('img')).to.have.length(1);
+  });
 
   it('renders price in an h4', () => {
     expect(product.find('h4').text()).to.be.equal('9.99')
