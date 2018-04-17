@@ -18,11 +18,15 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+// Add a new item to the user's shopping cart.
+// If the item already exists, the quantity will be updated.
 router.post('/', async (req, res, next) => {
   try {
-    const newCartItem = CartItem.build(req.body);
-    newCartItem.userId = req.user.id;
-    res.json(newCartItem.save());
+    const cartItem = (await CartItem.findOrCreate({
+      where: { userId: req.user.id, productId: req.body.productId }
+    }))[0];
+    cartItem.quantity = req.body.quantity;
+    res.json(await cartItem.save());
   } catch (error) {
     next(error);
   }
