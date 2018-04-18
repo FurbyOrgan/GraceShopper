@@ -11,7 +11,7 @@ describe('product', () => {
   let product
 
   beforeEach(() => {
-    product = shallow(<CurrentProduct name={'NAME'} price={9.99} inventory={9999} desc={'DESCRIPTION'} categories={'MISC'}/>)
+    product = shallow(<SingleProduct name={'NAME'} price={9.99} inventory={9999} desc={'DESCRIPTION'} categories={'MISC'}/>)
   })
 
   it('renders name in an h3', () => {
