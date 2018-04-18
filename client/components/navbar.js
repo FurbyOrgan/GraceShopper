@@ -8,9 +8,8 @@ import {logout} from '../store'
 const Navbar = ({ handleClick, isLoggedIn }) => (
   <div>
     <Menu secondary>
-        <Menu.Item name='home' />
+        <Menu.Item as={Link} to='/' name='home' />
         <Menu.Item as={Link} to='/products' name='products' />
-        <Menu.Item name='friends' />
         <Menu.Menu position='right'>
           <Menu.Item>
             <Input icon='search' placeholder='Search...' />
