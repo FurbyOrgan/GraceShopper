@@ -10,8 +10,7 @@ import {combineForms} from 'react-redux-form'
 
 const review = {
   subject: "",
-  body: "",
-  rating: 0
+  body: ""
 }
 const forms =  combineForms({
   review: review
