@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { refreshProductList } from './store';
 import { Navbar } from './components';
+import { ReviewForm} from './components'
 import { Route, withRouter } from 'react-router-dom'
 
 import Routes from './routes';
@@ -28,6 +29,7 @@ class App extends React.Component {
         <CartList />
         <Route exact path="/" component={DummyHome} />
         <Route exact path="/products" component={ProductList} />
+        <Route exact path="/review" component={ReviewForm} />
       </div>
     );
   }
