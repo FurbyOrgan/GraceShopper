@@ -3,14 +3,18 @@ import ProductListItem from './product-list-item';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-const ProductList = props => {
+const ProductList = ({ products }) => {
+  console.log(products)
   return (
     <div>
       <h2>Product List</h2>
-      <ProductListItem />
+      {products.map(productElement =>
+        <ProductListItem key={productElement.id} product={productElement} />
+      )
+    }
     </div>
   );
 };
 
 const mapStateToProps = ({ products }) => ({ products });
-export default ProductList;
+export default connect(mapStateToProps, null)(ProductList);
