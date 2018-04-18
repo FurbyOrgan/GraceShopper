@@ -4,6 +4,7 @@ import { refreshProductList } from './store';
 import { Navbar } from './components';
 import Routes from './routes';
 import ProductList from './components/product-list';
+import CartNavbarButton from './components/cart/cart-navbar-button';
 
 class App extends React.Component {
   componentDidMount() {
@@ -17,6 +18,7 @@ class App extends React.Component {
         <Routes />
         <h1>Test</h1>
         <ProductList />
+        <CartNavbarButton />
       </div>
     );
   }
