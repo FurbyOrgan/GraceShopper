@@ -3,18 +3,19 @@ import { Input, Menu, Divider } from 'semantic-ui-react';
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {logout} from '../store'
+import { logout } from '../store'
+import SearchBar from './common/search-bar';
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
   <div>
     <Menu secondary>
-        <Menu.Item as={Link} to='/' name='home' />
-        <Menu.Item as={Link} to='/products' name='products' />
-        <Menu.Menu position='right'>
+        <Menu.Item as={Link} to="/" name="home" />
+        <Menu.Item as={Link} to="/products" name="products" />
+        <Menu.Menu position="right">
           <Menu.Item>
-            <Input icon='search' placeholder='Search...' />
+            <SearchBar />
           </Menu.Item>
-          <Menu.Item name='logout' />
+          <Menu.Item name="logout" />
         </Menu.Menu>
       </Menu>
   </div>
