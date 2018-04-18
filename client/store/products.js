@@ -14,7 +14,7 @@ export const refreshProductList = () => {
   return dispatch =>
     axios
       .get('/api/products')
-      .then(response => dispatch({ type: LOAD_PRODUCTS, payload: response }))
+      .then(response => dispatch({ type: LOAD_PRODUCTS, payload: response.data }))
       .catch(err => console.log(err));
 }
 
