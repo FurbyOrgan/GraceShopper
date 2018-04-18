@@ -11,6 +11,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
     <Menu secondary>
         <Menu.Item as={Link} to="/" name="home" />
         <Menu.Item as={Link} to="/products" name="products" />
+        <Menu.Item as={Link} to="/categories" name="categories" />
         <Menu.Menu position="right">
           <Menu.Item>
             <SearchBar />
