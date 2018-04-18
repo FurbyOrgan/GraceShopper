@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User, Review} = require('../db/models')
+const {User, Review, Order} = require('../db/models')
 module.exports = router
 
 
@@ -68,3 +68,22 @@ Review.create(req.body)
 
 })
 
+/* -----routes orders by users-----*/
+router.get('/:id/orders', (req, res, next) => {
+Order.findAll({
+  where: {
+    userId: req.params.id
+  }
+})
+.then(
+  ordersByUser => res.json(ordersByUser)
+)
+.catch(next)
+})
+
+router.post('/:id/orders', (req, res, next) =>{
+  Order.create(req.body)
+  .then(order => res.sendStatus(204))
+  .catch(next)
+  
+  })
