@@ -1,25 +1,29 @@
-import {createStore, combineReducers, applyMiddleware} from 'redux'
-import createLogger from 'redux-logger'
-import thunkMiddleware from 'redux-thunk'
-import {composeWithDevTools} from 'redux-devtools-extension'
-import {combineForms} from 'react-redux-form'
-import user from './user'
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import createLogger from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
+
+// Import and combine subreducers
+import user from './user';
+import products from './products';
+const reducer = combineReducers({ user, products });
 
 
-const review = {
-  subject: "",
-  body: "",
-  rating: 0
 
 
-}
 
+// Apply middleware, export combined reducer and action creators from subreducer modules
 
-const reducer = combineReducers({user})
-
+export * from './user';
+export * from './products';
 
 const forms = combineForms({
-  review: review,
+  review: {
+    subject: "",
+    body: "",
+    rating: 0
+    
+  }
 })
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
@@ -30,5 +34,3 @@ const middleware = composeWithDevTools(applyMiddleware(
 
 const store = createStore(reducer, middleware, forms);
 
-export default store
-export * from './user'
