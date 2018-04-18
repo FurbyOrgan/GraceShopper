@@ -9,7 +9,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
   <div>
     <Menu secondary>
         <Menu.Item name='home' />
-        <Menu.Item name='messages' />
+        <Menu.Item as={Link} to='/products' name='products' />
         <Menu.Item name='friends' />
         <Menu.Menu position='right'>
           <Menu.Item>
@@ -47,3 +47,4 @@ Navbar.propTypes = {
   handleClick: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired
 }
+
