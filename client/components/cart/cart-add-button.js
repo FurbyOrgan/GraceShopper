@@ -36,7 +36,7 @@ class CartAddButton extends React.Component {
   render() {
     return (
       <div>
-        <span>{this.state.dirty && this.state.error ? 'Error' : 'No error'}</span>
+        <span>{this.state.dirty && this.state.error ? 'Error!' : ''}</span>
         <input type="text" onChange={this.onTextChange} value={this.state.quantityValue} />
         <button onClick={this.onButtonClicked} disabled={this.state.error}>Add To Cart</button>
       </div>

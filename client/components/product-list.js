@@ -4,10 +4,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const ProductList = ({ products }) => {
-  console.log(products)
   return (
     <div>
-      <h2>Product List</h2>
+      <h2>All Products</h2>
       {products.map(productElement =>
         <ProductListItem key={productElement.id} product={productElement} />
       )
