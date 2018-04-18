@@ -2,15 +2,17 @@ import React, { Component } from 'react';
 import ProductListItem from './product-list-item';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Item } from 'semantic-ui-react'
 
 const ProductList = ({ products }) => {
   return (
     <div>
       <h2>All Products</h2>
-      {products.map(productElement =>
-        <ProductListItem key={productElement.id} product={productElement} />
-      )
-    }
+      <Item.Group divided>
+        {products.map(productElement =>
+          <ProductListItem key={productElement.id} product={productElement} />
+        )}
+      </Item.Group>
     </div>
   );
 };
