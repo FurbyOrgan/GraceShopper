@@ -13,7 +13,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
         <Menu.Item as={Link} to="/products" name="products" />
         <Menu.Menu position="right">
           <Menu.Item>
-            <Input icon="search" placeholder="Search..." />
+            <SearchBar />
           </Menu.Item>
           <Menu.Item name="logout" />
         </Menu.Menu>
