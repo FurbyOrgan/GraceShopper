@@ -23,8 +23,8 @@ class ReviewForm extends React.Component{
         console.log(this.state)
     }
 
-    handleRate = (e, { rating }) => {
-        this.setState({rating} )
+    handleRate = (e, {rating}) => {
+        this.setState({rating})
 
     }
 
@@ -41,7 +41,7 @@ render(){
         <Control.text model=".subject" id="review.subject"/>
         <br></br>
         <label>Rating:</label>
-        <Rating icon='star' model=".rating" defaultRating={0} maxRating={5} onRate={this.handleRate}/>
+        <Rating icon='star' defaultRating={0} maxRating={5} onRate={this.handleRate}/>
         <label>Review:</label>
         <Control.text model=".body" id="review.body"/>
         <br></br>
