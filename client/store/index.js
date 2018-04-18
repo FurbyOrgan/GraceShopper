@@ -1,15 +1,15 @@
-import {createStore, combineReducers, applyMiddleware} from 'redux'
-import createLogger from 'redux-logger'
-import thunkMiddleware from 'redux-thunk'
-import {composeWithDevTools} from 'redux-devtools-extension'
-import user from './user'
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import createLogger from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-const reducer = combineReducers({user})
-const middleware = composeWithDevTools(applyMiddleware(
-  thunkMiddleware,
-  createLogger({collapsed: true})
-))
-const store = createStore(reducer, middleware)
+// Import and combine subreducers
+import user from './user';
+import products from './products';
+const reducer = combineReducers({ user, products });
 
-export default store
-export * from './user'
+// Apply middleware, export combined reducer and action creators from subreducer modules
+const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware, createLogger({ collapsed: true })));
+export default createStore(reducer, middleware);
+export * from './user';
+export * from './products';
