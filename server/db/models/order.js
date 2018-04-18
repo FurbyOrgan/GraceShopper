@@ -4,7 +4,8 @@ const Sequelize = require('sequelize');
 const Order = db.define('order', {
   date: {
     type: Sequelize.DATE,
-    allowNull: false
+    allowNull: false,
+    defaultValue: Sequelize.NOW
   }
 });
 
