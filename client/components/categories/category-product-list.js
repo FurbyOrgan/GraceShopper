@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ProductList from '../product-list';
+import ProductList from '../products/product-list';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
