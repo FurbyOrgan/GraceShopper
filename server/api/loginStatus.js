@@ -1,6 +1,5 @@
 function isLoggedIn(req, res, next) {
-    if (req.user.id === req.params.id)
-        return next();
+    if (req.user) {return next();}
     res.redirect('/')
 }
 
@@ -16,8 +15,7 @@ function isAdmin(req, res, next) {
 
 
 function isSelfOrAdmin(req, res, next) {
-    if (req.params.id == req.user.id || req.user.isAdmin)
-        return next();
+    if (req.params.id == req.user.id || req.user.isAdmin) {return next();}
     res.redirect('/')
 }
 
