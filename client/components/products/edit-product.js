@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Button, Checkbox, Container, Form, Input, TextArea } from 'semantic-ui-react';
 
 /**
- * v1 - render something
+ * Render something with data in form matching the data in the database
  */
-export default class EditProduct extends Component {
+class EditProduct extends Component {
 
     //handleChange = (e, { value }) => this.setState({ value })
 
     render() {
+        console.log(this.props.currentProduct);
+        // if(!product) return(<div />)
         return (
             <Container text>
                 <Form>
@@ -24,11 +27,21 @@ export default class EditProduct extends Component {
                     </Form.Group>
                     <Form.Field control={TextArea} label="Description" placeholder="Product Description" />
                     <Form.Group inline>
-                        <Form.Field id='form-button-control-public' control={Button} content='Confirm' />
-                        <Form.Field id='form-button-control-public' control={Button} content='Cancel' />
+                        <Form.Field control={Button} content='Confirm' />
+                        <Form.Field control={Button} content='Cancel' />
                     </Form.Group>
                 </Form>
             </Container>
         )
     }
 }
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        currentProduct: state.products.filter(product => {
+            return product.id === Number(ownProps.match.params.id)
+        })[0],
+    }
+}
+
+export default connect(mapStateToProps, null)(EditProduct);

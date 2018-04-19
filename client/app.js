@@ -34,7 +34,7 @@ class App extends React.Component {
         <Route exact path="/products/:id" component={SingleProduct} />
         <Route exact path="/review" component={ReviewForm} />
         <Route exact path="/products/:id/reviews" component={ProductReviews} />
-        <Route exact path="/test/edit-product" component={EditProduct} />
+        <Route exact path="/products/:id/edit" component={EditProduct} />
       </div>
     );
   }
