@@ -24,11 +24,8 @@ class App extends React.Component {
         <Routes />
         <Route exact path="/" component={DummyHome} />
         <Route exact path="/products" component={ProductList} />
-<<<<<<< HEAD
         <Route exact path="/products/:id" component={SingleProduct} />
-=======
         <Route exact path="/review" component={ReviewForm} />
->>>>>>> master
       </div>
     );
   }
