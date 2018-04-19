@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { updateQuantity } from '../../store';
+import { In } from 'semantic-ui-react';
 
 class CartAddButton extends React.Component {
   constructor(props) {
@@ -35,10 +36,12 @@ class CartAddButton extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="ui left action input">
         <span>{this.state.dirty && this.state.error ? 'Error!' : ''}</span>
+        <button onClick={this.onButtonClicked} disabled={this.state.error} className="ui orange labeled icon button">Add To Cart
+        <i className="cart icon"></i>
+        </button>
         <input type="text" onChange={this.onTextChange} value={this.state.quantityValue} />
-        <button onClick={this.onButtonClicked} disabled={this.state.error}>Add To Cart</button>
       </div>
     );
   }
