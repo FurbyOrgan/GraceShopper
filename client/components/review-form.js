@@ -36,17 +36,25 @@ render(){
       console.log(this.state)
       console.log(this.props, "props?")
     return(
-        <Form model="review" onSubmit={(val) => this.handleSubmit(val)}>
+        <Form model="review" onSubmit={(val) => this.handleSubmit(val)} className="ui form">
+        <div className="field">
         <label>Subject:</label>
         <Control.text model=".subject" id="review.subject"/>
+        </div>
         <br></br>
+        <div className="field">
         <label>Rating:</label>
-        <Rating icon='star' defaultRating={0} maxRating={5} onRate={this.handleRate}/>
+        </div>
+        <div className="ui huge star rating">
+        <Rating icon='huge star' defaultRating={0} maxRating={5} onRate={this.handleRate}/>
+        </div><br></br>
+        <div className="field">
         <label>Review:</label>
-        <Control.text model=".body" id="review.body"/>
+        <Control.textarea  model=".body" id="review.body"/>
         <br></br>
-
-        <button>Submit!</button>
+        </div>
+        <br></br>
+        <button className="ui button">Submit!</button>
         </Form>
 
 

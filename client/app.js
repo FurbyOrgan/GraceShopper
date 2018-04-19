@@ -7,6 +7,7 @@ import { Route, withRouter } from 'react-router-dom'
 
 import Routes from './routes';
 import ProductList from './components/product-list';
+import ProductListItem from './components/product-list-item'
 import CartNavbarButton from './components/cart/cart-navbar-button';
 import CartList from './components/cart/cart-list';
 import DummyHome from './components/dummyhome'
@@ -29,6 +30,7 @@ class App extends React.Component {
         <CartList />
         <Route exact path="/" component={DummyHome} />
         <Route exact path="/products" component={ProductList} />
+        <Route path="/products/:id" component={ProductListItem}/>
         <Route exact path="/review" component={ReviewForm} />
       </div>
     );
