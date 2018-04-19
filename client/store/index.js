@@ -20,9 +20,10 @@ const forms =  combineForms({
 import user from './user';
 import cart from './cart';
 import products from './products';
+import categories from './categories';
 import currentProduct from './current-product';
 import reviews from './review'
-const reducer = combineReducers({ user, cart, products, currentProduct, reviews, forms });
+const reducer = combineReducers({ user, cart, products, currentProduct, categories, reviews, forms });
 
 // Apply middleware, export combined reducer and action creators from subreducer modules
 const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware, createLogger({ collapsed: true })));
@@ -30,4 +31,5 @@ export default createStore(reducer, middleware);
 export * from './user';
 export * from './cart';
 export * from './products';
+export * from './categories';
 export * from './current-product';

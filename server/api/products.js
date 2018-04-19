@@ -5,7 +5,7 @@ module.exports = router;
 
 // Get all products list
 router.get('/', (req, res, next) => {
-  Product.findAll()
+  Product.scope('withCategories').findAll()
     .then(products => res.json(products))
     .catch(next);
 });
