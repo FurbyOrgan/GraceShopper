@@ -6,12 +6,6 @@ import { ReviewForm} from './components'
 import { Route, withRouter } from 'react-router-dom'
 
 import Routes from './routes';
-<<<<<<< HEAD
-import ProductList from './components/product-list';
-import ProductListItem from './components/product-list-item'
-import CartNavbarButton from './components/cart/cart-navbar-button';
-=======
->>>>>>> master
 import CartList from './components/cart/cart-list';
 import CartNavbarButton from './components/cart/cart-navbar-button';
 import ProductList from './components/products/product-list';
@@ -30,11 +24,7 @@ class App extends React.Component {
         <Routes />
         <Route exact path="/" component={DummyHome} />
         <Route exact path="/products" component={ProductList} />
-<<<<<<< HEAD
-        <Route path="/products/:id" component={ProductListItem}/>
-=======
         <Route exact path="/products/:id" component={SingleProduct} />
->>>>>>> master
         <Route exact path="/review" component={ReviewForm} />
       </div>
     );
