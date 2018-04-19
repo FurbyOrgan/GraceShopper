@@ -84,6 +84,7 @@ async function seed() {
 
   console.log('Building review');
   const review = Review.build({
+    subject: 'Damaged Item',
     body: 'This paper arrived torn in half and scribbled with blue crayon.  Very dissatisfied.',
     rating: 2
   });
