@@ -9,14 +9,25 @@ const initialCartState = [];
 const LOAD_CART = 'LOAD_CART';
 const UPDATE_QUANTITY = 'UPDATE_QUANTITY';
 
-// Thunk Creators
+// Action Creators
+export const loadCart = cartData => ({ type: LOAD_CART, payload: cartData });
 
-export const refreshCart = () => {
-  return dispatch =>
-    axios
-      .get('/api/cart')
-      .then(response => dispatch({ type: LOAD_CART, payload: response }))
-      .catch(err => console.log(err));
+// Thunk Creators
+// If the user is logged in, make a GET request to the API to retrieve their cart from Postgres.
+// Otherwise, retrieve the cart from window.localStorage.
+export const restoreCart = () => {
+  return (dispatch, getState) => {
+    if (getState().user.id) {
+      console.log('Retrieving cart from API.')
+      axios
+        .get('/api/cart')
+        .then(response => dispatch(loadCart(response)))
+        .catch(err => console.log(err));
+    } else {
+      console.log('Retrieving cart from localStorage.')
+      dispatch(loadCart(JSON.parse(window.localStorage.getItem('guestCart'))));
+    }
+  };
 };
 
 // If the user is logged in, updateQuantity will POST to the API with the change to their cart.
@@ -29,9 +40,14 @@ export const updateQuantity = (productId, quantity) => {
       payload: { productId, quantity }
     };
     dispatch(updateQuantityAction);
-    if (getState().user.id) {axios.post('/api/cart', updateQuantityAction.payload)}
-    else {window.localStorage.setItem('guestCart', JSON.stringify(getState().cart))}
-  }
+    if (getState().user.id) {
+      console.log('Posting cart update to API.')
+      axios.post('/api/cart', updateQuantityAction.payload);
+    } else {
+      console.log('Writing cart update to localStorage.')
+      window.localStorage.setItem('guestCart', JSON.stringify(getState().cart));
+    }
+  };
 };
 
 export default function reducer(cart = initialCartState, action) {

@@ -7,7 +7,7 @@ class CartAddButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      quantityValue: '',
+      quantityValue: props.startingQuantity ? String(props.startingQuantity) : '',
       dirty: false,
       error: false
     };
@@ -19,9 +19,9 @@ class CartAddButton extends React.Component {
     this.setState({ quantityValue: target.value }, this.validateQuantity);
   };
 
-  onButtonClicked = ({target}) => {
-    this.props.doUpdateQuantity(this.props.product.id, parseInt(this.state.quantityValue))
-  }
+  onButtonClicked = ({ target }) => {
+    this.props.doUpdateQuantity(this.props.product.id, parseInt(this.state.quantityValue));
+  };
 
   validateQuantity = () => {
     const state = { ...this.state };
@@ -35,11 +35,17 @@ class CartAddButton extends React.Component {
   };
 
   render() {
+    const buttonText = this.props.startingQuantity === 0 ? 'Add To Cart' : 'Update Cart';
     return (
       <div className="ui left action input">
         <span>{this.state.dirty && this.state.error ? 'Error!' : ''}</span>
-        <button onClick={this.onButtonClicked} disabled={this.state.error} className="ui orange labeled icon button">Add To Cart
-        <i className="cart icon"></i>
+        <button
+          onClick={this.onButtonClicked}
+          disabled={this.state.error}
+          className="ui orange labeled icon button"
+        >
+          {buttonText}
+          <i className="cart icon" />
         </button>
         <input type="text" onChange={this.onTextChange} value={this.state.quantityValue} />
       </div>
@@ -47,15 +53,19 @@ class CartAddButton extends React.Component {
   }
 }
 
-const mapState = state => ({
-  products: state.products,
-  cart: state.cart
-});
+const mapState = (state, ownProps) => {
+  const cartProduct = state.cart.find(cartItem => cartItem.productId === ownProps.product.id);
+  return {
+    products: state.products,
+    cart: state.cart,
+    startingQuantity: cartProduct ? cartProduct.quantity : 0
+  };
+};
 
 const mapDispatch = dispatch => ({
   doUpdateQuantity: (productId, quantity) => {
     dispatch(updateQuantity(productId, quantity));
   }
-})
+});
 
 export default connect(mapState, mapDispatch)(CartAddButton);

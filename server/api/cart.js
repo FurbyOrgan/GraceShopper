@@ -24,7 +24,7 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     if (req.body.quantity === 0) {
-      const result = await CartItem.destroy({
+      await CartItem.destroy({
         where: { userId: req.user.id, productId: req.body.productId }
       });
       res.sendStatus(204);
