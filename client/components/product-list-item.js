@@ -5,8 +5,10 @@ import CartAddButton from './cart/cart-add-button';
 const ProductListItem = ({ product }) => {
   return (
     <div>
+      
       <h3>{product.title}</h3>
-      <CartAddButton product={product} />
+      <p>{product.description}</p>
+      <CartAddButton className="cart icon" product={product} />
     </div>
   );
 };

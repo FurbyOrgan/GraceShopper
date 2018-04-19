@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 const CartNavbarButton = props => {
   const itemsInCart = props.cart.reduce((total, currentElement) => total += currentElement.quantity, 0);
-  return <button>🛒 My Cart ({`${itemsInCart} item${itemsInCart !== 1 ? 's' : ''}`})</button>;
+  return <button className="ui teal labeled icon button"><i className="cart icon"></i> My Cart ({`${itemsInCart} item${itemsInCart !== 1 ? 's' : ''}`})</button>;
 };
 
 const mapState = state => ({

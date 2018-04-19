@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import { logout } from '../store'
+import cartNavbarButton from './cart/cart-navbar-button';
 import SearchBar from './common/search-bar';
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
@@ -13,6 +14,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
         <Menu.Item as={Link} to="/products" name="products" />
         <Menu.Item as={Link} to="/categories" name="categories" />
         <Menu.Menu position="right">
+         <Menu.Item as={cartNavbarButton} to="cart" />
           <Menu.Item>
             <SearchBar />
           </Menu.Item>
