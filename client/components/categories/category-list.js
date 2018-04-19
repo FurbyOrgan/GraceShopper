@@ -4,11 +4,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const CategoryList = ({ categories }) => {
-  console.log('sgasg')
   return (
     <div>
       <h2>Categories</h2>
-      {categories.map(categoryElement => <CategoryList key={categoryElement.id} product={categoryElement} />)}
+      {categories.map(categoryElement => <CategoryListItem key={categoryElement.id} category={categoryElement} />)}
     </div>
   );
 };
