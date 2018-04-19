@@ -18,7 +18,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
           <Menu.Item>
             <SearchBar />
           </Menu.Item>
-          <Menu.Item name="logout" />
+          <Menu.Item as={Link} to="/" name="logout" onClick={handleClick}/>
         </Menu.Menu>
       </Menu>
   </div>
