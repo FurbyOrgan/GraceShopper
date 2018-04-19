@@ -1,4 +1,5 @@
 function isLoggedIn(req, res, next) {
+
     if (req.user.id === req.params.id){
         return next()
     }
