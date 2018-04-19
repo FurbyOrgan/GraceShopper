@@ -2,13 +2,6 @@ const router = require('express').Router();
 const { Product, User, CartItem } = require('../db/models');
 module.exports = router;
 
-// Creates a dummy user session on the request object until
-// auth/user login has been set up
-router.all('/', (req, res, next) => {
-  req.user = { id: 1 };
-  next();
-});
-
 // Get the currently logged in user's shopping cart
 router.get('/', async (req, res, next) => {
   try {
