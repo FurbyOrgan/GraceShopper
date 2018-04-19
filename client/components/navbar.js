@@ -3,20 +3,31 @@ import { Input, Menu, Divider } from 'semantic-ui-react';
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+<<<<<<< HEAD
 import {logout} from '../store'
 import cartNavbarButton from './cart/cart-navbar-button';
+=======
+import { logout } from '../store'
+import SearchBar from './common/search-bar';
+>>>>>>> master
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
   <div>
     <Menu secondary>
+<<<<<<< HEAD
         <Menu.Item as={Link} to='/' name='home' />
         <Menu.Item as={Link} to='/products' name='products' />
         <Menu.Menu position='right'>
          <Menu.Item as={cartNavbarButton} to='cart' />
+=======
+        <Menu.Item as={Link} to="/" name="home" />
+        <Menu.Item as={Link} to="/products" name="products" />
+        <Menu.Menu position="right">
+>>>>>>> master
           <Menu.Item>
-            <Input icon='search' placeholder='Search...' />
+            <SearchBar />
           </Menu.Item>
-          <Menu.Item name='logout' />
+          <Menu.Item name="logout" />
         </Menu.Menu>
       </Menu>
   </div>
