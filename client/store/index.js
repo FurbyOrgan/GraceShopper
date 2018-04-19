@@ -21,7 +21,8 @@ import user from './user';
 import cart from './cart';
 import products from './products';
 import currentProduct from './current-product';
-const reducer = combineReducers({ user, cart, products, currentProduct, forms });
+import reviews from './review'
+const reducer = combineReducers({ user, cart, products, currentProduct, reviews, forms });
 
 // Apply middleware, export combined reducer and action creators from subreducer modules
 const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware, createLogger({ collapsed: true })));
