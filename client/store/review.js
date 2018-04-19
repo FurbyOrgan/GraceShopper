@@ -3,7 +3,8 @@ import history from '../history'
 
 /* -----------------    ACTION TYPES    ------------------ */
 
-const FETCH_REVIEWS = "FETCH_REVIEWS"
+const FETCH_PRODUCT_REVIEWS = "FETCH_PRODUCT_REVIEWS"
+const FETCH_USER_REVIEWS = "FETCH_USER_REVIEWS"
 const CREATE_REVIEW = "CREATE_REVIEW";
 
 
@@ -28,8 +29,11 @@ const create = review => ({type: CREATE_REVIEW, review})
 export default function reducer (reviews = [], action) {
     switch (action.type) {
   
-      case FETCH_REVIEWS:
+      case FETCH_PRODUCT_REVIEWS:
         return action.reviews;
+
+      case FETCH_USER_REVIEWS:
+      return action.reviews;
   
       case CREATE_REVIEW:
         return [action.review, ...reviews];
@@ -44,7 +48,7 @@ export default function reducer (reviews = [], action) {
 
 /* ------------       THUNK CREATORS     ------------------ */
 
-export const fetchReviews = (id) => dispatch => {
+export const fetchUsersReviews = (id) => dispatch => {
     axios.get(`/api/users/${id}/reviews`)
          .then(res => dispatch(init(res.data)))
          .catch(err => console.error('Fetching stories unsuccessful', err));
@@ -57,3 +61,9 @@ export const addReview = (id, review) => dispatch => {
          .then(res => dispatch(create(res.data)))
          .catch(err => console.error(`Creating review: ${review} unsuccessful`, err));
   };
+
+export const fetchProductReviews = (id) => dispatch => {
+    axios.get(`/api/products/${id}/reviews`)
+         .then(res => dispatch(init(res.data)))
+         .catch(err => console.error('Fetching stories unsuccessful', err));
+ };   

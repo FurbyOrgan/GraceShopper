@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import { Control, Form, actions } from 'react-redux-form';
 import { Rating } from 'semantic-ui-react';
 
-import {addReview} from '../store/review'
+import {addReview} from '../../store/review'
 
 
 class ReviewForm extends React.Component{
@@ -46,7 +46,7 @@ render(){
         <label>Rating:</label>
         </div>
         <div className="ui huge star rating">
-        <Rating icon='huge star' defaultRating={0} maxRating={5} onRate={this.handleRate}/>
+        <Rating icon='star' defaultRating={0} maxRating={5} onRate={this.handleRate}/>
         </div><br></br>
         <div className="field">
         <label>Review:</label>

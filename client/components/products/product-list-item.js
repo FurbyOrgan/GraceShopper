@@ -14,6 +14,7 @@ const ProductListItem = ({ product }) => {
         <Item.Meta>
           <span className='cinema'>{product.price}</span>
         </Item.Meta>
+        
         <Item.Description>{product.description}</Item.Description>
         <Item.Extra>
           <CartAddButton product={product} />
