@@ -1,6 +1,4 @@
 import axios from 'axios';
-import history from '../history';
-import store from '../store';
 
 // Initial State
 const initialCartState = [];
@@ -18,13 +16,13 @@ export const loadCart = cartData => ({ type: LOAD_CART, payload: cartData });
 export const restoreCart = () => {
   return (dispatch, getState) => {
     if (getState().user.id) {
-      console.log('Retrieving cart from API.')
+      console.log('Retrieving cart from API.');
       axios
         .get('/api/cart')
-        .then(response => dispatch(loadCart(response)))
+        .then(response => dispatch(loadCart(response.data)))
         .catch(err => console.log(err));
     } else {
-      console.log('Retrieving cart from localStorage.')
+      console.log('Retrieving cart from localStorage.');
       dispatch(loadCart(JSON.parse(window.localStorage.getItem('guestCart'))));
     }
   };
@@ -41,10 +39,10 @@ export const updateQuantity = (productId, quantity) => {
     };
     dispatch(updateQuantityAction);
     if (getState().user.id) {
-      console.log('Posting cart update to API.')
+      console.log('Posting cart update to API.');
       axios.post('/api/cart', updateQuantityAction.payload);
     } else {
-      console.log('Writing cart update to localStorage.')
+      console.log('Writing cart update to localStorage.');
       window.localStorage.setItem('guestCart', JSON.stringify(getState().cart));
     }
   };

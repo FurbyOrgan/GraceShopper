@@ -13,6 +13,14 @@ class CartAddButton extends React.Component {
     };
   }
 
+  // When the page loads, we might receive a login state change from the server (GET_USER).  In this
+  // case, our cart reducer will replace the contents of the cart with the user's cart on the server
+  // instead of the one in localStorage.  When this happens, CartAddButton will receive new props,
+  // so it needs to update its textbox, otherwise it will continue to show the old value.
+  componentWillReceiveProps = (props) => {
+    this.setState({quantityValue: props.startingQuantity ? String(props.startingQuantity) : '' }, this.validateQuantity)
+  }
+
   componentDidMount = () => this.validateQuantity();
 
   onTextChange = ({ target }) => {
@@ -56,8 +64,6 @@ class CartAddButton extends React.Component {
 const mapState = (state, ownProps) => {
   const cartProduct = state.cart.find(cartItem => cartItem.productId === ownProps.product.id);
   return {
-    products: state.products,
-    cart: state.cart,
     startingQuantity: cartProduct ? cartProduct.quantity : 0
   };
 };
