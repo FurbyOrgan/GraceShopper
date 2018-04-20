@@ -6,6 +6,7 @@ import { Login, Signup, UserHome, ProductList, SearchResults } from './component
 import CartList from './components/cart/cart-list'
 import CategoryList from './components/categories/category-list';
 import CategoryProductList from './components/categories/category-product-list';
+import CheckoutForm from './components/checkout/checkout-form';
 import { me } from './store';
 
 /**
@@ -22,6 +23,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route path="/checkout" component={CheckoutForm} />
         <Route path="/cart" component={CartList} />
         <Route path="/categories/:categoryId" component={CategoryProductList} />
         <Route path="/categories" component={CategoryList} />

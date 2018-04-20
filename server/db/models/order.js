@@ -6,7 +6,43 @@ const Order = db.define('order', {
     type: Sequelize.DATE,
     allowNull: false,
     defaultValue: Sequelize.NOW
-  }
+  },
+  status: {
+    type: Sequelize.ENUM('processing', 'shipped'),
+    allowNull: false
+  },
+  shippingStreet: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  shippingCity: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  shippingState: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  shippingZipCode: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  billingStreet: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  billingCity: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  billingState: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  billingZipCode: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
 });
 
 module.exports = Order;
