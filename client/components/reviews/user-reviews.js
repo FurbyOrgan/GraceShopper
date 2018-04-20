@@ -33,7 +33,7 @@ class UserReviews extends Component {
   };
 
 
-  const mapState = ({state, reviews}) =>( {state, review });
+  const mapState = ({state, reviews}) =>( {state, reviews });
 
   const mapDispatch = {grabUsersReviews}
 

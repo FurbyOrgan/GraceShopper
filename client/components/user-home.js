@@ -14,7 +14,7 @@ export const UserHome = (props) => {
   return (
     <div>
       <h3>Welcome, {email}</h3>
-      <Link to={`/user/${user.id}/reviews`} > Reviews </Link>
+      <Link to={`/user/${user.id}/reviews`}> Reviews </Link>
     </div>
   )
 }
