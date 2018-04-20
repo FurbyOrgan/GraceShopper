@@ -1,7 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Breadcrumb, Button } from 'semantic-ui-react';
-import { Field, reduxForm } from 'react-redux-form';
+import { Breadcrumb, Button, Form, Input, Segment } from 'semantic-ui-react';
+import { Control, LocalForm as ReduxForm } from 'react-redux-form';
+
+// Valdiators
+const required = str => str && str.length;
+const isEmail = str => /\S+@\S+\.\S+/.test(str);
+const validators = {
+  orderFirstName: { required },
+  orderLastName: { required },
+  orderEmail: { required, isEmail }
+};
 
 class CheckoutForm extends React.Component {
   constructor(props) {
@@ -15,27 +24,59 @@ class CheckoutForm extends React.Component {
     return (
       <div>
         <h1>Checkout</h1>
-        {this.renderBreadcrumb()}
-        <form onSubmit={this.props.handleSubmit}>{this.renderCheckoutStep()}</form>
-        <Button disabled={this.state.step === 0} onClick={() => this.setState({ step: this.state.step - 1 })}>
-          Prev
-        </Button>
-        <Button disabled={this.state.step === 2} onClick={() => this.setState({ step: this.state.step + 1 })}>
-          Next
-        </Button>
+        <Segment>
+          {this.renderBreadcrumb()}
+
+          <ReduxForm
+            model="checkout"
+            onSubmit={checkoutData => this.onFormSubmit(checkoutData)}
+            onUpdate={form => this.onFormUpdate(form)}
+            onChange={values => this.onFormChange(values)}
+          >
+            <div>
+              <Form>{this.renderCheckoutStep()}</Form>
+            </div>
+          </ReduxForm>
+          <Button
+            disabled={this.state.step === 0}
+            onClick={() => this.setState({ step: this.state.step - 1 })}
+          >
+            Prev
+          </Button>
+          <Button
+            disabled={this.state.step === 3}
+            onClick={() => this.setState({ step: this.state.step + 1 })}
+          >
+            Next
+          </Button>
+        </Segment>
       </div>
     );
   }
 
+  onFormSubmit = checkoutData => {
+    console.log(checkoutData);
+  };
+
+  onFormChange = data => {
+    console.log('Change', data);
+  };
+
+  onFormUpdate = data => {
+    // this.setState({form: data})
+  };
+
   renderBreadcrumb() {
     const step = this.state.step;
     return (
-      <Breadcrumb size="big">
-        <Breadcrumb.Section active={step === 0}>Shipping</Breadcrumb.Section>
+      <Breadcrumb size="massive">
+        <Breadcrumb.Section active={step === 0}>Contact</Breadcrumb.Section>
         <Breadcrumb.Divider icon="right chevron" />
-        <Breadcrumb.Section active={step === 1}>Billing</Breadcrumb.Section>
+        <Breadcrumb.Section active={step === 1}>Shipping</Breadcrumb.Section>
         <Breadcrumb.Divider icon="right chevron" />
-        <Breadcrumb.Section active={step === 2}>Review Order</Breadcrumb.Section>
+        <Breadcrumb.Section active={step === 2}>Billing</Breadcrumb.Section>
+        <Breadcrumb.Divider icon="right chevron" />
+        <Breadcrumb.Section active={step === 3}>Review Order</Breadcrumb.Section>
       </Breadcrumb>
     );
   }
@@ -43,34 +84,59 @@ class CheckoutForm extends React.Component {
   renderCheckoutStep() {
     switch (this.state.step) {
       case 0:
-        return this.renderShippingStep();
+        return this.renderProfileStep();
       case 1:
-        return this.renderBillingStep();
+        return this.renderShippingStep();
       case 2:
+        return this.renderBillingStep();
+      case 3:
         return this.renderReviewStep();
       default:
         return <p>This shouldn't happen...</p>;
     }
   }
 
-  onFormSubmit = value => {};
+  makeSemanticReduxInput = (labelName, modelName) => {
+    const formField = props => {
+      return <Form.Input label={labelName} placeholder={labelName} {...props} />;
+    };
+    return (
+      <Control
+        mapProps={{
+          error: ({ fieldValue }) => (!fieldValue.pristine || fieldValue.touched) && !fieldValue.valid
+        }}
+        component={formField}
+        validators={validators[modelName.substring(1)]}
+        model={modelName}
+        id={modelName}
+      />
+    );
+  };
+
+  renderProfileStep() {
+    return (
+      <div>
+        <h3>Contact Information</h3>
+        {this.props.user.id ? (
+          <p>You're already logged in, so we've filled this out for you.</p>
+        ) : (
+          <p>You're checking out as a guest. Please provide your contact information.</p>
+        )}
+        <div>
+          <Form.Group widths="equal">
+            {this.makeSemanticReduxInput('First Name', '.orderFirstName')}
+            {this.makeSemanticReduxInput('Last Name', '.orderLastName')}
+          </Form.Group>
+          {this.makeSemanticReduxInput('Email', '.orderEmail')}
+        </div>
+      </div>
+    );
+  }
 
   renderShippingStep() {
     return (
       <div>
         <h3>Provide your shipping information</h3>
-        <div>
-          <label>First Name</label>
-          <Field name="firstName" component="input" type="text" />
-        </div>
-        <div>
-          <label>Last Name</label>
-          <Field name="lastName" component="input" type="text" />
-        </div>
-        <div>
-          <label>Email</label>
-          <Field name="email" component="input" type="email" />
-        </div>
       </div>
     );
   }
@@ -87,13 +153,15 @@ class CheckoutForm extends React.Component {
     return (
       <div>
         <h3>Review your order</h3>
+        <Button type="submit">Submit</Button>
       </div>
     );
   }
 }
 
 const mapState = state => ({
-  products: state.products
+  products: state.products,
+  user: state.user
 });
 
-export default reduxForm({ form: 'checkout' })(connect(mapState, null)(CheckoutForm));
+export default connect(mapState, null)(CheckoutForm);

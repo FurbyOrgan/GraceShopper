@@ -12,8 +12,23 @@ const review = {
   subject: '',
   body: ''
 }
+
+const initialCheckoutState = {
+  orderFirstName: '',
+  orderLastName: '',
+  orderEmail: '',
+  shippingAddress: '',
+  shippingCity: '',
+  shippingState: '',
+  shippingZip: '',
+  billingAddress: '',
+  billingCity: '',
+  billingState: '',
+  billingZip: '',
+}
 const forms =  combineForms({
-  review: review
+  review: review,
+  checkout: initialCheckoutState
 })
 
 // Import and combine subreducers
