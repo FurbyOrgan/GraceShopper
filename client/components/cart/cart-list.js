@@ -6,7 +6,6 @@ import ProductListItem from '../products/product-list-item';
 
 const CartList = ({ cart }) => {
   const itemsInCart = cart.reduce((total, currentElement) => (total += currentElement.quantity), 0);
-  console.log('Cart', cart);
   return (
     <div>
       <h2>Shopping Cart ({itemsInCart} items)</h2>
