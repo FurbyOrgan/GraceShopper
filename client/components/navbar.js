@@ -8,13 +8,12 @@ import { Icon } from 'semantic-ui-react'
 
 import cartNavbarButton from './cart/cart-navbar-button';
 import SearchBar from './common/search-bar';
+import { Login } from './index'
 
 const Navbar = ({ handleClick, isLoggedIn }) => {
   const loggedInConditionalRendering = () => {
-    if (isLoggedIn) return (<Menu.Item name="logout" />)
-    else return (
-      <Icon name='user' />
-    )
+    if (isLoggedIn) return (<Menu.Item as={Link} to="/login" name="logout" />)
+    else return (<Menu.Item as={Link} to="/login" name="login" />)
   }
 
   return (

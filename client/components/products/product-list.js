@@ -8,7 +8,7 @@ const ProductList = ({ products }) => {
   return (
     <Container text>
       <h2>All Products</h2>
-      <Item.Group>
+      <Item.Group divided>
         {products.map(productElement =>
           <ProductListItem key={productElement.id} product={productElement} />
         )}
