@@ -6,26 +6,44 @@ import { Button, Checkbox, Container, Form, Input, TextArea } from 'semantic-ui-
  * Render something with data in form matching the data in the database
  */
 class EditProduct extends Component {
+    state = {}
 
-    //handleChange = (e, { value }) => this.setState({ value })
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.currentProduct === prevState.currentProduct) {
+            return null;
+        } else {
+            return {
+                currentProduct: nextProps.currentProduct
+            }
+        }
+        console.log("nextProps: ", nextProps.currentProduct);
+        console.log("prevState: ", prevState)
+        console.log("ownprops: ", ownProps)
+        // if (nextProps.currentProduct !== prevState.currentProduct)
+    }
+
+    handleChange = (key, value) => this.setState({
+        currentProduct
+    })
 
     render() {
-        console.log(this.props.currentProduct);
-        // if(!product) return(<div />)
+        const product = this.props.currentProduct;
+        console.log('state: ', this.state)
+        if(!product) return(<div />)
         return (
             <Container text>
-                <Form>
+                <Form onSubmit={this.handleSubmit}>
                     <Form.Group>
-                        <Form.Field control={Input} label="Title" placeholder="Product Title" />
-                        <Form.Field control={Input} label="Price" placeholder="Product Price" />
-                        <Form.Field control={Input} label="Inventory" placeholder="Product Inventory" />
+                        <Form.Field control={Input} label="Title" placeholder="Product Title" value={product.title} onChange={this.handleChange}/>
+                        <Form.Field control={Input} label="Price" placeholder="Product Price" value={product.price}/>
+                        <Form.Field control={Input} label="Inventory" placeholder="Product Inventory" value={product.inventory}/>
                     </Form.Group>
                     <Form.Group inline>
                         <label>Categories</label>
                         <Form.Field control={Checkbox} label='Category 1' />
                         <Form.Field control={Checkbox} label='Category 2' />
                     </Form.Group>
-                    <Form.Field control={TextArea} label="Description" placeholder="Product Description" />
+                    <Form.Field control={TextArea} label="Description" placeholder="Product Description" value={product.description}/>
                     <Form.Group inline>
                         <Form.Field control={Button} content='Confirm' />
                         <Form.Field control={Button} content='Cancel' />
