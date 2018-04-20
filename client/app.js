@@ -12,19 +12,14 @@ import CartNavbarButton from './components/cart/cart-navbar-button';
 // Product Components
 import ProductList   from './components/products/product-list';
 import SingleProduct from './components/products/single-product';
-<<<<<<< HEAD
-import EditProduct   from './components/products/edit-product';
+import EditProduct   from './components/products/edit-product'
+//import DummyHome from './components/dummyhome';
 
 // Review Components
 import ProductReviews from './components/reviews/product-reviews';
 
 // Other Components
 import Routes from './routes';
-=======
-import DummyHome from './components/dummyhome'
-import ProductReviews from './components/reviews/product-reviews'
-//import UserReviews from './components/reviews/user-reviews'
->>>>>>> master
 
 class App extends React.Component {
   componentDidMount() {
@@ -38,12 +33,8 @@ class App extends React.Component {
         <Routes />
         <Route exact path="/products" component={ProductList} />
         <Route exact path="/products/:id" component={SingleProduct} />
-        <Route exact path="/review" component={ReviewForm} />
-<<<<<<< HEAD
-        <Route exact path="/products/:id/reviews" component={ProductReviews} />
         <Route exact path="/products/:id/edit" component={EditProduct} />
-=======
->>>>>>> master
+        <Route exact path="/review" component={ReviewForm} />
       </div>
     );
   }
