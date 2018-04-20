@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import ProductList from './product-list';
 import CartAddButton from '../cart/cart-add-button';
-import { Image as ImageComponent, Item } from 'semantic-ui-react'
+import { Image as ImageComponent, Item, Label } from 'semantic-ui-react'
 
 const ProductListItem = ({ product }) => {
   return (
@@ -12,7 +12,7 @@ const ProductListItem = ({ product }) => {
       <Item.Content>
         <Item.Header as={Link} to={`/products/${product.id}`}>{product.title}</Item.Header>
         <Item.Meta>
-          <span className='cinema'>{product.price}</span>
+          <Label tag>${product.price}</Label>
         </Item.Meta>
         
         <Item.Description>{product.description}</Item.Description>
