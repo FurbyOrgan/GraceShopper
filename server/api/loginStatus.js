@@ -1,7 +1,10 @@
 function isLoggedIn(req, res, next) {
-    if (req.user.id === req.params.id)
-        return next();
-    res.redirect('/')
+    if (req.user){
+        return next()
+    }
+    else {
+        res.sendStatus(400)
+    }
 }
 
 
@@ -10,15 +13,19 @@ function isAdmin(req, res, next) {
         return next();
     }
     else {
+        res.sendStatus(400)
         throw new Error('Not an admin')
     }
 }
 
 
 function isSelfOrAdmin(req, res, next) {
-    if (req.params.id == req.user.id || req.user.isAdmin)
+    if (req.params.id == req.user.id || req.user.isAdmin){
         return next();
-    res.redirect('/')
+    }
+    else {
+        res.sendStatus(400)
+    }
 }
 
 module.exports = {
