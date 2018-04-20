@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CategoryList from './category-list'
+import ProductList from '../../components/products/product-list'
 
 
 
@@ -16,7 +17,9 @@ render (){
     return(
         <div>
         <h2>Assign Categories</h2>
+        
         <CategoryList/>
+        <ProductList/>
         </div>
     )
 }
