@@ -1,11 +1,9 @@
 function isLoggedIn(req, res, next) {
-
-    if (req.user.id === req.params.id){
+    if (req.user){
         return next()
     }
     else {
         res.sendStatus(400)
-        res.redirect('/')
     }
 }
 
@@ -27,7 +25,6 @@ function isSelfOrAdmin(req, res, next) {
     }
     else {
         res.sendStatus(400)
-        res.redirect('/')
     }
 }
 
