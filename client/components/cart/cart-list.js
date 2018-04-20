@@ -1,23 +1,35 @@
 import React, { Component } from 'react';
-import CartListItem from './cart-list-item';
+import { Item } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import ProductListItem from '../products/product-list-item';
 
 const CartList = ({ cart }) => {
-  const itemsInCart = cart.reduce((total, currentElement) => total += currentElement.quantity, 0);
+  const itemsInCart = cart.reduce((total, currentElement) => (total += currentElement.quantity), 0);
+  console.log('Cart', cart);
   return (
     <div>
       <h2>Shopping Cart ({itemsInCart} items)</h2>
-      {cart.map(cartItem => (
-        <CartListItem
-          key={cartItem.product.id}
-          product={cartItem.product}
-          currentQuantity={cartItem.quantity}
-        />
-      ))}
+      <Item.Group divided>
+        {cart.map(cartItem => (
+          <ProductListItem
+            key={cartItem.product.id}
+            product={cartItem.product}
+            currentQuantity={cartItem.quantity}
+          />
+        ))}
+      </Item.Group>
+      <hr />
+      <h3>Subtotal: ${getSubtotal(cart)}</h3>
     </div>
   );
 };
+
+function getSubtotal(cart) {
+  return cart
+    .reduce((subtotal, cartItem) => (subtotal += cartItem.product.price * cartItem.quantity), 0)
+    .toFixed(2);
+}
 
 // const mapStateToProps = ({ products, cart }) => ({ products, cart });
 const mapStateToProps = state => {
@@ -30,7 +42,9 @@ const mapStateToProps = state => {
     if (cart.hasOwnProperty(key)) {
       const cartItem = cart[key];
       cartItem.product = state.products.filter(element => element.id === cartItem.productId)[0];
-      cartArray.push(cartItem);
+      if (cartItem.product) {
+        cartArray.push(cartItem);
+      }
     }
   }
   return { cart: cartArray };
