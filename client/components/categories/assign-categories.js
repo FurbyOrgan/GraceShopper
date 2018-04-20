@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import CategoryList from './category-list'
 
 
 
@@ -12,7 +14,10 @@ class AssignCategories extends Component {
 
 render (){
     return(
+        <div>
         <h2>Assign Categories</h2>
+        <CategoryList/>
+        </div>
     )
 }
 

@@ -6,6 +6,7 @@ import { Login, Signup, UserHome, ProductList, SearchResults } from './component
 import CategoryList from './components/categories/category-list';
 import CategoryProductList from './components/categories/category-product-list';
 import UserReviews from './components/reviews/user-reviews'
+import AssignCategories from './components/categories/assign-categories'
 import { me } from './store';
 
 /**
@@ -32,6 +33,7 @@ class Routes extends Component {
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
             <Route path="/user/:id/reviews" component={UserReviews} />
+            <Route path="/user/:id/assignCategories" component={AssignCategories} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
