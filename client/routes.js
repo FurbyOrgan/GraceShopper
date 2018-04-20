@@ -2,11 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Login, Signup, UserHome, ProductList, SearchResults } from './components';
-import CartList from './components/cart/cart-list'
-import CategoryList from './components/categories/category-list';
-import CategoryProductList from './components/categories/category-product-list';
-import CheckoutForm from './components/checkout/checkout-form';
+import { AssignCategories,
+         CartList,
+         CategoryList,
+          CategoryProductList,
+         CheckoutForm,
+         Login,
+         ProductList,
+         Signup,
+         SearchResults,
+         UserHome,
+         UserReviews } from './components';
+
 import { me } from './store';
 
 /**
@@ -23,17 +30,21 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route path="/checkout" component={CheckoutForm} />
-        <Route path="/cart" component={CartList} />
-        <Route path="/categories/:categoryId" component={CategoryProductList} />
-        <Route path="/categories" component={CategoryList} />
+        <Route exact path="/checkout" component={CheckoutForm} />
+        <Route exact path="/cart" component={CartList} />
+        <Route exact path="/products" component={ProductList} />
+        <Route exact path="/categories" component={CategoryList} />
+        <Route exact path="/categories/:categoryId" component={CategoryProductList} />
         <Route path="/search/:searchQuery" component={SearchResults} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={Signup} />
+
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
+            <Route path="/user/:id/reviews" component={UserReviews} />
+            <Route path="/user/:id/assignCategories" component={AssignCategories} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

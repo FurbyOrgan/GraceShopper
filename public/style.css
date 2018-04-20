@@ -14,3 +14,15 @@ nav a {
   display: inline-block;
   margin: 1em;
 }
+<<<<<<< HEAD
+=======
+
+form div {
+  margin: 1em;
+  display: inline-block;
+}
+
+.cart {
+  margin-top: 2rem;
+}
+>>>>>>> master

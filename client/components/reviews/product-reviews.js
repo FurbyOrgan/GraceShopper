@@ -5,7 +5,7 @@ import {fetchProductReviews} from '../../store/review.js'
 import ProductReviewItem from './product-review-item';
 import {Link} from 'react-router-dom'
 import ReviewForm from './review-form'
-import { Button } from 'semantic-ui-react'
+import { Button, Icon, Label } from 'semantic-ui-react'
 
 class ProductReviews extends Component {
   constructor (){
@@ -37,7 +37,14 @@ class ProductReviews extends Component {
       <div>
         <h3>Reviews for Product</h3>
         <Item.Group divided>
-        {!this.state.showForm?<Button content='Leave Reviews' onClick={this.renderReviewForm}/>: <ReviewForm productId={Number(this.props.match.params.id)}/>}
+        {!this.state.showForm?
+        <Button content='Leave Reviews' onClick={this.renderReviewForm} as='div' labelPosition='right'>
+        <Button color='orange'>
+        <Icon name='star' />
+        </Button>
+        <Label as='a' basic color='orange' pointing='left'>{reviewLength} Reviews</Label>
+        </Button>
+        : <ReviewForm productId={Number(this.props.match.params.id)}/>}
         {reviewLength? this.props.reviews.map(productReviews => 
           <div>
           <Item.Header><h4>{productReviews.subject}</h4></Item.Header>
