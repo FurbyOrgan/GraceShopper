@@ -17,10 +17,12 @@ class ReviewForm extends React.Component{
 
     
 
-    handleSubmit = (val) => {
+    handleSubmit = async (val) => {
         
-        this.setState(this.props.forms.review)
-        console.log(this.state)
+        await this.setState(this.props.forms.review)
+        await this.setState({userId: this.props.user.id, productId: this.props.productId })
+       await console.log(this.state)
+       await this.props.addReview(this.state.userId, this.state)
     }
 
     handleRate = (e, {rating}) => {
@@ -33,8 +35,6 @@ render(){
     const RatingExampleRating = () => (
         <Rating icon='star' defaultRating={0} maxRating={5}/>
       )
-      console.log(this.state)
-      console.log(this.props, "props?")
     return(
         <Form model="review" onSubmit={(val) => this.handleSubmit(val)} className="ui form">
         <div className="field">
@@ -67,7 +67,7 @@ render(){
 }
 
 /*-----------cotainer------------*/
-const mapState = ({ user, forms }) => ({ user, forms });
+const mapState = ({ user, forms }) => ({ user, forms});
 const mapDispatch = {addReview};
 
 export default connect(mapState, mapDispatch)(ReviewForm)

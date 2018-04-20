@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Image as ImageComponent, Grid, Segment, Divider } from 'semantic-ui-react';
+import {Link} from 'react-router-dom'
 
 class SingleProduct extends Component {
 
@@ -14,6 +15,7 @@ class SingleProduct extends Component {
                <h4>{product.price}</h4>
                <h6>{product.inventory}</h6>
                <p>{product.description}</p>
+               <Link to={`/products/${product.id}/reviews`}> Reviews </Link>
             </div>
         );
     }

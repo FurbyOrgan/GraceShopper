@@ -14,11 +14,11 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
         <Menu.Item as={Link} to="/products" name="products" />
         <Menu.Item as={Link} to="/categories" name="categories" />
         <Menu.Menu position="right">
-         <Menu.Item as={cartNavbarButton} to="cart" />
+         <Menu.Item as={cartNavbarButton} to="/cart" />
           <Menu.Item>
             <SearchBar />
           </Menu.Item>
-          <Menu.Item name="logout" />
+          <Menu.Item as={Link} to="/" name="logout" onClick={handleClick} />
         </Menu.Menu>
       </Menu>
   </div>
