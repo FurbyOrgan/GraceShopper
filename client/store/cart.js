@@ -8,7 +8,7 @@ const LOAD_CART = 'LOAD_CART';
 const UPDATE_QUANTITY = 'UPDATE_QUANTITY';
 
 // Action Creators
-export const loadCart = cartData => ({ type: LOAD_CART, payload: cartData });
+export const loadCart = cartData => ({ type: LOAD_CART, payload: cartData || [] });
 
 // Thunk Creators
 // If the user is logged in, make a GET request to the API to retrieve their cart from Postgres.
