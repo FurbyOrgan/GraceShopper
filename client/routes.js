@@ -2,17 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { AssignCategories,
-         CartList,
-         CategoryList,
-          CategoryProductList,
-         CheckoutForm,
-         Login,
-         ProductList,
-         Signup,
-         SearchResults,
-         UserHome,
-         UserReviews } from './components';
+import {
+  AssignCategories,
+  CartList,
+  CategoryList,
+  CategoryProductList,
+  CheckoutForm,
+  Login,
+  ProductList,
+  Signup,
+  SearchResults,
+  UserHome,
+  UserReviews
+} from './components';
 
 import { me } from './store';
 
