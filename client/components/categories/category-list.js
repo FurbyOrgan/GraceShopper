@@ -3,6 +3,7 @@ import CategoryListItem from './category-list-item';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+
 const CategoryList = ({ categories }) => {
   return (
     <div>
