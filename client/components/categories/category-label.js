@@ -1,5 +1,6 @@
-import React     from 'react';
-import { Label } from 'semantic-ui-react';
+import { connect }        from 'react-redux';
+import { Label }          from 'semantic-ui-react';
+import React, {Component} from 'react';
 
 const colors = [
     "red",
@@ -17,10 +18,23 @@ const colors = [
     "black"
 ]
 
-const CategoryLabel = (props) => {
-    return (
-        <Label simple color={colors[props.id]}>{props.id}</Label>
-    );
+class CategoryLabel extends Component {
+    render() {
+        const category = this.props.category
+        if (!category) return (<div />)
+        
+        return (
+            <Label simple color={colors[category.id]}>{category.name}</Label>
+        );
+    }  
 }
 
-export default CategoryLabel;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        category: state.categories.filter(category => {
+            return category.id === ownProps.id
+        })[0]
+    }
+}
+
+export default connect(mapStateToProps, null)(CategoryLabel);

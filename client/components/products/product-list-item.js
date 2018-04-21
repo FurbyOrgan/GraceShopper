@@ -27,11 +27,12 @@ const ProductListItem = ({ product }) => {
           </Grid.Column>
         </Grid>
         <Item.Extra>
-          <CategoryLabel id={product.id}/>
+          <CategoryLabel id={product.categories[0].id}/>
         </Item.Extra>
       </Item.Content>
     </Item>
   );
 };
+
 
 export default ProductListItem;
