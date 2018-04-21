@@ -24,7 +24,7 @@ class CategoryLabel extends Component {
         if (!category) return (<div />)
         
         return (
-            <Label simple color={colors[category.id]}>{category.name}</Label>
+            <Label simple color={colors[category.id%12]}>{category.name}</Label>
         );
     }  
 }
