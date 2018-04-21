@@ -1,7 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Breadcrumb, Button, Form, Input, Segment } from 'semantic-ui-react';
+import { ProductListItem } from '../';
+import {
+  Step,
+  Button,
+  Container,
+  Form,
+  Header,
+  Icon,
+  Input,
+  Item,
+  Segment,
+  Divider
+} from 'semantic-ui-react';
 import { Control, LocalForm as ReduxForm } from 'react-redux-form';
+import { makeOrder } from '../../store';
+import { withRouter } from 'react-router-dom';
 
 // Valdiators
 const required = str => str && str.length;
@@ -9,7 +23,15 @@ const isEmail = str => /\S+@\S+\.\S+/.test(str);
 const validators = {
   orderFirstName: { required },
   orderLastName: { required },
-  orderEmail: { required, isEmail }
+  orderEmail: { required, isEmail },
+  shippingStreet: { required },
+  shippingCity: { required },
+  shippingState: { required },
+  shippingZipCode: { required },
+  billingStreet: { required },
+  billingCity: { required },
+  billingState: { required },
+  billingZipCode: { required }
 };
 
 class CheckoutForm extends React.Component {
@@ -22,40 +44,32 @@ class CheckoutForm extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Checkout</h1>
+      <Container>
+        <Header as="h2">
+          <Icon name="payment" />
+          <Header.Content>Checkout</Header.Content>
+        </Header>
         <Segment>
           {this.renderBreadcrumb()}
-
           <ReduxForm
+            component={Form}
             model="checkout"
             onSubmit={checkoutData => this.onFormSubmit(checkoutData)}
             onUpdate={form => this.onFormUpdate(form)}
             onChange={values => this.onFormChange(values)}
           >
-            <div>
-              <Form>{this.renderCheckoutStep()}</Form>
-            </div>
+            {this.renderCheckoutStep()}
+            <Divider horizontal />
+            {this.renderButtons()}
           </ReduxForm>
-          <Button
-            disabled={this.state.step === 0}
-            onClick={() => this.setState({ step: this.state.step - 1 })}
-          >
-            Prev
-          </Button>
-          <Button
-            disabled={this.state.step === 3}
-            onClick={() => this.setState({ step: this.state.step + 1 })}
-          >
-            Next
-          </Button>
         </Segment>
-      </div>
+      </Container>
     );
   }
 
   onFormSubmit = checkoutData => {
     console.log(checkoutData);
+    this.props.doMakeOrder(checkoutData, this.props.cart);
   };
 
   onFormChange = data => {
@@ -69,15 +83,32 @@ class CheckoutForm extends React.Component {
   renderBreadcrumb() {
     const step = this.state.step;
     return (
-      <Breadcrumb size="massive">
-        <Breadcrumb.Section active={step === 0}>Contact</Breadcrumb.Section>
-        <Breadcrumb.Divider icon="right chevron" />
-        <Breadcrumb.Section active={step === 1}>Shipping</Breadcrumb.Section>
-        <Breadcrumb.Divider icon="right chevron" />
-        <Breadcrumb.Section active={step === 2}>Billing</Breadcrumb.Section>
-        <Breadcrumb.Divider icon="right chevron" />
-        <Breadcrumb.Section active={step === 3}>Review Order</Breadcrumb.Section>
-      </Breadcrumb>
+      <Step.Group widths="4">
+        <Step active={step === 0} disabled={step < 0}>
+          <Icon name="user circle" />
+          <Step.Content>
+            <Step.Title>Profile</Step.Title>
+          </Step.Content>
+        </Step>
+        <Step active={step === 1} disabled={step < 1}>
+          <Icon name="truck" />
+          <Step.Content>
+            <Step.Title>Shipping</Step.Title>
+          </Step.Content>
+        </Step>
+        <Step active={step === 2} disabled={step < 2}>
+          <Icon name="payment" />
+          <Step.Content>
+            <Step.Title>Billing</Step.Title>
+          </Step.Content>
+        </Step>
+        <Step active={step === 3} disabled={step < 3}>
+          <Icon name="checkmark box" />
+          <Step.Content>
+            <Step.Title>Review Order</Step.Title>
+          </Step.Content>
+        </Step>
+      </Step.Group>
     );
   }
 
@@ -116,7 +147,6 @@ class CheckoutForm extends React.Component {
   renderProfileStep() {
     return (
       <div>
-        <h3>Contact Information</h3>
         {this.props.user.id ? (
           <p>You're already logged in, so we've filled this out for you.</p>
         ) : (
@@ -126,8 +156,8 @@ class CheckoutForm extends React.Component {
           <Form.Group widths="equal">
             {this.makeSemanticReduxInput('First Name', '.orderFirstName')}
             {this.makeSemanticReduxInput('Last Name', '.orderLastName')}
+            {this.makeSemanticReduxInput('Email', '.orderEmail')}
           </Form.Group>
-          {this.makeSemanticReduxInput('Email', '.orderEmail')}
         </div>
       </div>
     );
@@ -136,7 +166,12 @@ class CheckoutForm extends React.Component {
   renderShippingStep() {
     return (
       <div>
-        <h3>Provide your shipping information</h3>
+        {this.makeSemanticReduxInput('Shipping Address', '.shippingStreet')}
+        <Form.Group widths="equal">
+          {this.makeSemanticReduxInput('City', '.shippingCity')}
+          {this.makeSemanticReduxInput('State', '.shippingState')}
+          {this.makeSemanticReduxInput('ZIP Code', '.shippingZipCode')}
+        </Form.Group>
       </div>
     );
   }
@@ -144,7 +179,12 @@ class CheckoutForm extends React.Component {
   renderBillingStep() {
     return (
       <div>
-        <h3>Provide your billing information</h3>
+        {this.makeSemanticReduxInput('Billing Address', '.billingStreet')}
+        <Form.Group widths="equal">
+          {this.makeSemanticReduxInput('City', '.billingCity')}
+          {this.makeSemanticReduxInput('State', '.billingState')}
+          {this.makeSemanticReduxInput('ZIP Code', '.billingZipCode')}
+        </Form.Group>
       </div>
     );
   }
@@ -152,16 +192,64 @@ class CheckoutForm extends React.Component {
   renderReviewStep() {
     return (
       <div>
-        <h3>Review your order</h3>
-        <Button type="submit">Submit</Button>
+        <Item.Group divided>
+          {this.props.cart.map(cartItem => (
+            <ProductListItem
+              key={cartItem.product.id}
+              product={cartItem.product}
+              currentQuantity={cartItem.quantity}
+            />
+          ))}
+        </Item.Group>
+      </div>
+    );
+  }
+
+  renderButtons() {
+    return (
+      <div>
+        <Button disabled={this.state.step === 0} onClick={() => this.setState({ step: this.state.step - 1 })}>
+          Back
+        </Button>
+        {this.state.step === 3 ? (
+          <Button type="submit">Submit</Button>
+        ) : (
+          <Button
+            disabled={this.state.step === 3}
+            onClick={() => this.setState({ step: this.state.step + 1 })}
+          >
+            Proceed
+          </Button>
+        )}
       </div>
     );
   }
 }
 
-const mapState = state => ({
-  products: state.products,
-  user: state.user
+const mapState = state => {
+  const cart = { ...state.cart };
+  const cartArray = [];
+  for (const key in cart) {
+    if (cart.hasOwnProperty(key)) {
+      const cartItem = cart[key];
+      cartItem.product = state.products.filter(element => element.id === cartItem.productId)[0];
+      if (cartItem.product) {
+        cartArray.push(cartItem);
+      }
+    }
+  }
+
+  return {
+    products: state.products,
+    user: state.user,
+    cart: cartArray
+  };
+};
+
+const mapDispatch = (dispatch, ownProps) => ({
+  doMakeOrder: (orderInfo, orderItems) => {
+    dispatch(makeOrder(orderInfo, orderItems, ownProps.history));
+  }
 });
 
-export default connect(mapState, null)(CheckoutForm);
+export default withRouter(connect(mapState, mapDispatch)(CheckoutForm));

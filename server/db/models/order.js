@@ -11,6 +11,21 @@ const Order = db.define('order', {
     type: Sequelize.ENUM('processing', 'shipped'),
     allowNull: false
   },
+  orderFirstName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  orderLastName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  orderEmail: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      isEmail: true
+    }
+  },
   shippingStreet: {
     type: Sequelize.STRING,
     allowNull: false

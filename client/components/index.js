@@ -7,7 +7,12 @@
 /**
  * Cart Components
  */
-export {default as CartList} from './cart/cart-list'
+export { default as CartList } from './cart/cart-list'
+
+/**
+ * Checkout Components
+ */
+export {default as CheckoutForm} from './checkout/checkout-form'
 
 /**
  * Category Components
@@ -20,6 +25,7 @@ export {default as CategoryProductList} from './categories/category-product-list
  * Product Components
  */
 export {default as ProductList} from './products/product-list'
+export {default as ProductListItem} from './products/product-list-item'
 export {default as UserHome}    from './user-home'
 
 /**
