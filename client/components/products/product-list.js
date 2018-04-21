@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import ProductListItem from './product-list-item';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Container, Item } from 'semantic-ui-react'
+
+import ProductListItem from './product-list-item';
+import CategoryLabel from '../categories/category-label'
 
 const ProductList = ({ products }) => {
   return (
