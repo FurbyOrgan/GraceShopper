@@ -5,6 +5,11 @@
  */
 
 /**
+ * Checkout Components
+ */
+export {default as CheckoutForm} from './checkout/checkout-form'
+
+/**
  * Cart Components
  */
 export {default as CartList}   from './cart/cart-list'
