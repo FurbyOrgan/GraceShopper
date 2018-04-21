@@ -27,7 +27,9 @@ const ProductListItem = ({ product }) => {
           </Grid.Column>
         </Grid>
         <Item.Extra>
-          <CategoryLabel id={product.categories[0].id}/>
+          {product.categories.map(category => 
+            <CategoryLabel key={category.id} id={category.id}/>
+          )}
         </Item.Extra>
       </Item.Content>
     </Item>
