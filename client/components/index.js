@@ -5,28 +5,30 @@
  */
 
 /**
- * Cart Components
- */
-export { default as CartList } from './cart/cart-list'
-
-/**
  * Checkout Components
  */
 export {default as CheckoutForm} from './checkout/checkout-form'
+
+/**
+ * Cart Components
+ */
+export {default as CartList}   from './cart/cart-list'
+export {default as CartButton} from './cart/cart-add-button'
 
 /**
  * Category Components
  */
 export {default as AssignCategories}    from './categories/assign-categories'
 export {default as CategoryList}        from './categories/category-list'
+export {default as CategoryLabel}       from './categories/category-label'
 export {default as CategoryProductList} from './categories/category-product-list'
 
 /**
  * Product Components
  */
-export {default as ProductList} from './products/product-list'
+export {default as ProductList}     from './products/product-list'
 export {default as ProductListItem} from './products/product-list-item'
-export {default as UserHome}    from './user-home'
+export {default as UserHome}        from './user-home'
 
 /**
  * Reviews Components

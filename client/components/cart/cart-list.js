@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Item } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Container, Item } from 'semantic-ui-react';
+
 import ProductListItem from '../products/product-list-item';
 
 const CartList = ({ cart }) => {
   const itemsInCart = cart.reduce((total, currentElement) => (total += currentElement.quantity), 0);
   return (
-    <div>
+    <Container text>
       <h2>Shopping Cart ({itemsInCart} items)</h2>
       <Item.Group divided>
         {cart.map(cartItem => (
@@ -20,7 +21,7 @@ const CartList = ({ cart }) => {
       </Item.Group>
       <hr />
       <h3>Subtotal: ${getSubtotal(cart)}</h3>
-    </div>
+    </Container>
   );
 };
 
