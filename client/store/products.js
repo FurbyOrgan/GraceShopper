@@ -5,6 +5,8 @@ const initialProductState = [];
 
 // Action Types
 const LOAD_PRODUCTS = 'LOAD_PRODUCTS';
+const ADD_PRODUCT = 'ADD_PRODUCT';
+const EDIT_PRODUCT = 'EDIT_PRODUCT'
 
 // Action Creators
 // TODO
