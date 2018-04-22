@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Checkbox, Container, Form, Input, TextArea } from 'semantic-ui-react';
+import {updateProduct} from '../../store/products'
 
 
 /**
@@ -48,9 +49,17 @@ class EditProduct extends Component {
 
     }
 
-    handleSubmit = () => {
-        this.setState({ value})
+    handleSubmit = async () => {
+        const updatedProduct = {
+            title: this.state.title,
+            price: this.state.price,
+            inventory: this.state.inventory,
+            description: this.state.description
+        }
+        console.log(updatedProduct)
+        await this.props.updateProduct(this.props.currentProduct.id, updatedProduct)
     }
+
 
     render() {
         const product = this.props.currentProduct;
@@ -83,13 +92,13 @@ class EditProduct extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = ({products, categories}, ownProps) => {
     return {
-        currentProduct: state.products.filter(product => {
+        currentProduct: products.filter(product => {
             return product.id === Number(ownProps.match.params.id)
         })[0],
-        categories: state.categories
+        categories: categories
     }
 }
-const mapDispatch = null;
-export default connect(mapStateToProps, null)(EditProduct);
+const mapDispatch = {updateProduct};
+export default connect(mapStateToProps, mapDispatch)(EditProduct);

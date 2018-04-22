@@ -31,6 +31,7 @@ router.post('/', async (req, res, next) => {
 });
 
 // Update a particular product
+
 router.put('/:id', async (req, res, next) => {
   try {
     const result = await Product.update(req.body, { where: { id: req.params.id }, returning: true });

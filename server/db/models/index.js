@@ -43,5 +43,5 @@ module.exports = {
   CartItem,
   Review,
   Address,
-  Order
+  Order,
 };
