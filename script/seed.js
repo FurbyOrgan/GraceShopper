@@ -36,7 +36,6 @@ const {
  * MAKE AS MANY CART ITEMS AS WE WANT!
  */
 function randomCartItem(products, users) {
-  console.log('RANDOM CART ITEM')
   const product = chance.pick(products)
   const user    = chance.pick(users)
 
@@ -50,13 +49,11 @@ function randomCartItem(products, users) {
 }
 
 function generateCartItems(products, users) {
-  console.log('GENERATE CART ITEMS')
   const numCartItems = 50
   return doTimes(numCartItems, () => randomCartItem(products, users))
 }
 
 function createCartItems(products, users) {
-  console.log('CREATE CART ITEMS')
   return Promise.map(generateCartItems(products, users), cartItem => cartItem.save())
 }
 
@@ -64,7 +61,6 @@ function createCartItems(products, users) {
  * STUFF TO MAKE AS MANY CATEGORIES AS WE WANT!
  */
 function randomCategory() {
-  console.log('RANDOM CATEGORY')
   return Category.build({
     name        : faker.lorem.word(),
     description : faker.lorem.sentence(),
@@ -72,13 +68,11 @@ function randomCategory() {
 }
 
 function generateCategories() {
-  console.log('GENERATE CATEGORY')
   const numCategories = 5
   return doTimes(numCategories, randomCategory)
 }
 
 function createCategories() {
-  console.log('CREATE CATEGORY')
   return Promise.map(generateCategories(), category => category.save())
 }
 
@@ -86,7 +80,6 @@ function createCategories() {
  * MAKE AS MANY LINEITEMS AS WE WANT!
  */
 function randomLineItem(orders, products) {
-  console.log('RANDOM LINE ITEM')
   const maxQuantity = 5
 
   const order   = chance.pick(orders)
@@ -101,13 +94,11 @@ function randomLineItem(orders, products) {
 }
 
 function generateLineItems(orders, products) {
-  console.log('GENERATE LINE ITEMS')
   const numLineItems = 300
   return doTimes(numLineItems, () => randomLineItem(orders, products))
 }
 
 function createLineItems(orders, products) {
-  console.log('CREATE LINE ITEMS')
   return Promise.map(generateLineItems(orders, products), lineItem => lineItem.save())
 }
 
@@ -115,7 +106,6 @@ function createLineItems(orders, products) {
  * STUFF TO MAKE AS MANY ORDERS AS WE WANT!
  */
 function randomOrder(users) {
-  console.log('RANDOM ORDER')
   const status = chance.pick(['processing', 'shipped'])
   const user   = chance.pick(users)
 
@@ -169,6 +159,7 @@ function generateProducts(categories) {
 function createProducts(categories) {
   return Promise.map(generateProducts(categories), product => product.save())
 }
+
 
 /**
  * MAKE AS MANY REVIEWS AS WE WANT!
