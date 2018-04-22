@@ -51,6 +51,7 @@ async function seed() {
     }),
     Category.create({
       name: 'Sticky Notes',
+      imageUrl: '/img/stickyNote.png',
       description: 'Leave passive-aggressive notes around the office.'
     }),
     Category.create({ name: 'Lined Paper', description: 'Paper: now with lines.' }),

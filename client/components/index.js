@@ -24,6 +24,11 @@ export {default as CategoryLabel}       from './categories/category-label'
 export {default as CategoryProductList} from './categories/category-product-list'
 
 /**
+ * Orders Components
+ */
+export {default as OrderList} from './orders/order-list'
+
+/**
  * Product Components
  */
 export {default as ProductList}     from './products/product-list'

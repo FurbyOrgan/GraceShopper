@@ -5,12 +5,21 @@ import { updateQuantity } from './index';
 const initialOrdersState = [];
 
 // Action Types
+const LOAD_ALL_ORDERS = 'LOAD_ALL_ORDERS'
 const LOAD_ORDERS = 'LOAD_ORDERS';
 
 // Action Creators
 // TODO
 
 // Thunk Creators
+export const refreshAllOrdersList = () => {
+  return dispatch =>
+    axios
+      .get('/api/orders')
+      .then(response => dispatch({type: LOAD_ALL_ORDERS, payload: response.data}))
+      .catch(err => console.log(err))
+}
+
 export const refreshOrdersList = () => {
   return (dispatch, getState) =>
     axios
