@@ -8,7 +8,6 @@ class SingleProduct extends Component {
     render() {
         const product = this.props.currentProduct
         const reviews = this.props
-        console.log(product, reviews)
         if(!product) return(<div />)
         return (
             <div>
@@ -29,7 +28,7 @@ const mapStateToProps = (state, ownProps) => {
         })[0],
         productReviews: state.reviews.filter(review =>{
             return review.productId ===  Number(ownProps.match.params.id)
-        })[0]
+        })
 
     }
 

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Product, Review, User } = require('../db/models');
+const { Product, Review, User, Category } = require('../db/models');
 
 module.exports = router;
 
@@ -24,6 +24,7 @@ router.get('/:id', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const result = await Product.create(req.body);
+    console.log(req.body)
     res.json(result);
   } catch (error) {
     next(error);
@@ -31,6 +32,7 @@ router.post('/', async (req, res, next) => {
 });
 
 // Update a particular product
+
 router.put('/:id', async (req, res, next) => {
   try {
     const result = await Product.update(req.body, { where: { id: req.params.id }, returning: true });

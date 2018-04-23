@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+
+import { Item, Container } from 'semantic-ui-react'
+
 import { Container,
          Header,
          Item, } from 'semantic-ui-react'
 
 import ProductListItem from './product-list-item';
 import CategoryLabel from '../categories/category-label'
+
 
 const ProductList = ({ products }) => {
   return (

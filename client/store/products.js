@@ -3,13 +3,31 @@ import axios from 'axios';
 // Initial State
 const initialProductState = [];
 
-// Action Types
+/* -----------------    ACTION TYPES    ------------------ */
 const LOAD_PRODUCTS = 'LOAD_PRODUCTS';
+const ADD_PRODUCT = 'ADD_PRODUCT';
+const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 
-// Action Creators
-// TODO
+/* ------------    ACTION CREATORS      ------------------ */
+const update = product => ({ type: UPDATE_PRODUCT, product})
 
-// Thunk Creators
+
+/* ------------         REDUCER         ------------------ */
+
+export default function reducer(products = initialProductState, action) {
+  switch (action.type) {
+    case LOAD_PRODUCTS:
+      return action.payload;
+    case UPDATE_PRODUCT:
+      return products.map(product =>(
+        action.id === product.id ? action.product :product
+      ))
+    default:
+      return products;
+  }
+}
+/* ------------       THUNK CREATORS     ------------------ */
+
 export const refreshProductList = () => {
   return dispatch =>
     axios
@@ -18,11 +36,8 @@ export const refreshProductList = () => {
       .catch(err => console.log(err));
 }
 
-export default function reducer(products = initialProductState, action) {
-  switch (action.type) {
-    case LOAD_PRODUCTS:
-      return action.payload;
-    default:
-      return products;
-  }
+export const updateProduct = (id, product) =>  dispatch => {
+  axios.put(`/api/products/${id}`, product)
+  .then(res => dispatch(update(res.data)))
+  .catch(err => console.error(`Updating product: ${product} unsuccessful`, err))
 }
