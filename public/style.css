@@ -18,3 +18,7 @@ nav a {
 .cart {
   margin-top: 2rem;
 }
+
+.cart-qty-input {
+  width: 5em !important;
+}

@@ -12,6 +12,7 @@ import {
   OrderList,
   ProductList,
   Signup,
+  SingleProduct,
   SearchResults,
   UserHome,
   UserReviews
@@ -39,6 +40,7 @@ class Routes extends Component {
         <Route exact path="/checkout"               component={CheckoutForm} />
         <Route exact path="/orders"                 component={OrderList} />
         <Route exact path="/products"               component={ProductList} />
+        <Route exact path="/products/:productId"    component={SingleProduct} />
         <Route path="/search/:searchQuery"          component={SearchResults} />
         <Route exact path="/login"                  component={Login} />
         <Route exact path="/signup"                 component={Signup} />

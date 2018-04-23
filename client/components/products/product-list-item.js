@@ -12,8 +12,6 @@ const ProductListItem = ({ product }) => {
       <Item.Image src={product.imageUrl} />
       <Item.Content>
         <Item.Header as={Link} to={`/products/${product.id}`}>{product.title}</Item.Header>
-     
-
             <Item.Meta>
               <Label tag>${product.price}</Label>
             </Item.Meta>
