@@ -3,11 +3,11 @@ import history from '../history'
 
 /* -----------------    ACTION TYPES    ------------------ */
 
-const FETCH_PRODUCT_REVIEWS = "FETCH_PRODUCT_REVIEWS"
-const GRAB_USER_REVIEWS = "GRAB_USER_REVIEWS"
-const CREATE_REVIEW = "CREATE_REVIEW";
-const UPDATE_REVIEW = "UPDATE_REVIEW"
-const REMOVE_REVIEW = "REMOVE_REVIEW"
+export const FETCH_PRODUCT_REVIEWS = "FETCH_PRODUCT_REVIEWS"
+export const GRAB_USER_REVIEWS = "GRAB_USER_REVIEWS"
+export const CREATE_REVIEW = "CREATE_REVIEW";
+export const UPDATE_REVIEW = "UPDATE_REVIEW"
+export const REMOVE_REVIEW = "REMOVE_REVIEW"
 
 
 
@@ -17,11 +17,11 @@ const REMOVE_REVIEW = "REMOVE_REVIEW"
 
 /* ------------    ACTION CREATORS      ------------------ */
 
-const fetch = reviews => ({type: FETCH_PRODUCT_REVIEWS, reviews})
-const grab = reviews => ({type: GRAB_USER_REVIEWS, reviews})
-const create = review => ({type: CREATE_REVIEW, review})
-const update = review => ({type: UPDATE_REVIEW, review})
-const remove = review =>({type:REMOVE_REVIEW, id})
+export const fetch = reviews => ({type: FETCH_PRODUCT_REVIEWS, reviews})
+export const grab = reviews => ({type: GRAB_USER_REVIEWS, reviews})
+export const create = review => ({type: CREATE_REVIEW, review})
+export const update = review => ({type: UPDATE_REVIEW, review})
+export const remove = review =>({type: REMOVE_REVIEW, id})
 
 
 
