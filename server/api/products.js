@@ -23,13 +23,16 @@ router.get('/:id', async (req, res, next) => {
 // Create a new product
 router.post('/', async (req, res, next) => {
   try {
-    console.log(req.body, 'dat body')
+    
     const result = await Product.create({ title: req.body.title,
       price: req.body.price,
       inventory: req.body.inventory,
       description: req.body.description});
+
+      await console.log(req.body, 'dat body', result)
+      await req.body.categoriesId.forEach( category => result.addCategory(category))
   
-    res.json(result);
+    await res.json(result[1]);
   } catch (error) {
     next(error);
   }
