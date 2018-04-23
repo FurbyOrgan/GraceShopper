@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Item, Container } from 'semantic-ui-react'
-
 import { Container,
          Header,
          Item, } from 'semantic-ui-react'
