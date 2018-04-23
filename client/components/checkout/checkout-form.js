@@ -1,23 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { ProductListItem } from '../';
-import {
-  Step,
-  Button,
-  Container,
-  Form,
-  Header,
-  Icon,
-  Item,
-  Segment,
-  Divider
-} from 'semantic-ui-react';
-import { Control, LocalForm as ReduxForm, actions } from 'react-redux-form';
+import { Step, Button, Container, Form, Header, Icon, Item, Segment, Divider } from 'semantic-ui-react';
 import withManagedForm from '../common/managed-form';
 import { makeOrder } from '../../store';
 import { withRouter } from 'react-router-dom';
 
-// Valdiators
+// ManagedForm
 const required = { test: str => str && str.length, message: 'This field is required.' };
 const isEmail = { test: str => /\S+@\S+\.\S+/.test(str), message: 'Must be a valid email address.' };
 const formSchema = {
@@ -41,13 +30,15 @@ class CheckoutForm extends React.Component {
       step: 0
     };
 
+    // Load user profile info if logged in
     if (props.user.id) {
       props.formHelpers.setFieldValue('orderFirstName', props.user.firstName);
-      if (!props.formData.orderFirstName.touched) props.formHelpers.setFieldValue('orderLastName', props.user.lastName);
-      if (!props.formData.orderFirstName.touched) props.formHelpers.setFieldValue('orderEmail', props.user.email);
+      props.formHelpers.setFieldValue('orderLastName', props.user.lastName);
+      props.formHelpers.setFieldValue('orderEmail', props.user.email);
     }
   }
 
+  // Load user profile info if login state changes after CheckoutForm has been created
   componentWillReceiveProps(props) {
     if (props.user.id) {
       if (!props.formData.orderFirstName.touched) props.formHelpers.setFieldValue('orderFirstName', props.user.firstName);
@@ -57,6 +48,8 @@ class CheckoutForm extends React.Component {
   }
 
   render() {
+    const ManagedForm = this.props.formComponents.ManagedForm;
+    console.log(this.props.formComponents);
     return (
       <Container>
         <Header as="h2">
@@ -65,16 +58,11 @@ class CheckoutForm extends React.Component {
         </Header>
         <Segment>
           {this.renderBreadcrumb()}
-          <ReduxForm
-            component={Form}
-            model="checkout"
-            onUpdate={form => this.onFormUpdate(form)}
-            onChange={values => this.onFormChange(values)}
-            getDispatch={dispatch => (this.formDispatch = dispatch)}>
+          <ManagedForm component={Form}>
             {this.renderCheckoutStep()}
             <Divider horizontal />
             {this.renderButtons()}
-          </ReduxForm>
+          </ManagedForm>
         </Segment>
       </Container>
     );
@@ -85,10 +73,6 @@ class CheckoutForm extends React.Component {
     this.props.doMakeOrder(checkoutData, this.props.cart);
     console.trace();
   };
-
-  onFormChange = data => {};
-
-  onFormUpdate = data => {};
 
   renderBreadcrumb() {
     const step = this.state.step;
@@ -208,9 +192,7 @@ class CheckoutForm extends React.Component {
           Back
         </Button>
         {this.state.step === 3 ? (
-          <Button onClick={() => console.log('Submit Clicked')} type="submit">
-            Submit
-          </Button>
+          <Button onClick={this.props.formEvents.onFormSubmit} type="submit">Submit</Button>
         ) : (
           <Button
             disabled={this.state.step === 3}

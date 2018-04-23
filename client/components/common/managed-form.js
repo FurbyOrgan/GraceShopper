@@ -24,6 +24,10 @@ const withManagedForm = (schema, WrappedComponent) => {
         formData: initialFormData
       };
 
+      this.setupManagedComponents();
+    }
+
+    setupManagedComponents = () => {
       this.ManagedInput = parentProps => {
         const propList = {
           error: !!(
@@ -43,11 +47,22 @@ const withManagedForm = (schema, WrappedComponent) => {
           return <input {...propList} {...propsWithoutComponent} />;
         }
       };
+
+      this.ManagedForm = parentProps => {
+        // Use destructuring to remove `component` from parentProps
+        const { component, ...propsToPass } = parentProps
+        propsToPass.onSubmit = this.onFormSubmit;
+        if (component) {
+          return <parentProps.component {...propsToPass} />;
+        } else {
+          return <form {...propsToPass} />;
+        }
+      };
     }
 
-    setValidators = validators => {
-      this.setState({ validators });
-    };
+    onFormSubmit = (event) => {
+      console.log(Object.keys(event.target).map(key => key + ': ' + event.target[key]))
+    }
 
     onFieldFocusGained = ({ target }) => {
       const key = target.name;
@@ -118,8 +133,8 @@ const withManagedForm = (schema, WrappedComponent) => {
       <WrappedComponent
         {...this.props}
         formData={this.state.formData}
-        formEvents={{ onChange: this.onFieldChanged, onBlur: this.onFieldFocusLost }}
-        formComponents={{ ManagedInput: this.ManagedInput }}
+        formEvents={{ onChange: this.onFieldChanged, onBlur: this.onFieldFocusLost, onSubmit: this.onFormSubmit }}
+        formComponents={{ ManagedInput: this.ManagedInput, ManagedForm: this.ManagedForm }}
         formHelpers={{ setFieldValue: this.setFieldValue }}
       />
     );
