@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import {
+    Button,
     Divider,
     Form,
     Icon,
@@ -15,7 +16,17 @@ class OrderThumb extends Component {
         this.state = props.order
     }
 
-    pickColor() {
+    handleChange = (event, { value }) => {
+        console.log('event: ', event)
+        if (event.target.tagName === 'LABEL') {
+            this.setState({ status: event.target.value })
+        } else {
+            const name = event.target.name;
+            this.setState({ [name]: event.target.value })
+        }
+    }
+
+    pickColor = () => {
         switch (this.state.status) {
             case 'processing':
                 return 'yellow'
@@ -28,12 +39,7 @@ class OrderThumb extends Component {
         }
     }
 
-    handleChange = (event, { value }) => {
-        const name = event.target.name;
-        this.setState({ [name]: event.target.value })
-    }
-
-    pickIcon() {
+    pickIcon = () => {
         switch (this.state.status) {
             case 'processing':
                 return 'settings'
@@ -44,6 +50,12 @@ class OrderThumb extends Component {
             default:
                 return 'first order'
         }
+    }
+
+    switchStatus = () => {
+        (this.state.status === 'processing') 
+            ? this.setState({ status: 'shipped' })
+            : this.setState({ status: 'processing' })
     }
 
     render() {
@@ -58,25 +70,13 @@ class OrderThumb extends Component {
             }>
                 <Modal.Header>
                     {`Order #${order.id}`}
+                    <Button icon labelPosition="left" floated="right" color={this.pickColor()} onClick={this.handleChange}>
+                        <Icon name={this.pickIcon()} />
+                        {order.status}
+                    </Button>
                 </Modal.Header>
                 <Modal.Content>
                     <Form>
-                        <Form.Group inline>
-                            <Form.Radio 
-                                label="Processing"
-                                value={order.status}
-                                name="status"
-                                checked={order.status === 'processing'}
-                                onChange={this.handleChange}
-                            />
-                            <Form.Radio 
-                                label="Shipped"
-                                value={order.status}
-                                name="status"
-                                checked={order.status === 'shipped'}
-                                onChange={this.handleChange}
-                            />
-                        </Form.Group>
                         <Form.Group widths="equal">
                             <Form.Field
                                 control={Input}
@@ -167,3 +167,11 @@ class OrderThumb extends Component {
 }
 
 export default OrderThumb;
+// handleChange = (event, { value }) => {
+//     if (event.target.tagName === 'LABEL'){
+//         this.setState({ status: event.target.value})
+//     } else {
+//         const name = event.target.name;
+//         this.setState({ [name]: event.target.value })
+//     }
+// }

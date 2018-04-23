@@ -15,7 +15,6 @@ class AddProduct extends Component {
 
     handleChange = ( event, {value}) => { 
     console.log('state: ', this.state)
-    console.log(this.props.currentProduct, "current product")
         const name = event.target.name;
         //const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
         this.setState( { [name]: event.target.value})
@@ -33,7 +32,7 @@ class AddProduct extends Component {
     }
 
     handleSubmit =  () => {
-  
+        console.log(this.state)
        this.props.addProduct(this.state)
     }
 
@@ -42,7 +41,6 @@ class AddProduct extends Component {
 
         const categories = this.props.categories;
         const { value } = this.state
-        console.log('state: ', this.state, 'currentProd', this.props.currentProduct)
         return (
             <Container text>
                 <Form onSubmit={this.handleSubmit}>

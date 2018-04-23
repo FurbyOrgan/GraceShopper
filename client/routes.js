@@ -20,6 +20,7 @@ import {
 import SingleProduct from './components/products/single-product'
 import EditProduct   from './components/products/edit-product'
 import ReviewForm    from './components/reviews/review-form'
+import AddProduct   from './components/products/add-product'
 
 import { me } from './store';
 
@@ -56,6 +57,7 @@ class Routes extends Component {
             <Route path="/user/:id/assignCategories" component={AssignCategories} />
             <Route exact path="/review" component={ReviewForm} />
             <Route exact path="/products/:id/edit" component={EditProduct} />
+            <Route exact path="/add-product" component={AddProduct} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
