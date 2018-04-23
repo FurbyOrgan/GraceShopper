@@ -38,6 +38,11 @@ export {default as ProductListItem} from './products/product-list-item'
 export {default as UserHome}        from './user-home'
 
 /**
+ * Orders Components
+ */
+export {default as EditOrder} from './orders/edit-order'
+
+/**
  * Reviews Components
  */
 export {default as ReviewForm}  from './reviews/review-form'

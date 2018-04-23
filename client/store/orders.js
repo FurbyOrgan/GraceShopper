@@ -9,11 +9,18 @@ const initialOrdersState = [];
 // Action Types
 const FETCH_ALL_ORDERS = 'FETCH_ALL_ORDERS'
 const LOAD_ORDERS = 'LOAD_ORDERS';
+const UPDATE_ORDER = 'UPDATE_ORDER';
+
 
 // Action Creators
 const fetch = orders => ({
   type: FETCH_ALL_ORDERS,
   orders
+})
+
+const update = order => ({
+  type: UPDATE_ORDER,
+  order,
 })
 
 // Thunk Creators
@@ -47,6 +54,12 @@ export const makeOrder = (data, items, history) => {
   };
 };
 
+export const updateOrder = (id, order) => dispatch =>{
+  axios.put(`api/orders/${id}`, order)
+    .then(res => dispatch(update(res.data)))
+    .catch(err => console.error(`Updating order: ${order} unsuccessful`, err))
+}
+
 export default function reducer(orders = initialOrdersState, action) {
   console.log('action:', action)
   switch (action.type) {
@@ -54,6 +67,10 @@ export default function reducer(orders = initialOrdersState, action) {
       return action.payload;
     case FETCH_ALL_ORDERS:
       return action.orders
+    case UPDATE_ORDER:
+      return orders.map(order => (
+        action.id === order.id ? action.order : order
+      ))
     default:
       return orders;
   }
