@@ -25,3 +25,27 @@
 //         expect(stickyNotes.title('100 Yellow 4x4 Sticky Notes')).to
 //     })
 // })
+
+
+
+
+
+
+
+
+// const Promise = require('bluebird')
+// const chai = require('chai')
+// const expect = chai.expect
+
+// const Product = require('./product')
+// const db = require('../db')
+
+// describe('Product model', () => {
+//     describe('attribute definition', () => {
+//         it('includes the proper fields', () => {
+//             Product.create({
+
+//             })
+//         })
+//     })
+// })
