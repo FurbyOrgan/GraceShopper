@@ -5,10 +5,10 @@ const LineItem = db.define('lineItem', {
     quantity: {
         type: Sequelize.INTEGER,
         allowNull: false
-    }, 
+    },
     price: {
-        type: Sequelize.INTEGER,
-        allowNull: false, 
+        type: Sequelize.DECIMAL,
+        allowNull: false,
         validate: {
             min: 0.01
         }
