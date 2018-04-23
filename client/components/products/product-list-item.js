@@ -14,7 +14,6 @@ const ProductListItem = ({ product }) => {
         <Item.Header as={Link} to={`/products/${product.id}`}>{product.title}</Item.Header>
         <Grid columns={2}>
           <Grid.Column>
-
             <Item.Meta>
               <Label tag>${product.price}</Label>
             </Item.Meta>
@@ -27,8 +26,8 @@ const ProductListItem = ({ product }) => {
           </Grid.Column>
         </Grid>
         <Item.Extra>
-          {product.categories.map(category => 
-            <CategoryLabel key={category.id} id={category.id}/>
+          {product.categories.map(category =>
+            <CategoryLabel key={category.id} id={category.id} />
           )}
         </Item.Extra>
       </Item.Content>

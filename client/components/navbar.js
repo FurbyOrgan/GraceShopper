@@ -12,7 +12,7 @@ import { Login } from './index'
 
 const Navbar = ({ handleClick, isLoggedIn }) => {
   const loggedInConditionalRendering = () => {
-    if (isLoggedIn) return (<Menu.Item as={Link} to="/login" name="logout" />)
+    if (isLoggedIn) return (<Menu.Item as={Link} to="/" onClick={handleClick} name="logout" />)
     else return (<Menu.Item as={Link} to="/login" name="login" />)
   }
 
