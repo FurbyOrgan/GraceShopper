@@ -31,6 +31,7 @@ export {default as OrderList} from './orders/order-list'
 /**
  * Product Components
  */
+export { default as SingleProduct } from './products/single-product'
 export {default as EditProduct} from './products/edit-product'
 export {default as ProductList}     from './products/product-list'
 export {default as ProductListItem} from './products/product-list-item'
