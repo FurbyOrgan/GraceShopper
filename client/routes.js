@@ -12,7 +12,9 @@ import {
   OrderList,
   ProductList,
   Signup,
+  SingleProduct,
   SearchResults,
+  UserList,
   UserHome,
   UserReviews
 } from './components';
@@ -54,6 +56,7 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
             <Route path="/user/:id/reviews" component={UserReviews} />
             <Route path="/user/:id/assignCategories" component={AssignCategories} />
+            <Route exact path="/users" component={UserList} />
             <Route exact path="/review" component={ReviewForm} />
             <Route exact path="/products/:id/edit" component={EditProduct} />
             <Route exact path="/add-product" component={AddProduct} />
