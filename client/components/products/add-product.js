@@ -32,14 +32,9 @@ class AddProduct extends Component {
 
     }
 
-    handleSubmit = async () => {
-        const product = {
-            title: this.state.title,
-            price: this.state.price,
-            inventory: this.state.inventory,
-            description: this.state.description,
-        }
-        await this.props.addProduct(product)
+    handleSubmit =  () => {
+  
+       this.props.addProduct(this.state)
     }
 
 

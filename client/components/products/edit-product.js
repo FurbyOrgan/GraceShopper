@@ -49,15 +49,9 @@ class EditProduct extends Component {
 
     }
 
-    handleSubmit = async () => {
-        const updatedProduct = {
-            title: this.state.title,
-            price: this.state.price,
-            inventory: this.state.inventory,
-            description: this.state.description,
-        }
-        console.log(updatedProduct)
-        await this.props.updateProduct(this.props.currentProduct.id, updatedProduct)
+    handleSubmit =  () => {
+        
+         this.props.updateProduct(this.props.currentProduct.id, this.state)
     }
 
 
