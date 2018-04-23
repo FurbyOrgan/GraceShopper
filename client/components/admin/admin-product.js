@@ -4,16 +4,17 @@ import { Link } from 'react-router-dom';
 
 import { Container,
          Header,
-         Item, } from 'semantic-ui-react'
+         Item, Button} from 'semantic-ui-react'
 
 import AdminProductItem from './admin-product-item';
 import CategoryLabel from '../categories/category-label'
+import AdminSideBar from './admin-sidebar'
 
 
 const AdminProductList = ({ products }) => {
   return (
     <Container text>
-      <Header as='h2'>View Inventory</Header>
+      <Header as='h3'>{products.length} Products in Inventory</Header>
       <Item.Group divided>
         {products.map(productElement =>
           <AdminProductItem key={productElement.id} product={productElement} />

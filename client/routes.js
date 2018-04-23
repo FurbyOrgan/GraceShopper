@@ -21,6 +21,9 @@ import SingleProduct from './components/products/single-product'
 import EditProduct   from './components/products/edit-product'
 import ReviewForm    from './components/reviews/review-form'
 import AddProduct   from './components/products/add-product'
+import AdminProductList from './components/admin/admin-product'
+import AdminSidebar from './components/admin/admin-sidebar'
+import UserList from './components/users/all-users'
 
 import { me } from './store';
 
@@ -58,6 +61,8 @@ class Routes extends Component {
             <Route exact path="/review" component={ReviewForm} />
             <Route exact path="/products/:id/edit" component={EditProduct} />
             <Route exact path="/add-product" component={AddProduct} />
+            <Route exact path="/user/:id/admin" component={AdminSidebar}/>
+            <Route exact path="/users" component={UserList}/>
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
