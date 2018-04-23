@@ -42,12 +42,13 @@ const OrderThumb = (props) => {
     return (
         <Modal trigger={
             <Message
+            onClick={() => props.history.push(`/orders/${order.id}`)}
                 icon={pickIcon(props)}
                 header={`Order #${order.id}`}
                 color={pickColor(props)}
             />
         }>
-            <EditOrder as={Link} to={'/orders/${id}'} order={order}/>
+            <EditOrder order={order} />
         </Modal>
     )
 }

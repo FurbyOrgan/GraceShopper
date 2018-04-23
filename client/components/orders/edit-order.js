@@ -28,7 +28,7 @@ class EditOrder extends Component {
                 return 'grey'
         }
     }
-    
+
     pickIcon = () => {
         switch (this.props.order.status) {
             case 'processing':
@@ -42,11 +42,10 @@ class EditOrder extends Component {
         }
     }
     render() {
-        this.props.match.history.push(`/${this.props.id}`)
         console.log(this.props)
         const order = this.props.order
         return (
-            <div>
+            <Modal.Content>
                 <Modal.Header>
                     {`Order #${order.id}`}
                     <Button icon labelPosition="left" floated="right" color={this.pickColor()} onClick={this.handleChange}>
@@ -138,7 +137,7 @@ class EditOrder extends Component {
                         </Form.Group>
                     </Form>
                 </Modal.Content>
-            </div>
+            </Modal.Content>
         )
     }
 }

@@ -35,7 +35,7 @@ class Routes extends Component {
 
   render() {
     const { isLoggedIn } = this.props;
-    
+
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
@@ -43,8 +43,8 @@ class Routes extends Component {
         <Route exact path="/categories"             component={CategoryList} />
         <Route exact path="/categories/:categoryId" component={CategoryProductList} />
         <Route exact path="/checkout"               component={CheckoutForm} />
-        <Route exact path="/orders"                 component={OrderList} />
-        <Route exact path="/orders/:id"             component={EditOrder} />
+        <Route path="/orders"                 component={OrderList} />
+        {/* <Route exact path="/orders/:id"             component={EditOrder} /> */}
         <Route exact path="/products"               component={ProductList} />
         <Route exact path="/products/:productId"    component={SingleProduct} />
         <Route path="/search/:searchQuery"          component={SearchResults} />
