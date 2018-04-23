@@ -17,7 +17,7 @@ const ProductListItem = ({ product }) => {
         
         <Item.Description>{product.description}</Item.Description>
         <Item.Extra>
-          <CartAddButton product={product} />
+          {product.inventory > 0? <CartAddButton product={product} />: <h4>Item out of stock</h4>}
         </Item.Extra>
       </Item.Content>
     </Item>

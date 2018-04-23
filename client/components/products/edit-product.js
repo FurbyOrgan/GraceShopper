@@ -54,7 +54,7 @@ class EditProduct extends Component {
             title: this.state.title,
             price: this.state.price,
             inventory: this.state.inventory,
-            description: this.state.description
+            description: this.state.description,
         }
         console.log(updatedProduct)
         await this.props.updateProduct(this.props.currentProduct.id, updatedProduct)
@@ -65,7 +65,7 @@ class EditProduct extends Component {
         const product = this.props.currentProduct;
         const categories = this.props.categories;
         const { value } = this.state
-        console.log('state: ', this.state)
+        console.log('state: ', this.state, 'currentProd', this.props.currentProduct)
         if(!product) return(<div />)
         return (
             <Container text>
@@ -94,9 +94,7 @@ class EditProduct extends Component {
 
 const mapStateToProps = ({products, categories}, ownProps) => {
     return {
-        currentProduct: products.filter(product => {
-            return product.id === Number(ownProps.match.params.id)
-        })[0],
+        currentProduct: products.filter( product => product.id === Number(ownProps.match.params.id))[0],
         categories: categories
     }
 }
