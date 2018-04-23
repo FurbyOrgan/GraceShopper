@@ -14,7 +14,6 @@ const ProductListItem = ({ product }) => {
         <Item.Header as={Link} to={`/products/${product.id}`}>{product.title}</Item.Header>
         <Grid columns={2}>
           <Grid.Column>
-
             <Item.Meta>
               <Label tag>${product.price}</Label>
             </Item.Meta>

@@ -13,7 +13,7 @@ import {
   Segment,
   Divider
 } from 'semantic-ui-react';
-import { Control, LocalForm as ReduxForm } from 'react-redux-form';
+import { Control, LocalForm as ReduxForm, actions } from 'react-redux-form';
 import { makeOrder } from '../../store';
 import { withRouter } from 'react-router-dom';
 
@@ -42,6 +42,15 @@ class CheckoutForm extends React.Component {
     };
   }
 
+  componentWillReceiveProps(props) {
+    console.log('componentWillReceiveProps', props)
+    if (props.user.id) {
+      this.formDispatch(actions.change('checkout.orderFirstName', props.user.firstName));
+      this.formDispatch(actions.change('checkout.orderLastName', props.user.lastName));
+      this.formDispatch(actions.change('checkout.orderEmail', props.user.email));
+    }
+  }
+
   render() {
     return (
       <Container>
@@ -54,9 +63,9 @@ class CheckoutForm extends React.Component {
           <ReduxForm
             component={Form}
             model="checkout"
-            onSubmit={checkoutData => this.onFormSubmit(checkoutData)}
             onUpdate={form => this.onFormUpdate(form)}
             onChange={values => this.onFormChange(values)}
+            getDispatch={dispatch => (this.formDispatch = dispatch)}
           >
             {this.renderCheckoutStep()}
             <Divider horizontal />
@@ -68,16 +77,17 @@ class CheckoutForm extends React.Component {
   }
 
   onFormSubmit = checkoutData => {
-    console.log(checkoutData);
+    console.log('onFormSubmit')
     this.props.doMakeOrder(checkoutData, this.props.cart);
+    console.trace();
   };
 
   onFormChange = data => {
-    console.log('Change', data);
+
   };
 
   onFormUpdate = data => {
-    // this.setState({form: data})
+
   };
 
   renderBreadcrumb() {
@@ -212,7 +222,9 @@ class CheckoutForm extends React.Component {
           Back
         </Button>
         {this.state.step === 3 ? (
-          <Button type="submit">Submit</Button>
+          <Button onClick={() => console.log('Submit Clicked')} type="submit">
+            Submit
+          </Button>
         ) : (
           <Button
             disabled={this.state.step === 3}

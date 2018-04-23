@@ -55,7 +55,7 @@ class CartAddButton extends React.Component {
           {buttonText}
           <i className="cart icon" />
         </button>
-        <input type="text" onChange={this.onTextChange} value={this.state.quantityValue} />
+        <input className="cart-qty-input" type="text" onChange={this.onTextChange} value={this.state.quantityValue} />
       </div>
     );
   }
