@@ -9,6 +9,7 @@ import {
   CategoryProductList,
   CheckoutForm,
   Login,
+  OrderList,
   ProductList,
   Signup,
   SearchResults,
@@ -32,14 +33,15 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route exact path="/checkout" component={CheckoutForm} />
-        <Route exact path="/cart" component={CartList} />
-        <Route exact path="/products" component={ProductList} />
-        <Route exact path="/categories" component={CategoryList} />
+        <Route exact path="/cart"                   component={CartList} />
+        <Route exact path="/categories"             component={CategoryList} />
         <Route exact path="/categories/:categoryId" component={CategoryProductList} />
-        <Route path="/search/:searchQuery" component={SearchResults} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/signup" component={Signup} />
+        <Route exact path="/checkout"               component={CheckoutForm} />
+        <Route exact path="/orders"                 component={OrderList} />
+        <Route exact path="/products"               component={ProductList} />
+        <Route path="/search/:searchQuery"          component={SearchResults} />
+        <Route exact path="/login"                  component={Login} />
+        <Route exact path="/signup"                 component={Signup} />
 
         {isLoggedIn && (
           <Switch>
