@@ -12,7 +12,6 @@ import {
   OrderList,
   ProductList,
   Signup,
-  SingleProduct,
   SearchResults,
   UserHome,
   UserReviews

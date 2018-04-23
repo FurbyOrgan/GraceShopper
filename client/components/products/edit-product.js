@@ -35,7 +35,7 @@ class EditProduct extends Component {
     console.log(this.props.currentProduct, "current product")
         const name = event.target.name;
         //const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-        this.setState( { [name]: event.target.value})
+        this.setState( {order: { [name]: event.target.value}})
     }
     addCategories = (event, {value}) =>{
         if(!this.categories.includes(value)){
@@ -59,7 +59,7 @@ class EditProduct extends Component {
         const product = this.props.currentProduct;
         const categories = this.props.categories;
         const { value } = this.state
-        console.log('state: ', this.state, 'currentProd', this.props.currentProduct)
+        //console.log('state: ', this.state, 'currentProd', this.props.currentProduct)
         if(!product) return(<div />)
         return (
             <Container text>
