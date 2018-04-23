@@ -1,9 +1,9 @@
 const User = require('./user');
 const Product = require('./product');
 const Category = require('./category');
+const LineItem = require('./lineItem');
 const CartItem = require('./cartItem');
 const Review = require('./review');
-const Address = require('./address');
 const Order = require('./order');
 
 // Categories
@@ -24,11 +24,9 @@ Review.belongsTo(User, { foreignKey: { allowNull: false } });
 // Orders
 User.hasMany(Order);
 Order.belongsTo(User);
-
-// Addresses
-Order.hasOne(Address, { as: 'billingAddress' });
-Order.hasOne(Address, { as: 'shippingAddress' });
-Address.belongsTo(User);
+Order.hasMany(LineItem);
+LineItem.belongsTo(Order);
+LineItem.belongsTo(Product);
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
@@ -37,11 +35,12 @@ Address.belongsTo(User);
  * instead of: const User = require('../db/models/user')
  */
 module.exports = {
-  User,
-  Product,
-  Category,
   CartItem,
-  Review,
-  Address,
+  Category,
+  LineItem,
   Order,
+  Product,
+  Review,
+  User,
+
 };

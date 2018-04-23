@@ -15,11 +15,10 @@ nav a {
   margin: 1em;
 }
 
-form div {
-  margin: 1em;
-  display: inline-block;
-}
-
 .cart {
   margin-top: 2rem;
+}
+
+.cart-qty-input {
+  width: 5em !important;
 }

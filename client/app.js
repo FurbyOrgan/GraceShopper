@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { refreshProductList, refreshCategoryList, restoreCart } from './store';
+import { refreshProductList, refreshCategoryList, restoreCart, fetchAllOrders } from './store';
 import { Navbar } from './components';
 import { ReviewForm} from './components';
 import { Route, withRouter } from 'react-router-dom';
@@ -31,10 +31,6 @@ class App extends React.Component {
       <div>
         <Navbar />
         <Routes />
-        <Route exact path="/products" component={ProductList} />
-        <Route exact path="/products/:id" component={SingleProduct} />
-        
-        <Route exact path="/review" component={ReviewForm} />
       </div>
     );
   }
@@ -44,6 +40,7 @@ const mapDispatch = dispatch => ({
   fetchInitialData: () => {
     dispatch(refreshProductList())
     dispatch(refreshCategoryList())
+    dispatch(fetchAllOrders())
     dispatch(restoreCart())
   }
 });
