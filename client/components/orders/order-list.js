@@ -15,6 +15,7 @@ const OrderList = (props) => {
             {orders.map(order =>
                 <OrderThumb
                     key={order.id}
+                    order={order}
                 />
             )}
         </Container>
@@ -22,7 +23,7 @@ const OrderList = (props) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    console.log("state: ", state)
+
     return { orders: state.orders }
 }
 export default connect(mapStateToProps, null)(OrderList);

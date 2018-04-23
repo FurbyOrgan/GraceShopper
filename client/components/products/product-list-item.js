@@ -26,8 +26,11 @@ const ProductListItem = ({ product }) => {
           </Grid.Column>
         </Grid>
         <Item.Extra>
-          {product.categories.map(category =>
-            <CategoryLabel key={category.id} id={category.id} />
+          {product.inventory > 0? <CartAddButton product={product} />: <h4>Item out of stock</h4>}
+        </Item.Extra>   
+         <Item.Extra>
+          {product.categories.map(category => 
+            <CategoryLabel key={category.id} id={category.id}/>
           )}
         </Item.Extra>
       </Item.Content>

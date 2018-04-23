@@ -42,4 +42,5 @@ module.exports = {
   Product,
   Review,
   User,
+
 };
