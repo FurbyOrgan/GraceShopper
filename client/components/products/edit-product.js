@@ -59,7 +59,7 @@ class EditProduct extends Component {
         const product = this.props.currentProduct;
         const categories = this.props.categories;
         const { value } = this.state
-        console.log('state: ', this.state, 'currentProd', this.props.currentProduct)
+        console.log('state: ', this.state, 'currentProd', product)
         if(!product) return(<div />)
         return (
             <Container text>

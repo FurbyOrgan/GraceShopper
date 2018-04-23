@@ -23,9 +23,16 @@ router.get('/:id', async (req, res, next) => {
 // Create a new product
 router.post('/', async (req, res, next) => {
   try {
-    const result = await Product.create(req.body);
-    console.log(req.body)
-    res.json(result);
+    
+    const result = await Product.create({ title: req.body.title,
+      price: req.body.price,
+      inventory: req.body.inventory,
+      description: req.body.description});
+
+      await console.log(req.body, 'dat body', result)
+      await req.body.categoriesId.forEach( category => result.addCategory(category))
+  
+    await res.json(result[1]);
   } catch (error) {
     next(error);
   }
@@ -35,7 +42,12 @@ router.post('/', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   try {
-    const result = await Product.update(req.body, { where: { id: req.params.id }, returning: true });
+    const result = await Product.update({ title: req.body.title,
+    price: req.body.price,
+    inventory: req.body.inventory,
+    description: req.body.description}, { where: { id: req.params.id }, returning: true });
+  
+    await req.body.categoriesId.forEach( category => result[1][0].addCategory(category))
     res.json(result[1]);
   } catch (error) {
     next(error);
