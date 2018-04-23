@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { refreshProductList, refreshCategoryList, restoreCart } from './store';
+import { refreshProductList, refreshCategoryList, restoreCart, fetchAllOrders } from './store';
 import { Navbar } from './components';
 import { ReviewForm} from './components';
 import { Route, withRouter } from 'react-router-dom';
@@ -46,6 +46,7 @@ const mapDispatch = dispatch => ({
   fetchInitialData: () => {
     dispatch(refreshProductList())
     dispatch(refreshCategoryList())
+    dispatch(fetchAllOrders())
     dispatch(restoreCart())
   }
 });

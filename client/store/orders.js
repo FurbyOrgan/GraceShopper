@@ -1,22 +1,27 @@
 import axios from 'axios';
+import history from '../history';
+
 import { updateQuantity } from './index';
 
 // Initial State
 const initialOrdersState = [];
 
 // Action Types
-const LOAD_ALL_ORDERS = 'LOAD_ALL_ORDERS'
+const FETCH_ALL_ORDERS = 'FETCH_ALL_ORDERS'
 const LOAD_ORDERS = 'LOAD_ORDERS';
 
 // Action Creators
-// TODO
+const fetch = orders => ({
+  type: FETCH_ALL_ORDERS,
+  orders
+})
 
 // Thunk Creators
-export const refreshAllOrdersList = () => {
+export const fetchAllOrders = () => {
   return dispatch =>
     axios
       .get('/api/orders')
-      .then(response => dispatch({type: LOAD_ALL_ORDERS, payload: response.data}))
+      .then(res => dispatch(fetch(res.data)))
       .catch(err => console.log(err))
 }
 
@@ -42,11 +47,14 @@ export const makeOrder = (data, items, history) => {
   };
 };
 
-export default function reducer(products = initialOrdersState, action) {
+export default function reducer(orders = initialOrdersState, action) {
+  console.log('action:', action)
   switch (action.type) {
     case LOAD_ORDERS:
       return action.payload;
+    case FETCH_ALL_ORDERS:
+      return action.orders
     default:
-      return products;
+      return orders;
   }
 }
