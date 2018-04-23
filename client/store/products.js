@@ -10,6 +10,7 @@ const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 
 /* ------------    ACTION CREATORS      ------------------ */
 const update = product => ({ type: UPDATE_PRODUCT, product})
+const add = product => ({type: ADD_PRODUCT, product})
 
 
 /* ------------         REDUCER         ------------------ */
@@ -18,6 +19,8 @@ export default function reducer(products = initialProductState, action) {
   switch (action.type) {
     case LOAD_PRODUCTS:
       return action.payload;
+    case ADD_PRODUCT:
+      return [action.product, ...products]
     case UPDATE_PRODUCT:
       return products.map(product =>(
         action.id === product.id ? action.product :product
@@ -41,3 +44,10 @@ export const updateProduct = (id, product) =>  dispatch => {
   .then(res => dispatch(update(res.data)))
   .catch(err => console.error(`Updating product: ${product} unsuccessful`, err))
 }
+
+export const addProduct = (product) =>  dispatch => {
+  axios.post('/api/products/', product)
+  .then(res => dispatch(add(res.data)))
+  .catch(err => console.error(`Updating product: ${product} unsuccessful`, err))
+}
+

@@ -8,6 +8,8 @@ import CategoryList from './components/categories/category-list';
 import CategoryProductList from './components/categories/category-product-list';
 import UserReviews from './components/reviews/user-reviews'
 import AssignCategories from './components/categories/assign-categories'
+import AddProduct from './components/products/add-product'
+import EditProduct from './components/products/edit-product'
 import { me } from './store';
 
 /**
@@ -36,6 +38,8 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
             <Route path="/user/:id/reviews" component={UserReviews} />
             <Route path="/user/:id/assignCategories" component={AssignCategories} />
+            <Route exact path="/products/:id/edit" component={EditProduct} />
+            <Route exact path="/products/add" component={AddProduct} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
