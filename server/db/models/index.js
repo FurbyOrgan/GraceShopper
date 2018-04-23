@@ -35,11 +35,11 @@ LineItem.belongsTo(Product);
  * instead of: const User = require('../db/models/user')
  */
 module.exports = {
-  User,
-  Product,
-  Category,
   CartItem,
+  Category,
   LineItem,
+  Order,
+  Product,
   Review,
-  Order
+  User,
 };

@@ -8,7 +8,7 @@ import {
 class OrderThumb extends Component {
 
     pickColor() {
-        switch (this.props.status) {
+        switch (this.props.order.status) {
             case 'processing':
                 return 'yellow'
             case 'shipped':
@@ -21,7 +21,7 @@ class OrderThumb extends Component {
     }
 
     pickIcon() {
-        switch (this.props.status) {
+        switch (this.props.order.status) {
             case 'processing':
                 return 'settings'
             case 'shipped':
@@ -37,7 +37,7 @@ class OrderThumb extends Component {
         return (
             <Message
                 icon={this.pickIcon()}
-                header='Order Id'
+                header={`Order #${this.props.order.id}`}
                 color={this.pickColor()}
             />
         )
