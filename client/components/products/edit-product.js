@@ -11,7 +11,7 @@ class EditProduct extends Component {
     constructor (props){
         super(props)
         this.state = {
-    
+            
         }
         this.categories = []
     }
@@ -31,7 +31,6 @@ class EditProduct extends Component {
     // }
 
     handleChange = ( event, {value}) => { 
-    console.log('state: ', this.state)
     console.log(this.props.currentProduct, "current product")
         const name = event.target.name;
         //const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
