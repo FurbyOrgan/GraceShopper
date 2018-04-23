@@ -41,7 +41,6 @@ module.exports = {
   Order,
   Product,
   Review,
-  Address,
   User,
 
 };
