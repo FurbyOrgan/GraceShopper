@@ -18,6 +18,10 @@ import {
   UserReviews
 } from './components';
 
+import SingleProduct from './components/products/single-product'
+import EditProduct   from './components/products/edit-product'
+import ReviewForm    from './components/reviews/review-form'
+
 import { me } from './store';
 
 /**
@@ -30,7 +34,7 @@ class Routes extends Component {
 
   render() {
     const { isLoggedIn } = this.props;
-
+    
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
@@ -51,6 +55,8 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
             <Route path="/user/:id/reviews" component={UserReviews} />
             <Route path="/user/:id/assignCategories" component={AssignCategories} />
+            <Route exact path="/review" component={ReviewForm} />
+            <Route exact path="/products/:id/edit" component={EditProduct} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

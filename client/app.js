@@ -31,12 +31,6 @@ class App extends React.Component {
       <div>
         <Navbar />
         <Routes />
-
-        <Route exact path="/products" component={ProductList} />
-        <Route exact path="/products/:id" component={SingleProduct} />
-        <Route exact path="/products/:id/edit" component={EditProduct} />
-        <Route exact path="/review" component={ReviewForm} />
-
       </div>
     );
   }
