@@ -18,7 +18,6 @@ import {
   UserReviews
 } from './components';
 
-import SingleProduct from './components/products/single-product'
 import EditProduct   from './components/products/edit-product'
 import ReviewForm    from './components/reviews/review-form'
 
@@ -34,7 +33,7 @@ class Routes extends Component {
 
   render() {
     const { isLoggedIn } = this.props;
-    
+
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}

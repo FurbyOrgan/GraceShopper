@@ -8,30 +8,30 @@ import {
   Form,
   Header,
   Icon,
-  Input,
   Item,
   Segment,
   Divider
 } from 'semantic-ui-react';
 import { Control, LocalForm as ReduxForm, actions } from 'react-redux-form';
+import withManagedForm from '../common/managed-form';
 import { makeOrder } from '../../store';
 import { withRouter } from 'react-router-dom';
 
 // Valdiators
-const required = str => str && str.length;
-const isEmail = str => /\S+@\S+\.\S+/.test(str);
-const validators = {
-  orderFirstName: { required },
-  orderLastName: { required },
-  orderEmail: { required, isEmail },
-  shippingStreet: { required },
-  shippingCity: { required },
-  shippingState: { required },
-  shippingZipCode: { required },
-  billingStreet: { required },
-  billingCity: { required },
-  billingState: { required },
-  billingZipCode: { required }
+const required = { test: str => str && str.length, message: 'This field is required.' };
+const isEmail = { test: str => /\S+@\S+\.\S+/.test(str), message: 'Must be a valid email address.' };
+const formSchema = {
+  orderFirstName: { validators: [required] },
+  orderLastName: { validators: [required] },
+  orderEmail: { validators: [required, isEmail] },
+  shippingStreet: { validators: [required] },
+  shippingCity: { validators: [required] },
+  shippingState: { validators: [required] },
+  shippingZipCode: { validators: [required] },
+  billingStreet: { validators: [required] },
+  billingCity: { validators: [required] },
+  billingState: { validators: [required] },
+  billingZipCode: { validators: [required] }
 };
 
 class CheckoutForm extends React.Component {
@@ -40,14 +40,19 @@ class CheckoutForm extends React.Component {
     this.state = {
       step: 0
     };
+
+    if (props.user.id) {
+      props.formHelpers.setFieldValue('orderFirstName', props.user.firstName);
+      if (!props.formData.orderFirstName.touched) props.formHelpers.setFieldValue('orderLastName', props.user.lastName);
+      if (!props.formData.orderFirstName.touched) props.formHelpers.setFieldValue('orderEmail', props.user.email);
+    }
   }
 
   componentWillReceiveProps(props) {
-    console.log('componentWillReceiveProps', props)
     if (props.user.id) {
-      this.formDispatch(actions.change('checkout.orderFirstName', props.user.firstName));
-      this.formDispatch(actions.change('checkout.orderLastName', props.user.lastName));
-      this.formDispatch(actions.change('checkout.orderEmail', props.user.email));
+      if (!props.formData.orderFirstName.touched) props.formHelpers.setFieldValue('orderFirstName', props.user.firstName);
+      if (!props.formData.orderFirstName.touched) props.formHelpers.setFieldValue('orderLastName', props.user.lastName);
+      if (!props.formData.orderFirstName.touched) props.formHelpers.setFieldValue('orderEmail', props.user.email);
     }
   }
 
@@ -65,8 +70,7 @@ class CheckoutForm extends React.Component {
             model="checkout"
             onUpdate={form => this.onFormUpdate(form)}
             onChange={values => this.onFormChange(values)}
-            getDispatch={dispatch => (this.formDispatch = dispatch)}
-          >
+            getDispatch={dispatch => (this.formDispatch = dispatch)}>
             {this.renderCheckoutStep()}
             <Divider horizontal />
             {this.renderButtons()}
@@ -77,18 +81,14 @@ class CheckoutForm extends React.Component {
   }
 
   onFormSubmit = checkoutData => {
-    console.log('onFormSubmit')
+    console.log('onFormSubmit');
     this.props.doMakeOrder(checkoutData, this.props.cart);
     console.trace();
   };
 
-  onFormChange = data => {
+  onFormChange = data => {};
 
-  };
-
-  onFormUpdate = data => {
-
-  };
+  onFormUpdate = data => {};
 
   renderBreadcrumb() {
     const step = this.state.step;
@@ -137,24 +137,8 @@ class CheckoutForm extends React.Component {
     }
   }
 
-  makeSemanticReduxInput = (labelName, modelName) => {
-    const formField = props => {
-      return <Form.Input label={labelName} placeholder={labelName} {...props} />;
-    };
-    return (
-      <Control
-        mapProps={{
-          error: ({ fieldValue }) => (!fieldValue.pristine || fieldValue.touched) && !fieldValue.valid
-        }}
-        component={formField}
-        validators={validators[modelName.substring(1)]}
-        model={modelName}
-        id={modelName}
-      />
-    );
-  };
-
   renderProfileStep() {
+    const ManagedInput = this.props.formComponents.ManagedInput;
     return (
       <div>
         {this.props.user.id ? (
@@ -164,9 +148,9 @@ class CheckoutForm extends React.Component {
         )}
         <div>
           <Form.Group widths="equal">
-            {this.makeSemanticReduxInput('First Name', '.orderFirstName')}
-            {this.makeSemanticReduxInput('Last Name', '.orderLastName')}
-            {this.makeSemanticReduxInput('Email', '.orderEmail')}
+            <ManagedInput component={Form.Input} name="orderFirstName" label="First Name" />
+            <ManagedInput component={Form.Input} name="orderLastName" label="Last Name" />
+            <ManagedInput component={Form.Input} name="orderEmail" label="Email" />
           </Form.Group>
         </div>
       </div>
@@ -174,26 +158,28 @@ class CheckoutForm extends React.Component {
   }
 
   renderShippingStep() {
+    const ManagedInput = this.props.formComponents.ManagedInput;
     return (
       <div>
-        {this.makeSemanticReduxInput('Shipping Address', '.shippingStreet')}
+        <ManagedInput component={Form.Input} name="shippingStreet" label="Shipping Street Address" />
         <Form.Group widths="equal">
-          {this.makeSemanticReduxInput('City', '.shippingCity')}
-          {this.makeSemanticReduxInput('State', '.shippingState')}
-          {this.makeSemanticReduxInput('ZIP Code', '.shippingZipCode')}
+          <ManagedInput component={Form.Input} name="shippingCity" label="City" />
+          <ManagedInput component={Form.Input} name="shippingState" label="State" />
+          <ManagedInput component={Form.Input} name="shippingZipCode" label="ZIP Code" />
         </Form.Group>
       </div>
     );
   }
 
   renderBillingStep() {
+    const ManagedInput = this.props.formComponents.ManagedInput;
     return (
       <div>
-        {this.makeSemanticReduxInput('Billing Address', '.billingStreet')}
+        <ManagedInput component={Form.Input} name="billingStreet" label="Billing Street Address" />
         <Form.Group widths="equal">
-          {this.makeSemanticReduxInput('City', '.billingCity')}
-          {this.makeSemanticReduxInput('State', '.billingState')}
-          {this.makeSemanticReduxInput('ZIP Code', '.billingZipCode')}
+          <ManagedInput component={Form.Input} name="billingCity" label="City" />
+          <ManagedInput component={Form.Input} name="billingState" label="State" />
+          <ManagedInput component={Form.Input} name="billingZipCode" label="ZIP Code" />
         </Form.Group>
       </div>
     );
@@ -228,8 +214,7 @@ class CheckoutForm extends React.Component {
         ) : (
           <Button
             disabled={this.state.step === 3}
-            onClick={() => this.setState({ step: this.state.step + 1 })}
-          >
+            onClick={() => this.setState({ step: this.state.step + 1 })}>
             Proceed
           </Button>
         )}
@@ -264,4 +249,4 @@ const mapDispatch = (dispatch, ownProps) => ({
   }
 });
 
-export default withRouter(connect(mapState, mapDispatch)(CheckoutForm));
+export default withRouter(withManagedForm(formSchema, connect(mapState, mapDispatch)(CheckoutForm)));
