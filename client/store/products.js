@@ -7,10 +7,13 @@ const initialProductState = [];
 const LOAD_PRODUCTS = 'LOAD_PRODUCTS';
 const ADD_PRODUCT = 'ADD_PRODUCT';
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
+const REMOVE_PRODUCT = "REMOVE_PRODUCT"
 
 /* ------------    ACTION CREATORS      ------------------ */
 const update = product => ({ type: UPDATE_PRODUCT, product})
 const add = product => ({type:ADD_PRODUCT, product})
+const remove = product =>({type: REMOVE_PRODUCT, id})
+
 
 
 /* ------------         REDUCER         ------------------ */
@@ -27,6 +30,8 @@ export default function reducer(products = initialProductState, action) {
       ));
     case ADD_PRODUCT:
       return [action.product, ...products]
+    case REMOVE_PRODUCT:
+      return reviews.filter(review => review.id !== action.id);
     default:
       return products;
   }
@@ -52,3 +57,9 @@ export const addProduct = (product) =>  dispatch => {
   .then(res => dispatch(add(res.data)))
   .catch(err => console.error(`Updating product: ${product} unsuccessful`, err))
 }
+
+export const removeProduct = id => dispatch => {
+  axios.delete(`/api/products/${id}`)
+       .then(() => dispatch(remove(id)))
+       .catch(err => console.error(`Removing review: ${id} unsuccessful`, err));
+};
