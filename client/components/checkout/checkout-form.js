@@ -1,7 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { ProductListItem } from '../';
-import { Step, Button, Container, Form, Header, Icon, Item, Segment, Divider } from 'semantic-ui-react';
+import {
+  Step,
+  Button,
+  Container,
+  Form,
+  Header,
+  Icon,
+  Item,
+  Segment,
+  Divider,
+  Message
+} from 'semantic-ui-react';
 import withManagedForm from '../common/managed-form';
 import { makeOrder } from '../../store';
 import { withRouter } from 'react-router-dom';
@@ -27,7 +38,8 @@ class CheckoutForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      step: 0
+      step: 0,
+      errorAlert: ''
     };
 
     // Load user profile info if logged in
@@ -58,7 +70,15 @@ class CheckoutForm extends React.Component {
         </Header>
         <Segment>
           {this.renderBreadcrumb()}
-          <ManagedForm component={Form}>
+          {this.state.errorAlert ? this.renderErrorMessage() : null}
+          {/* We're overwriting ManagedForm's onSubmit handler to work around a react issue where
+              onSubmit is fired every time the form's contents change, even if the submit button
+              was not clicked. */}
+          <ManagedForm
+            component={Form}
+            onSubmit={event => event.preventDefault()}
+            handleSubmit={this.onFormSubmit}
+            handleValidationFailed={this.onFormSubmitFailed}>
             {this.renderCheckoutStep()}
             <Divider horizontal />
             {this.renderButtons()}
@@ -68,10 +88,21 @@ class CheckoutForm extends React.Component {
     );
   }
 
-  onFormSubmit = checkoutData => {
-    console.log('onFormSubmit');
-    this.props.doMakeOrder(checkoutData, this.props.cart);
-    console.trace();
+  onFormSubmit = formData => {
+    const postData = {};
+    for (const field in formData) {
+      if (formData.hasOwnProperty(field)) {
+        const fieldData = formData[field];
+        postData[field] = fieldData.value
+      }
+    }
+    this.props.doMakeOrder(postData, this.props.cart);
+  };
+
+  onFormSubmitFailed = () => {
+    this.setState({
+      errorAlert: 'Some fields have errors.  Please go back and fix them before submitting your order.'
+    });
   };
 
   renderBreadcrumb() {
@@ -103,6 +134,17 @@ class CheckoutForm extends React.Component {
           </Step.Content>
         </Step>
       </Step.Group>
+    );
+  }
+
+  renderErrorMessage() {
+    return (
+      <Message
+        negative
+        onDismiss={() => this.setState({ errorAlert: '' })}
+        header="Error"
+        content={this.state.errorAlert}
+      />
     );
   }
 
@@ -192,7 +234,9 @@ class CheckoutForm extends React.Component {
           Back
         </Button>
         {this.state.step === 3 ? (
-          <Button onClick={this.props.formEvents.onFormSubmit} type="submit">Submit</Button>
+          <Button onClick={this.props.formEvents.onSubmit} type="submit">
+            Submit
+          </Button>
         ) : (
           <Button
             disabled={this.state.step === 3}

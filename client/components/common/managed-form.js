@@ -1,5 +1,39 @@
 import React from 'react';
+/*
+  ManagedForm is a higher-order component that provides form state management to the component it
+  wraps.
 
+  USAGE:
+    Import managed-form.js, and wrap your component in withManagedForm.  You will need to provide a
+    schema object as the first property.  The key should be the field's name, and it should have:
+    - validators: an array of validator objects.  A validator object has a test function and as well
+        as a message string that will be pushed onto a field's errors array if the test fails.
+      initialValue: the initial value of the field, if any
+
+    After wrapping your component in withManagedForm, ManagedForm will pass down various event
+    handlers and helper methods to your component's props.
+
+  PROPS:
+    formData: This contains the state of the form.  Each field has the properties value, dirty, and errors
+    formEvents: This contains references to ManagedForm's event handlers.  You should not override
+      them, but you can invoke them manually if you need to do so.
+    formHelpers: This contains a setFieldValue function, which allows you to programatically set
+      the value of a field.  This will be done without triggering validation.
+    formComponents: This contains ManagedInput and ManagedForm components, which are decorated
+      <input> and <form> elements that have been bound to ManagedForm's event handlers.  These are
+      the components you should use in your render method.
+
+  MANAGEDINPUT PROPS
+    component: If omitted, ManagedInput will wrap a standard <input> component.  If provided, it
+      will wrap the component you provide.
+    name: This should match the field provided in your formSchema.
+
+  MANAGEDFORM PROPS
+    component: If omitted, ManagedForm will wrap a standard <form> component.  If provided, it will
+      wrap the component you provide.
+    handleSubmit: This will be called when your form is submitted and passes validation.
+    handleValidationFailed: This will be called when your form is submitted and fails validation.
+*/
 const withManagedForm = (schema, WrappedComponent) => {
   if (typeof schema !== 'object' || Object.keys(schema) === 0) throw Error('withForm expects a schema definition as the first argument.');
 
@@ -25,6 +59,7 @@ const withManagedForm = (schema, WrappedComponent) => {
       };
 
       this.setupManagedComponents();
+      this.validateForm();
     }
 
     setupManagedComponents = () => {
@@ -40,7 +75,7 @@ const withManagedForm = (schema, WrappedComponent) => {
         };
 
         // Use destructuring to remove `component` from parentProps
-        const { component, ...propsWithoutComponent } = parentProps
+        const { component, ...propsWithoutComponent } = parentProps;
         if (component) {
           return <parentProps.component {...propList} {...propsWithoutComponent} />;
         } else {
@@ -50,19 +85,35 @@ const withManagedForm = (schema, WrappedComponent) => {
 
       this.ManagedForm = parentProps => {
         // Use destructuring to remove `component` from parentProps
-        const { component, ...propsToPass } = parentProps
-        propsToPass.onSubmit = this.onFormSubmit;
+        const { component, handleSubmit, handleValidationFailed, ...propsToPass } = parentProps;
+        this.handleSubmit = handleSubmit;
+        this.handleValidationFailed = handleValidationFailed;
+        if (!parentProps.onSubmit) propsToPass.onSubmit = this.onFormSubmit;
         if (component) {
           return <parentProps.component {...propsToPass} />;
         } else {
           return <form {...propsToPass} />;
         }
       };
-    }
+    };
 
-    onFormSubmit = (event) => {
-      console.log(Object.keys(event.target).map(key => key + ': ' + event.target[key]))
-    }
+    onFormSubmit = event => {
+      console.log(this.state.formData);
+      let hasErrors = false;
+      for (const key in this.state.formData) {
+        if (this.state.formData.hasOwnProperty(key)) {
+          if (this.state.formData[key].errors.length) {
+            hasErrors = true;
+            break;
+          }
+        }
+      }
+
+      if (hasErrors) {
+        return this.handleValidationFailed();
+      }
+      this.handleSubmit(this.state.formData);
+    };
 
     onFieldFocusGained = ({ target }) => {
       const key = target.name;
@@ -133,7 +184,11 @@ const withManagedForm = (schema, WrappedComponent) => {
       <WrappedComponent
         {...this.props}
         formData={this.state.formData}
-        formEvents={{ onChange: this.onFieldChanged, onBlur: this.onFieldFocusLost, onSubmit: this.onFormSubmit }}
+        formEvents={{
+          onChange: this.onFieldChanged,
+          onBlur: this.onFieldFocusLost,
+          onSubmit: this.onFormSubmit
+        }}
         formComponents={{ ManagedInput: this.ManagedInput, ManagedForm: this.ManagedForm }}
         formHelpers={{ setFieldValue: this.setFieldValue }}
       />
