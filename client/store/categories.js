@@ -5,9 +5,21 @@ const initialCategoriesState = [];
 
 // Action Types
 const LOAD_CATEGORIES = 'LOAD_CATEGORIES';
+const ASSIGN_CATEGORIES = 'ASSIGN_CATEGORIES'
 
 // Action Creators
-// TODO
+const assign = categories => ({type: ASSIGN_CATEGORIES, categories})
+
+
+//Reducer
+export default function reducer(categories = initialCategoriesState, action) {
+  switch (action.type) {
+    case LOAD_CATEGORIES:
+      return action.payload;
+    default:
+      return categories;
+  }
+}
 
 // Thunk Creators
 export const refreshCategoryList = () => {
@@ -16,13 +28,4 @@ export const refreshCategoryList = () => {
       .get('/api/categories')
       .then(response => dispatch({ type: LOAD_CATEGORIES, payload: response.data }))
       .catch(err => console.log(err));
-}
-
-export default function reducer(categories = initialCategoriesState, action) {
-  switch (action.type) {
-    case LOAD_CATEGORIES:
-      return action.payload;
-    default:
-      return categories;
-  }
 }

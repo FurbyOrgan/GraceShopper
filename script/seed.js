@@ -9,9 +9,20 @@
  *
  * Now that you've got the main idea, check it out in practice below!
  */
+const Promise = require('bluebird')
+const chance  = require('chance')(123)
+const faker   = require('faker')
+
+function doTimes (n, fn) {
+  const results = [];
+  while (n--) {
+    results.push(fn());
+  }
+  return results;
+}
+
 const db = require('../server/db');
 const {
-  Address,
   CartItem,
   Category,
   LineItem,
@@ -21,100 +32,215 @@ const {
   User
 } = require('../server/db/models');
 
-async function seed() {
-  await db.sync({ force: true });
-  console.log('db synced!');
-  // Whoa! Because we `await` the promise that db.sync returns, the next line will not be
-  // executed until that promise resolves!
+/**
+ * MAKE AS MANY CART ITEMS AS WE WANT!
+ */
+function randomCartItem(products, users) {
+  const product = chance.pick(products)
+  const user    = chance.pick(users)
 
-  const users = await Promise.all([
-    User.create({
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john@email.com',
-      isAdmin: false,
-      password: '123'
-    }),
-    User.create({
-      firstName: 'Jane',
-      lastName: 'Doe',
-      email: 'jane@email.com',
-      isAdmin: true,
-      password: '123'
-    })
-  ]);
+  const maxQuantity = 5
 
-  const categories = await Promise.all([
-    Category.create({
-      name: 'Copy Paper',
-      description: "It's just paper."
-    }),
-    Category.create({
-      name: 'Sticky Notes',
-      imageUrl: '/img/stickyNote.png',
-      description: 'Leave passive-aggressive notes around the office.'
-    }),
-    Category.create({ name: 'Lined Paper', description: 'Paper: now with lines.' }),
-    Category.create({ name: 'Construction Paper', description: 'Make your own South Park episode!' })
-  ]);
-
-  const products = await Promise.all([
-    Product.create({
-      title: 'Yellow Sticky Note',
-      description: "It's a single yellow sticky note.",
-      price: 39.99,
-      inventory: 500
-    }),
-    Product.create({
-      title: 'Letter Copy Paper',
-      description: 'One sheet of 8.5"x11" copy paper.',
-      price: 199.99,
-      inventory: 2000
-    }),
-    Product.create({
-      title: 'Lined Paper',
-      description: 'A single sheet of college-ruled lined paper.',
-      price: 59.99,
-      inventory: 3
-    })
-  ]);
-
-  await products[0].addCategory(categories[1]);
-  await products[1].addCategory(categories[0]);
-  await products[2].addCategory(categories[2]);
-
-  console.log('Building review');
-  const review = Review.build({
-    subject: 'Damaged Item',
-    body: 'This paper arrived torn in half and scribbled with blue crayon.  Very dissatisfied.',
-    rating: 2
-  });
-  console.log('Setting associations');
-  review.setUser(users[0], { save: false });
-  review.setProduct(products[1], { save: false });
-  await review.save();
-
-  console.log(`seeded successfully`);
+  return CartItem.build({
+    quantity  : Math.floor(Math.random() * Math.floor(maxQuantity)),
+    userId    : user.id,
+    productId : product.id,
+  })
 }
 
-// Execute the `seed` function
-// `Async` functions always return a promise, so we can use `catch` to handle any errors
-// that might occur inside of `seed`
+function generateCartItems(products, users) {
+  const numCartItems = 50
+  return doTimes(numCartItems, () => randomCartItem(products, users))
+}
+
+function createCartItems(products, users) {
+  return Promise.map(generateCartItems(products, users), cartItem => cartItem.save())
+}
+
+/**
+ * STUFF TO MAKE AS MANY CATEGORIES AS WE WANT!
+ */
+function randomCategory() {
+  return Category.build({
+    name        : faker.lorem.word(),
+    description : faker.lorem.sentence(),
+  })
+}
+
+function generateCategories() {
+  const numCategories = 5
+  return doTimes(numCategories, randomCategory)
+}
+
+function createCategories() {
+  return Promise.map(generateCategories(), category => category.save())
+}
+
+/**
+ * MAKE AS MANY LINEITEMS AS WE WANT!
+ */
+function randomLineItem(orders, products) {
+  const maxQuantity = 5
+
+  const order   = chance.pick(orders)
+  const product = chance.pick(products)
+
+  return LineItem.build({
+    quantity  : Math.floor(Math.random() * Math.floor(maxQuantity)),
+    price     : (faker.finance.amount(0.01)),
+    orderId   : order.id,
+    productId : product.id,
+  })
+}
+
+function generateLineItems(orders, products) {
+  const numLineItems = 300
+  return doTimes(numLineItems, () => randomLineItem(orders, products))
+}
+
+function createLineItems(orders, products) {
+  return Promise.map(generateLineItems(orders, products), lineItem => lineItem.save())
+}
+
+/**
+ * STUFF TO MAKE AS MANY ORDERS AS WE WANT!
+ */
+function randomOrder(users) {
+  const status = chance.pick(['processing', 'shipped'])
+  const user   = chance.pick(users)
+
+  return Order.build({
+    date            : faker.date.recent(),
+    status          : status,
+    orderFirstName  : user.firstName,
+    orderLastName   : user.lastName,
+    orderEmail      : user.email,
+    userId          : user.id,
+    shippingStreet  : faker.address.streetAddress(),
+    shippingCity    : faker.address.city(),
+    shippingState   : faker.address.stateAbbr(),
+    shippingZipCode : faker.address.zipCode(),
+    billingStreet   : faker.address.streetAddress(),
+    billingCity     : faker.address.city(),
+    billingState    : faker.address.stateAbbr(),
+    billingZipCode  : faker.address.zipCode(),
+  })
+}
+
+function generateOrders(users) {
+  const numOrders = 100
+  return doTimes(numOrders, () => randomOrder(users))
+}
+
+function createOrders(users) {
+  return Promise.map(generateOrders(users), order => order.save())
+}
+
+/**
+ * STUFF TO MAKE AS MANY PRODUCTS AS WE WANT!
+ */
+function randomProduct() {
+  const maxInventory = 99
+
+  return Product.build({
+    title            : faker.commerce.productName(),
+    description      : faker.lorem.sentence(),
+    price            : faker.commerce.price(),
+    inventory        : Math.floor(Math.random() * Math.floor(maxInventory)),
+    imageUrl         : faker.image.abstract(),
+  })
+}
+
+function generateProducts(categories) {
+  const numProducts = 10
+  return doTimes(numProducts, () => randomProduct(categories))
+}
+
+function createProducts(categories) {
+  return Promise.map(generateProducts(categories), product => product.save())
+}
+
+
+/**
+ * MAKE AS MANY REVIEWS AS WE WANT!
+ */
+function randomReview(products, users) {
+  const product = chance.pick(products)
+  const user    = chance.pick(users)
+
+  return Review.build({
+    subject   : faker.lorem.sentence(),
+    body      : faker.lorem.paragraph(),
+    rating    : Math.floor(Math.random() * Math.floor(4) + 1),
+    productId : product.id,
+    userId    : user.id,
+  })
+}
+
+function generateReviews(products, users) {
+  const numReviews = 500
+  return doTimes(numReviews, () => randomReview(products, users))
+}
+
+function createReviews(products, users) {
+  return Promise.map(generateReviews(products, users), review => review.save())
+}
+
+/**
+ * STUFF TO MAKE AS MANY USERS AS WE WANT!
+ */
+function randomUser() {
+  return User.build({
+    firstName : faker.name.firstName(),
+    lastName  : faker.name.lastName(),
+    email     : faker.internet.email(),
+    isAdmin   : false,
+    password  : 'password',
+  })
+}
+
+function generateUsers() {
+  const numUsers = 100
+  const users = doTimes(numUsers, randomUser)
+  users.push(User.build({
+    firstName : 'Adam',
+    lastName  : 'Admin',
+    email     : 'adam@admin.com',
+    isAdmin   : true,
+    password  : 'password',
+  }))
+  return users
+}
+
+function createUsers() {
+  return Promise.map(generateUsers(), user => user.save())
+}
+
+/**
+ * Actual seeding bit
+ */
+async function seed() {
+  await db.sync({force: true})
+    const categories           = await createCategories()
+    const users                = await createUsers()
+    const orders               = await createOrders(users)
+    const products             = await createProducts(categories)
+    const cartItems            = await createCartItems(products, users)
+    const lineItems            = await createLineItems(orders, products)
+    const reviews              = await createReviews(products, users)
+    const addCategoryToProduct = await Promise.all(products.map(product => {
+      return product.addCategory(chance.pick(categories))
+    }))
+}
+
 seed()
   .catch(err => {
-    console.error(err.message);
-    console.error(err.stack);
-    process.exitCode = 1;
+    console.error(err.message)
+    console.error(err.stack)
+    process.exitCode = 1
   })
   .then(() => {
-    console.log('closing db connection');
-    db.close();
-    console.log('db connection closed');
-  });
-
-/*
- * note: everything outside of the async function is totally synchronous
- * The console.log below will occur before any of the logs that occur inside
- * of the async function
- */
-console.log('seeding...');
+    console.log('closing db connection')
+    db.close()
+    console.log('db connection closed')
+  })
