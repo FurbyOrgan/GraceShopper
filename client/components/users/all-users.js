@@ -9,7 +9,7 @@ import UserItem from './user-item'
 const UserList = ({ users }) => {
     return (
       <Container text>
-        <h2>Categories</h2>
+        <h2>{users.length} Users</h2>
         <Item.Group divided>
           {users.map(user => <UserItem key={user.id} user={user.id} />)}
         </Item.Group>
