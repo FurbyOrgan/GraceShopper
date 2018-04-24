@@ -66,7 +66,7 @@ class EditProduct extends Component {
         const categories = this.props.categories;
         const { value } = this.state
       
-        console.log(this.categories)
+        console.log(this.categories, 'current categories selected')
         if(!product) return(<div />)
         return (
             <Container text>
@@ -79,7 +79,7 @@ class EditProduct extends Component {
                     <Form.Group inline>
                         <label>Categories</label>
                         <ul>
-                        {categories.length? categories.map(category => <Form.Field control={Checkbox} label={category.name} name='categoryId' value={category.id}  onChange={this.addCategories} key ={category.id}/>):<div/>}
+                        {categories.length? categories.map(category => <Form.Field control={Checkbox} label={category.name} name='categoryId' value={category.id}  onChange={this.addCategories} key ={category.id} checked={!this.categories.includes(category.id)? false: true }/>):<div/>}
                         </ul>
                     </Form.Group>
                     <Form.Field control={TextArea} label="Description" placeholder={product.description} name='description' value={this.state.description} onChange={this.handleChange}/>
