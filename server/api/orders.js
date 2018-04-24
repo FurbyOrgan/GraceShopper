@@ -6,6 +6,7 @@ const { transporter,
         mailOptionsOrderDelivered } = require('./email')
 const { isAdmin } = require('./loginStatus')
 
+
 module.exports = router;
 
 router.param('id', (req, res, next, id) => {
@@ -101,6 +102,19 @@ router.put('/:id', (req, res, next) => {
     })
     .catch(next);
 });
+
+/**
+ * Get line items associated with this order
+ */
+router.get('/:id/items', (req, res, next) => {
+  LineItem.findAll({
+    where: {
+      orderId : req.params.id
+    }
+  })
+  .then(itemInOrder => res.json(itemInOrder))
+  .catch(next)
+})
 
 router.delete('/:id', (req, res, next) => {
   req.requestedOrder
