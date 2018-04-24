@@ -54,6 +54,13 @@ router.put('/:id', async (req, res, next) => {
   }
 });
 
+router.delete('/:id', (req, res, next) => {
+  Product.findById(req.params.id)
+    .then(product => product.destroy())
+    .then(() => res.sendStatus(204))
+    .catch(next);
+});
+
 // Get all reviews for a particular product
 router.get('/:id/reviews', (req, res, next) => {
   Review.findAll({

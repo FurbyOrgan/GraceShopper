@@ -20,6 +20,7 @@ import ProductReviews from './components/reviews/product-reviews';
 
 // Other Components
 import Routes from './routes';
+import AdminSidebar from './components/admin/admin-sidebar'
 
 class App extends React.Component {
   componentDidMount() {
@@ -35,6 +36,8 @@ class App extends React.Component {
     );
   }
 }
+
+
 
 const mapDispatch = dispatch => ({
   fetchInitialData: () => {

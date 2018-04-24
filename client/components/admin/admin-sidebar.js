@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import AdminProductList from './admin-product'
+import AddProduct from '../products/add-product'
 
 class AdminSidebar extends Component {
   state = { visible: true }
@@ -16,7 +17,7 @@ class AdminSidebar extends Component {
         <Sidebar.Pushable as={Segment}>
           <Sidebar as={Menu} animation='push' width='thin' visible={visible} icon='labeled' vertical inverted>
             <Menu.Item name='home'>
-              <Icon name='home' as={Link} to={`/home`}/>
+              <Icon name='home' as={Link} to={`/user/:id/admin`}/>
               Home
             </Menu.Item>
             <Menu.Item name='categories' as={Link} to={`/categories`}>
@@ -39,6 +40,8 @@ class AdminSidebar extends Component {
           <Sidebar.Pusher>
             <Segment basic>
               <AdminProductList/>
+           
+              
             </Segment>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
