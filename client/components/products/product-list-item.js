@@ -20,7 +20,7 @@ const ProductListItem = ({ product, review }) => {
             <Item.Meta>
               <Label tag>${product.price}</Label>
             </Item.Meta>
-            <Rating icon='star' defaultRating={2} maxRating={5} disable='true'/>
+            <Rating icon='star' defaultRating={2} maxRating={5} disabled='true'/>
             <Item.Description>{product.description}</Item.Description>
 
         <Item.Extra>
