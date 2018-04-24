@@ -18,9 +18,11 @@ class ReviewForm extends React.Component{
     
 
     handleSubmit = async (val) => {
+        let prodId = this.props.location.pathname.split('/')[2]
         
+        prodId = Number(prodId)
         await this.setState(this.props.forms.review)
-        await this.setState({userId: this.props.user.id, productId: this.props.productId })
+        await this.setState({userId: this.props.user.id, productId: prodId })
        await console.log(this.state)
        await this.props.addReview(this.state.userId, this.state)
     }
