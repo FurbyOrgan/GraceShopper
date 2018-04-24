@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { Order, Product, LineItem } = require('../db/models');
+const { Order } = require('../db/models');
 
 module.exports = router;
 
@@ -71,8 +72,10 @@ router.get('/:id', (req, res, next) => {
 
 router.put('/:id', (req, res, next) => {
   req.requestedOrder
-    .update(req.body)
-    .then(order => res.json(order))
+    .update(req.body, {returning: true})
+    .then(result => {
+      res.json(result)
+    })
     .catch(next);
 });
 

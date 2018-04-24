@@ -8,6 +8,7 @@ import {
   CategoryList,
   CategoryProductList,
   CheckoutForm,
+  EditOrder,
   Login,
   OrderList,
   ProductList,
@@ -46,7 +47,8 @@ class Routes extends Component {
    
    
         <Route exact path="/checkout"               component={CheckoutForm} />
-        <Route exact path="/orders"                 component={OrderList} />
+        <Route path="/orders"                 component={OrderList} />
+        {/* <Route exact path="/orders/:id"             component={EditOrder} /> */}
         <Route exact path="/products"               component={ProductList} />
         <Route exact path="/products/:productId"    component={SingleProduct} />
         <Route path="/search/:searchQuery"          component={SearchResults} />
