@@ -1,12 +1,22 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { Grid, Image as ImageComponent, Item, Label, Button, Dropdown, Icon } from 'semantic-ui-react'
+import { connect } from 'react-redux';
 
 import CategoryLabel from '../categories/category-label'
+import {removeProduct} from '../../store/products'
 
-const AdminProductItem = ({ product }) => {
-   
 
+    class AdminProductItem  extends Component {
+        constructor (props){
+            super(props)
+         
+        }
+    
+  
+
+    render (){ 
+        const product = this.props.product
   return (
     <Item>
       <Item.Image src={product.imageUrl} />
@@ -33,13 +43,16 @@ const AdminProductItem = ({ product }) => {
         <Button.Group color='teal' size='tiny'>
         <Button as={Link} to={`/products/${product.id}/edit`}>Edit</Button>
         <Button.Or />
-        <Button>Delete</Button>
+        <Button onClick={() => this.props.removeProduct(product.id)}>Delete</Button>
           </Button.Group>
         </Item.Extra> 
       </Item.Content>
     </Item>
   );
+}
+
 };
+const mapState = ({product}) => ({product})
 
-
-export default AdminProductItem;
+const mapDispatch = {removeProduct}
+export default connect(null, mapDispatch)(AdminProductItem);

@@ -13,7 +13,7 @@ import CategoryLabel from '../categories/category-label'
 const ProductList = ({ products }) => {
   return (
     <Container text>
-      <Header as='h2'>All Products</Header>
+      {!products.length? <h3>No products available</h3>: <div/>}
       <Item.Group divided>
         {products.map(productElement =>
           <ProductListItem key={productElement.id} product={productElement} />

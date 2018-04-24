@@ -12,7 +12,7 @@ const REMOVE_PRODUCT = "REMOVE_PRODUCT"
 /* ------------    ACTION CREATORS      ------------------ */
 const update = product => ({ type: UPDATE_PRODUCT, product})
 const add = product => ({type:ADD_PRODUCT, product})
-const remove = product =>({type: REMOVE_PRODUCT, id})
+const remove = id =>({type: REMOVE_PRODUCT, id})
 
 
 
@@ -31,7 +31,7 @@ export default function reducer(products = initialProductState, action) {
     case ADD_PRODUCT:
       return [action.product, ...products]
     case REMOVE_PRODUCT:
-      return reviews.filter(review => review.id !== action.id);
+      return products.filter(product => product.id !== action.id);
     default:
       return products;
   }

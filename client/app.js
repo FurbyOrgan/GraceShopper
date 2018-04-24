@@ -13,6 +13,7 @@ import { Modal, Header, Button, Icon, Form, Grid } from 'semantic-ui-react';
 
 // Other Components
 import Routes from './routes';
+import AdminSidebar from './components/admin/admin-sidebar'
 
 class App extends React.Component {
   constructor(props) {
@@ -28,11 +29,14 @@ class App extends React.Component {
   }
 
   render() {
+    console.log(this.props, 'navbar props')
     return (
       <div>
         {this.props.user.id && this.props.user.needsPasswordReset ? this.renderPasswordResetModal() : null}
         <Navbar />
+        {this.props.user.isAdmin? <AdminSidebar/>: <div/>}
         <Routes />
+        
       </div>
     );
   }
@@ -86,6 +90,7 @@ class App extends React.Component {
 const mapState = state => ({
   user: state.user
 });
+
 
 const mapDispatch = dispatch => ({
   fetchInitialData: () => {

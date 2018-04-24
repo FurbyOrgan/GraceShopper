@@ -39,11 +39,12 @@ class Routes extends Component {
     const { isLoggedIn } = this.props;
 
     return (
+     
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/cart"                   component={CartList} />
-        <Route exact path="/categories"             component={CategoryList} />
-        <Route exact path="/categories/:categoryId" component={CategoryProductList} />
+   
+   
         <Route exact path="/checkout"               component={CheckoutForm} />
         <Route exact path="/orders"                 component={OrderList} />
         <Route exact path="/products"               component={ProductList} />
@@ -51,8 +52,10 @@ class Routes extends Component {
         <Route path="/search/:searchQuery"          component={SearchResults} />
         <Route exact path="/login"                  component={Login} />
         <Route exact path="/signup"                 component={Signup} />
-
+        
         {isLoggedIn && (
+          <div>
+         
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
@@ -60,14 +63,21 @@ class Routes extends Component {
             <Route path="/user/:id/assignCategories" component={AssignCategories} />
             <Route exact path="/users" component={UserList} />
             <Route exact path="/review" component={ReviewForm} />
-            <Route exact path="/products/:id/edit" component={EditProduct} />
-            <Route exact path="/add-product" component={AddProduct} />
-            <Route exact path="/user/:id/admin" component={AdminSidebar} />
+
+          
+          
+            <Route exact path="/user/:id/admin" component={AdminSidebar}/>
+            
+
           </Switch>
+          
+          </div>
         )}
         {/* Displays our Login component as a fallback */}
         <Route component={Login} />
       </Switch>
+
+     
     );
   }
 }
@@ -79,7 +89,9 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isAdmin: state.user.isAdmin
+    
   };
 };
 
