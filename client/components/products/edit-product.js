@@ -32,14 +32,15 @@ class EditProduct extends Component {
     // }
     componentDidMount = () => {
         this.setState(this.props.currentProduct)
-        console.log('state now', this.state)
+        this.categories = this.props.currentProduct.categories.map(category => category.id)
+       
     }
     handleChange = ( event, {value}) => { 
     console.log(this.props.currentProduct, "current product")
         const name = event.target.name;
-        //const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-        this.setState( {order: { [name]: event.target.value}})
-    }
+
+        this.setState( { [name]: event.target.value})
+
     addCategories = (event, {value}) =>{
         if(!this.categories.includes(value)){
             this.categories.push(value)
@@ -49,6 +50,7 @@ class EditProduct extends Component {
         }
         
         this.setState( {'categoriesId' : this.categories} )
+        
 
     }
 
@@ -62,6 +64,7 @@ class EditProduct extends Component {
         const product = this.props.currentProduct;
         const categories = this.props.categories;
         const { value } = this.state
+
         if(!product) return(<div />)
         return (
             <Container text>
@@ -74,7 +77,7 @@ class EditProduct extends Component {
                     <Form.Group inline>
                         <label>Categories</label>
                         <ul>
-                        {categories.length? categories.map(category => <Form.Field control={Checkbox} label={category.name} name='categoryId' value={category.id}  onChange={this.addCategories} key ={category.id}/>):<div/>}
+                        {categories.length? categories.map(category => <Form.Field control={Checkbox} label={category.name} name='categoryId' value={category.id}  onChange={this.addCategories} key ={category.id} checked={!this.categories.includes(category.id)? false: true }/>):<div/>}
                         </ul>
                     </Form.Group>
                     <Form.Field control={TextArea} label="Description" placeholder={product.description} name='description' value={this.state.description} onChange={this.handleChange}/>

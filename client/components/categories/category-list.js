@@ -3,6 +3,7 @@ import CategoryListItem from './category-list-item';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Container, Item } from 'semantic-ui-react'
+import AddCategory from './add-categories'
 
 const CategoryList = ({ categories }) => {
   return (
@@ -11,6 +12,7 @@ const CategoryList = ({ categories }) => {
       <Item.Group divided>
         {categories.map(categoryElement => <CategoryListItem key={categoryElement.id} category={categoryElement} />)}
       </Item.Group>
+      <AddCategory/>
     </Container>
   );
 };
