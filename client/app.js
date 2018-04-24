@@ -99,7 +99,6 @@ const mapDispatch = dispatch => ({
     dispatch(refreshCategoryList());
     dispatch(fetchAllOrders());
     dispatch(restoreCart());
-    dispatch(fetchAllLineItems())
   },
   doPasswordReset: newPassword => {
     dispatch(changePassword(newPassword));
