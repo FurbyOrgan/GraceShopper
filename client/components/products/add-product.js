@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Checkbox, Container, Form, Input, TextArea } from 'semantic-ui-react';
+import { Button, Checkbox, Container, Form, Input, TextArea, Message } from 'semantic-ui-react';
 import {addProduct} from '../../store/products'
 
 class AddProduct extends Component {
@@ -44,7 +44,7 @@ class AddProduct extends Component {
         return (
             
             <Container text>
-                <Form onSubmit={this.handleSubmit}>
+                <Form onSubmit={this.handleSubmit} error>
                     <Form.Group>
                         <Form.Field control={Input} label="Title" placeholder="" name='title' value={this.state.value} onChange={this.handleChange} />
                         <Form.Field control={Input} label="Price" placeholder="" name='price' value={this.state.price} onChange={this.handleChange}/>
@@ -55,6 +55,12 @@ class AddProduct extends Component {
                         <ul>
                         {categories.length? categories.map(category => <Form.Field control={Checkbox} label={category.name} name='categoryId' value={category.id}  onChange={this.addCategories} key ={category.id} />):<div/>}
                         </ul>
+                        {this.categories.length? <div/>:  <Message
+                            error
+                            header='Warning:'
+                            content='Must have at least 1 category assigned'
+                          />}
+                       
                     </Form.Group>
                     <Form.Field control={TextArea} label="Description" placeholder="" name='description' value={this.state.value} onChange={this.handleChange}/>
                     <Form.Group inline>
@@ -62,6 +68,7 @@ class AddProduct extends Component {
                         <Form.Field control={Button} content='Cancel' />
                     </Form.Group>
                 </Form>
+        
             </Container>
         )
     }
