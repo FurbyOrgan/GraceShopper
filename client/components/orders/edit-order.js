@@ -53,9 +53,15 @@ class EditOrder extends Component {
         this.props.onLoad()
     }
 
-    orderTotal = () => {
-
+    orderTotal = (lineItems) => {
+        if (!lineItems) {
+            lineItems=[]
+            return 0.00
+        } else {
+            return lineItems.reduce(lineItem => (Number(lineItem.price.slice(1, -1))*lineItem.quantity).toFixed(2))
+        }
     }
+
     render() {
         const order = this.props.order
         const isAdmin = this.props.user.isAdmin;
@@ -70,14 +76,11 @@ class EditOrder extends Component {
                     <h4>Items</h4>
                     <ul>
                         {lineItems
-                            ? lineItems.map(lineItem => <li>{lineItem.product.title} (${lineItem.price}) x{lineItem.quantity}</li>)
+                            ? lineItems.map(lineItem => <li key={lineItem.id}>{lineItem.product.title} (${lineItem.price}) x{lineItem.quantity}</li>)
                             : <li>This order doesn't have any items!</li>
                         }
                     </ul>
-                    <h4>Total = ${!lineItems
-                                      ? 0.00
-                                      :lineItems.reduce(lineItem => Number(lineItem.price.slice(1, -1))).toFixed(2)
-                    }</h4>
+                    <h4>Total = ${this.orderTotal(lineItems)}</h4>
                     <Form>
                         <Form.Group>
                             <Button icon labelPosition="left" color={this.pickColor()} disabled={!isAdmin} onClick={() => this.props.onToggleStatusClicked(order)}>
