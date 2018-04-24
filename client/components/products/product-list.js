@@ -10,13 +10,15 @@ import ProductListItem from './product-list-item';
 import CategoryLabel from '../categories/category-label'
 
 
-const ProductList = ({ products, reviews }) => {
+const ProductList = ({ products }, {reviews}) => {
+console.log(reviews )
+  
   return (
     <Container text>
       {!products.length? <h3>No products available</h3>: <div/>}
       <Item.Group divided>
         {products.map(productElement =>
-          <ProductListItem key={productElement.id} product={productElement} review={reviews}/>
+          <ProductListItem key={productElement.id} product={productElement} review={2}/>
         )}
       </Item.Group>
     </Container>

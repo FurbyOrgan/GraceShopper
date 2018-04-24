@@ -6,11 +6,12 @@ import ProductList from './product-list';
 import CategoryLabel from '../categories/category-label'
 import CartAddButton from '../cart/cart-add-button';
 
-const ProductListItem = ({ product }) => {
+const ProductListItem = ({ product, review }) => {
   //const reviewOfProduct = reviews.filter(review => review.productId === product.id)
   
  // const totalRating = reviewOfProduct.reduce( (review, sum) => {sum += review.rating}, 0 )
  // const avgRating = totalRating/reviewOfProduct.length
+ console.log(review)
   return (
     <Item>
       <Item.Image src={product.imageUrl} />
@@ -19,7 +20,7 @@ const ProductListItem = ({ product }) => {
             <Item.Meta>
               <Label tag>${product.price}</Label>
             </Item.Meta>
-            <Rating icon='star' defaultRating={0} maxRating={5} />
+            <Rating icon='star' defaultRating={2} maxRating={5} disable='true'/>
             <Item.Description>{product.description}</Item.Description>
 
         <Item.Extra>

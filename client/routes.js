@@ -62,7 +62,7 @@ class Routes extends Component {
             <Route path="/user/:id/reviews" component={UserReviews} />
             <Route path="/user/:id/assignCategories" component={AssignCategories} />
             <Route exact path="/users" component={UserList} />
-            <Route exact path="/review" component={ReviewForm} />
+            <Route exact path="/products/:id/reviews" component={ReviewForm} />
 
           
           

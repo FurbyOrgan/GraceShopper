@@ -21,6 +21,7 @@ import { fetchProductReviews } from '../../store';
 class SingleProduct extends Component {
   componentWillMount() {
     this.props.doFetchReviews();
+    
   }
 
   render() {
@@ -54,8 +55,9 @@ class SingleProduct extends Component {
             </Item.Content>
           </Item>
           <Divider horizontal />
-          <Header>Reviews ({reviews.length}) </Header>
+          <Header>({reviews.length}) Reviews </Header>
           <Rating icon='star' defaultRating={avgRating} maxRating={5} disabled='true' size='large' disabled='true'/>
+          <Link to={`${product.id}/reviews`}>Leave a Review</Link>
           <Item.Group>
             {reviews.map(review => (
               <Item key={review.id}>
