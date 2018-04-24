@@ -54,8 +54,18 @@ export const makeOrder = (data, items, history) => {
   };
 };
 
-export const updateOrder = (id, order) => dispatch =>{
-  axios.put(`api/orders/${id}`, order)
+export const toggleOrderStatus = (order) => {
+  return dispatch => {
+    if (order.status === 'processing') {order.status = 'shipped';}
+    else { order.status = 'processing' }
+    axios.put(`/api/orders/${order.id}`, { id: order.id, status: order.status })
+    .then(res => dispatch(update(res.data)))
+    .catch(err => console.error(`Updating order: ${order} unsuccessful`, err))
+  }
+}
+
+export const updateOrder = (id, order) => dispatch => {
+  axios.put(`/api/orders/${id}`, order)
     .then(res => dispatch(update(res.data)))
     .catch(err => console.error(`Updating order: ${order} unsuccessful`, err))
 }
@@ -69,7 +79,7 @@ export default function reducer(orders = initialOrdersState, action) {
       return action.orders
     case UPDATE_ORDER:
       return orders.map(order => (
-        action.id === order.id ? action.order : order
+        action.order.id === order.id ? action.order : order
       ))
     default:
       return orders;

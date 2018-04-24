@@ -9,6 +9,8 @@ import {
     Message,
     Modal,
 } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { toggleOrderStatus } from '../../store';
 
 class EditOrder extends Component {
 
@@ -44,11 +46,12 @@ class EditOrder extends Component {
     render() {
         console.log(this.props)
         const order = this.props.order
+        const isAdmin = this.props.user.isAdmin;
         return (
             <Modal.Content>
                 <Modal.Header>
                     {`Order #${order.id}`}
-                    <Button icon labelPosition="left" floated="right" color={this.pickColor()} onClick={this.handleChange}>
+                    <Button icon labelPosition="left" floated="right" color={this.pickColor()} disabled={!isAdmin} onClick={() => this.props.onToggleStatusClicked(order)}>
                         <Icon name={this.pickIcon()} />
                         {order.status}
                     </Button>
@@ -62,6 +65,7 @@ class EditOrder extends Component {
                                 name="orderFirstName"
                                 value={order.orderFirstName}
                                 onChange={this.handleChange}
+                                readOnly={!isAdmin}
                             />
                             <Form.Field
                                 control={Input}
@@ -69,6 +73,7 @@ class EditOrder extends Component {
                                 name="orderLastName"
                                 value={order.orderLastName}
                                 onChange={this.handleChange}
+                                readOnly={!isAdmin}
                             />
                         </Form.Group>
                         <Divider />
@@ -79,6 +84,7 @@ class EditOrder extends Component {
                             name="billingStreet"
                             value={order.billingStreet}
                             onChange={this.handleChange}
+                            readOnly={!isAdmin}
                         />
                         <Form.Group widths="equal">
                             <Form.Field
@@ -87,6 +93,7 @@ class EditOrder extends Component {
                                 name="billingCity"
                                 value={order.billingCity}
                                 onChange={this.handleChange}
+                                readOnly={!isAdmin}
                             />
                             <Form.Field
                                 control={Input}
@@ -94,6 +101,7 @@ class EditOrder extends Component {
                                 name="billingState"
                                 value={order.billingState}
                                 onChange={this.handleChange}
+                                readOnly={!isAdmin}
                             />
                             <Form.Field
                                 control={Input}
@@ -101,6 +109,7 @@ class EditOrder extends Component {
                                 name="billingZipCode"
                                 value={order.billingZipCode}
                                 onChange={this.handleChange}
+                                readOnly={!isAdmin}
                             />
                         </Form.Group>
                         <Divider />
@@ -111,6 +120,7 @@ class EditOrder extends Component {
                             name="shippingStreet"
                             value={order.shippingStreet}
                             onChange={this.handleChange}
+                            readOnly={!isAdmin}
                         />
                         <Form.Group widths="equal">
                             <Form.Field
@@ -119,6 +129,7 @@ class EditOrder extends Component {
                                 name="shippingCity"
                                 value={order.shippingCity}
                                 onChange={this.handleChange}
+                                readOnly={!isAdmin}
                             />
                             <Form.Field
                                 control={Input}
@@ -126,6 +137,7 @@ class EditOrder extends Component {
                                 name="shippingState"
                                 value={order.shippingState}
                                 onChange={this.handleChange}
+                                readOnly={!isAdmin}
                             />
                             <Form.Field
                                 control={Input}
@@ -133,6 +145,7 @@ class EditOrder extends Component {
                                 name="shippingZipCode"
                                 value={order.shippingZipCode}
                                 onChange={this.handleChange}
+                                readOnly={!isAdmin}
                             />
                         </Form.Group>
                     </Form>
@@ -142,4 +155,9 @@ class EditOrder extends Component {
     }
 }
 
-export default withRouter(EditOrder)
+const mapState = ({ user }) => ({ user })
+const mapDispatch = (dispatch) => {
+    return { onToggleStatusClicked: (order) => dispatch(toggleOrderStatus(order))}
+}
+
+export default connect(mapState, mapDispatch)(withRouter(EditOrder))
