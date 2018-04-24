@@ -39,7 +39,7 @@ export const auth = (email, password, method) => (dispatch, getState) =>
         dispatch(getUser(res.data));
         // After logging in, POST any items in the guest user's cart to the API.  Once that
         // completes, retrieve the entire cart from the API.
-        console.log('Logging in; posting local cart to API.')
+        console.log('Logging in; posting local cart to API.');
         Promise.all(getState().cart.map(cartItem => axios.post('/api/cart', cartItem))).then(_ =>
           dispatch(restoreCart())
         );
@@ -62,6 +62,18 @@ export const logout = () => (dispatch, getState) =>
       history.push('/login');
     })
     .catch(err => console.log(err));
+
+export const changePassword = newPassword => {
+  return (dispatch, getState) => {
+    const currentUser = getState().user;
+    currentUser.needsPasswordReset = false;
+    currentUser.password = newPassword;
+    axios
+      .put(`/api/users/${currentUser.id}`, currentUser)
+      .then(res => dispatch(me()))
+      .catch(err => console.error(`Updating user: ${currentUser} unsuccessful`, err));
+  };
+};
 
 /**
  * REDUCER
