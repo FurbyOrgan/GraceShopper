@@ -5,15 +5,16 @@ import {
   refreshCategoryList,
   restoreCart,
   fetchAllOrders,
-  changePassword
+  changePassword,
+  dismissAlert
 } from './store';
 import { Navbar } from './components';
 import { withRouter } from 'react-router-dom';
-import { Modal, Header, Button, Icon, Form, Grid } from 'semantic-ui-react';
+import { Container, Modal, Header, Button, Icon, Form, Grid, Message, Divider } from 'semantic-ui-react';
 
 // Other Components
 import Routes from './routes';
-import AdminSidebar from './components/admin/admin-sidebar'
+import AdminSidebar from './components/admin/admin-sidebar';
 
 class App extends React.Component {
   constructor(props) {
@@ -29,15 +30,27 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.props, 'navbar props')
+    console.log(this.props, 'navbar props');
     return (
       <div>
         {this.props.user.id && this.props.user.needsPasswordReset ? this.renderPasswordResetModal() : null}
         <Navbar />
-        {this.props.user.isAdmin? <AdminSidebar/>: <div/>}
+        {this.props.alert.visible ? this.renderAlert() : null}
+        {this.props.user.isAdmin ? <AdminSidebar /> : <div />}
         <Routes />
-        
       </div>
+    );
+  }
+
+  renderAlert() {
+    return (
+      <Container>
+        <Message info floating onDismiss={this.props.dismissAlert}>
+          <Message.Header>{this.props.alert.title}</Message.Header>
+          <p>{this.props.alert.message}</p>
+        </Message>
+        <Divider horizontal />
+      </Container>
     );
   }
 
@@ -88,9 +101,9 @@ class App extends React.Component {
 }
 
 const mapState = state => ({
-  user: state.user
+  user: state.user,
+  alert: state.alert
 });
-
 
 const mapDispatch = dispatch => ({
   fetchInitialData: () => {
@@ -99,9 +112,8 @@ const mapDispatch = dispatch => ({
     dispatch(fetchAllOrders());
     dispatch(restoreCart());
   },
-  doPasswordReset: newPassword => {
-    dispatch(changePassword(newPassword));
-  }
+  doPasswordReset: newPassword => dispatch(changePassword(newPassword)),
+  dismissAlert: () => dispatch(dismissAlert())
 });
 
 export default withRouter(connect(mapState, mapDispatch)(App));
