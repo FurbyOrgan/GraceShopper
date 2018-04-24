@@ -231,6 +231,7 @@ async function seed() {
     const addCategoryToProduct = await Promise.all(products.map(product => {
       return product.addCategory(chance.pick(categories))
     }))
+    
 }
 
 seed()

@@ -28,6 +28,6 @@ const mapStateToProps = (state, ownProps) => {
           orders: state.orders.filter(order => order.userId === state.user.id)
         };
       }
-      return { orders: state.orders };
+      return { orders: state.orders, products: state.products };
 }
 export default connect(mapStateToProps, null)(OrderList);

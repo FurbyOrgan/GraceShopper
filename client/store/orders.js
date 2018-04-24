@@ -8,8 +8,10 @@ const initialOrdersState = [];
 
 // Action Types
 const FETCH_ALL_ORDERS = 'FETCH_ALL_ORDERS';
+const FETCH_SINGLE_ORDER = 'FETCH_SINGLE_ORDER';
 const LOAD_ORDERS = 'LOAD_ORDERS';
 const UPDATE_ORDER = 'UPDATE_ORDER';
+const GET_LINE_ITEMS = 'GET_LINE_ITEMS'
 
 
 // Action Creators
@@ -23,7 +25,27 @@ const update = order => ({
   order,
 })
 
+const getItems = lineItems => ({
+  type: GET_LINE_ITEMS,
+  lineItems
+})
+
 // Thunk Creators
+export const fetchOrderItems = (order) => {
+  return (dispatch => {
+    return (
+      axios
+        .get(`/api/orders/${order.id}/items`)
+        .then(res => {
+          const lineItems = res.data
+          const newOrder = {...order, lineItems}
+          dispatch(update(newOrder))
+        })
+        .catch(err => console.log(err))
+    )
+  })
+}
+
 export const fetchAllOrders = () => {
   return dispatch =>
     axios
@@ -68,9 +90,11 @@ export const toggleOrderStatus = (order) => {
 
 export const updateOrder = (id, order) => dispatch => {
   axios.put(`/api/orders/${id}`, order)
-    .then(res => dispatch(update(res.data)))
-    .catch(err => console.error(`Updating order: ${order} unsuccessful`, err))
+  .then(res => dispatch(update(res.data)))
+  .catch(err => console.error(`Updating order: ${order} unsuccessful`, err))
 }
+
+// export const getLineItems ()
 
 export default function reducer(orders = initialOrdersState, action) {
   switch (action.type) {
