@@ -65,7 +65,7 @@ class Routes extends Component {
           
           
             <Route exact path="/user/:id/admin" component={AdminSidebar}/>
-            <Route exact path="/users" component={UserList}/>
+            
           </Switch>
           
           </div>
