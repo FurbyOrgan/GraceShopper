@@ -1,6 +1,10 @@
 const router = require('express').Router();
 const { Order, Product, LineItem } = require('../db/models');
-const { Order } = require('../db/models');
+const { transporter,
+        mailOptionsOrderConfirmed,
+        mailOptionsOrderShipped, 
+        mailOptionsOrderDelivered } = require('./email')
+const { isAdmin } = require('./loginStatus')
 
 module.exports = router;
 
@@ -61,6 +65,11 @@ router.post('/', async (req, res, next) => {
     });
     await Promise.all(lineItems);
     res.status(201).json(await newOrder.save());
+    mailOptionsOrderConfirmed.to = orderEmail
+      transporter.sendMail(mailOptionsOrderConfirmed, (err, info) => {
+        if (err) console.log(err)
+        else console.log(info, 'CONFIRMATION EMAIL HAS BEEN SENT!!!')
+      })
   } catch (error) {
     next(error);
   }
@@ -75,6 +84,20 @@ router.put('/:id', (req, res, next) => {
     .update(req.body, {returning: true})
     .then(result => {
       res.json(result)
+      if (result.status === 'shipped') {
+        mailOptionsOrderShipped.to = result.dataValues.orderEmail
+        transporter.sendMail(mailOptionsOrderShipped, (err, info) => {
+          if (err) console.log(err)
+          else console.log(info), 'SHIPPPED EMAIL HAS BEEN SENT!!!'
+        })
+      }
+      else if (result.status === 'processing') {
+        mailOptionsOrderDelivered.to = result.dataValues.orderEmail
+        transporter.sendMail(mailOptionsOrderDelivered, (err, info) => {
+          if (err) console.log(err)
+          else console.log(info, 'DELIVERED EMAIL HAS BEEN SENT!!!')
+        })
+      }
     })
     .catch(next);
 });
@@ -87,3 +110,5 @@ router.delete('/:id', (req, res, next) => {
     })
     .catch(next);
 });
+
+
