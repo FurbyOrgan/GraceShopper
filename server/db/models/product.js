@@ -27,17 +27,27 @@ const Product = db.define(
     imageUrl: {
       type: Sequelize.STRING,
       defaultValue: '/img/placeholder-image.png'
+    },
+    averageRating: {
+      type: Sequelize.DECIMAL,
+      defaultValue: 0
+    },
+    reviewCount: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0
     }
   },
   {
     scopes: {
       withCategories: () => ({
-        include: [{
-          attributes: ['id'],
-          model: db.model('category'),
-          through: { attributes: [] },
-          as: 'categories'
-        }]
+        include: [
+          {
+            attributes: ['id'],
+            model: db.model('category'),
+            through: { attributes: [] },
+            as: 'categories'
+          }
+        ]
       })
     }
   }

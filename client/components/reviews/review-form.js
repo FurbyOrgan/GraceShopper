@@ -1,73 +1,57 @@
-
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { Control, Form, actions } from 'react-redux-form';
 import { Rating } from 'semantic-ui-react';
+import { withRouter } from 'react-router-dom';
+import { addReview } from '../../store/review';
 
-import {addReview} from '../../store/review'
+class ReviewForm extends React.Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
 
+  handleSubmit = _ => {
+    const newReview = { ...this.props.forms.review };
+    newReview.userId = this.props.user.id;
+    newReview.productId = this.props.match.params.id;
+    newReview.rating = this.state.rating;
+    this.props.addReview(newReview.userId, newReview);
+  };
 
-class ReviewForm extends React.Component{
-    constructor (){
-        super()
-        this.state = {
+  handleRate = (e, { rating }) => {
+    this.setState({ rating });
+  };
 
-        }
-    }
-
-    
-
-    handleSubmit = async (val) => {
-        
-        await this.setState(this.props.forms.review)
-        await this.setState({userId: this.props.user.id, productId: this.props.productId })
-       await console.log(this.state)
-       await this.props.addReview(this.state.userId, this.state)
-    }
-
-    handleRate = (e, {rating}) => {
-        this.setState({rating})
-
-    }
-
-
-render(){
-    const RatingExampleRating = () => (
-        <Rating icon='star' defaultRating={0} maxRating={5}/>
-      )
-    return(
-        <Form model="review" onSubmit={(val) => this.handleSubmit(val)} className="ui form">
+  render() {
+    return (
+      <Form model="review" onSubmit={val => this.handleSubmit(val)} className="ui form">
         <div className="field">
-        <label>Subject:</label>
-        <Control.text model=".subject" id="review.subject"/>
+          <label>Subject:</label>
+          <Control.text model=".subject" id="review.subject" />
         </div>
-        <br></br>
+        <br />
         <div className="field">
-        <label>Rating:</label>
+          <label>Rating:</label>
         </div>
         <div className="ui huge star rating">
-        <Rating icon='star' defaultRating={0} maxRating={5} onRate={this.handleRate}/>
-        </div><br></br>
-        <div className="field">
-        <label>Review:</label>
-        <Control.textarea  model=".body" id="review.body"/>
-        <br></br>
+          <Rating icon="star" defaultRating={0} maxRating={5} onRate={this.handleRate} />
         </div>
-        <br></br>
+        <br />
+        <div className="field">
+          <label>Review:</label>
+          <Control.textarea model=".body" id="review.body" />
+          <br />
+        </div>
+        <br />
         <button className="ui button">Submit!</button>
-        </Form>
-
-
-     
-
-
-    )
-}
-
+      </Form>
+    );
+  }
 }
 
 /*-----------cotainer------------*/
-const mapState = ({ user, forms }) => ({ user, forms});
-const mapDispatch = {addReview};
+const mapState = ({ user, forms }) => ({ user, forms });
+const mapDispatch = { addReview };
 
-export default connect(mapState, mapDispatch)(ReviewForm)
+export default withRouter(connect(mapState, mapDispatch)(ReviewForm));

@@ -21,14 +21,12 @@ import { fetchProductReviews } from '../../store';
 class SingleProduct extends Component {
   componentWillMount() {
     this.props.doFetchReviews();
-    
+
   }
 
   render() {
     const product = this.props.currentProduct;
     const reviews = this.props.productReviews;
-    const totalRating = reviews.reduce(function( sum, review){ return sum += review.rating}, 0)
-    const avgRating = totalRating/reviews.length
     if (!product) return <div />;
     return (
       <div>
@@ -55,16 +53,16 @@ class SingleProduct extends Component {
             </Item.Content>
           </Item>
           <Divider horizontal />
-          <Header>({reviews.length}) Reviews </Header>
-          <Rating icon='star' defaultRating={avgRating} maxRating={5} disabled='true' size='large' disabled='true'/>
-          <Link to={`${product.id}/reviews`}>Leave a Review</Link>
+          <Header>Reviews</Header>
+          <Rating icon="star" defaultRating={product.averageRating} maxRating={5} size="large" disabled /> {`(${product.reviewCount})`}
+          <p><Link to={`${product.id}/reviews`}>Leave a Review</Link></p>
           <Item.Group>
             {reviews.map(review => (
               <Item key={review.id}>
                 <Item.Content>
                   <Item.Header>{review.subject}</Item.Header>
-                  <br/>
-                  <Rating icon='star' defaultRating={review.rating} maxRating={5} disabled='true'/>
+                  <br />
+                  <Rating icon="star" defaultRating={review.rating} maxRating={5} disabled />
                   <Item.Description>{review.body}</Item.Description>
                 </Item.Content>
               </Item>
