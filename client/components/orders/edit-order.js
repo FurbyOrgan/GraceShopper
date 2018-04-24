@@ -10,7 +10,11 @@ import {
     Modal,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { toggleOrderStatus } from '../../store';
+import {
+    toggleOrderStatus,
+    fetchOrderItems
+} from '../../store';
+import ProductListItem from '../index'
 
 class EditOrder extends Component {
 
@@ -43,16 +47,37 @@ class EditOrder extends Component {
                 return 'first order'
         }
     }
+
+    componentWillMount = () => {
+
+        this.props.onLoad()
+    }
+
+    orderTotal = () => {
+
+    }
     render() {
-        console.log(this.props)
         const order = this.props.order
         const isAdmin = this.props.user.isAdmin;
+        const lineItems = this.props.lineItems
+        console.log(lineItems)
         return (
             <Modal.Content>
                 <Modal.Header as="h2" inline>
                     {`Order #${order.id}`}
                 </Modal.Header>
                 <Modal.Content>
+                    <h4>Items</h4>
+                    <ul>
+                        {lineItems
+                            ? lineItems.map(lineItem => <li>{lineItem.product.title} (${lineItem.price}) x{lineItem.quantity}</li>)
+                            : <li>This order doesn't have any items!</li>
+                        }
+                    </ul>
+                    <h4>Total = ${!lineItems
+                                      ? 0.00
+                                      :lineItems.reduce(lineItem => Number(lineItem.price.slice(1, -1))).toFixed(2)
+                    }</h4>
                     <Form>
                         <Form.Group>
                             <Button icon labelPosition="left" color={this.pickColor()} disabled={!isAdmin} onClick={() => this.props.onToggleStatusClicked(order)}>
@@ -157,9 +182,25 @@ class EditOrder extends Component {
     }
 }
 
-const mapState = ({ user }) => ({ user })
-const mapDispatch = (dispatch) => {
-    return { onToggleStatusClicked: (order) => dispatch(toggleOrderStatus(order)) }
+const mapState = ({ user, products }, ownProps) => {
+    const result = {
+        user,
+    }
+    if (ownProps.order.lineItems) {
+        const ordersLineItems = ownProps.order.lineItems.map(item => {
+            const productWeWant = products.filter(product => product.id === item.productId)[0]
+            return { ...item, product: productWeWant }
+        })
+        result.lineItems = ordersLineItems
+    }
+    return result
+}
+
+const mapDispatch = (dispatch, ownProps) => {
+    return {
+        onToggleStatusClicked: (order) => dispatch(toggleOrderStatus(order)),
+        onLoad: () => dispatch(fetchOrderItems(ownProps.order))
+    }
 }
 
 export default connect(mapState, mapDispatch)(withRouter(EditOrder))

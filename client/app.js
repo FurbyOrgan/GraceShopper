@@ -5,6 +5,7 @@ import {
   refreshCategoryList,
   restoreCart,
   fetchAllOrders,
+  fetchAllLineItems,
   changePassword
 } from './store';
 import { Navbar } from './components';
@@ -98,6 +99,7 @@ const mapDispatch = dispatch => ({
     dispatch(refreshCategoryList());
     dispatch(fetchAllOrders());
     dispatch(restoreCart());
+    dispatch(fetchAllLineItems())
   },
   doPasswordReset: newPassword => {
     dispatch(changePassword(newPassword));

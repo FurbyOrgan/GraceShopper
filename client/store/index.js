@@ -22,10 +22,11 @@ import cart from './cart';
 import products from './products';
 import categories from './categories';
 import currentProduct from './current-product';
+import lineItems from './lineItems'
 import orders from './orders';
 import reviews from './review';
 import users from './users';
-const reducer = combineReducers({ user, cart, products, currentProduct, categories, orders, reviews, forms, users });
+const reducer = combineReducers({ user, cart, products, currentProduct, categories, lineItems, orders, reviews, forms, users });
 
 // Apply middleware, export combined reducer and action creators from subreducer modules
 const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware, createLogger({ collapsed: true })));
@@ -38,3 +39,4 @@ export * from './current-product';
 export * from './orders';
 export * from './review';
 export * from './users';
+export * from './lineItems';

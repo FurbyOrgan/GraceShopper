@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Order } = require('../db/models');
+const { Order, LineItem } = require('../db/models');
 
 module.exports = router;
 
@@ -15,9 +15,6 @@ router.param('id', (req, res, next, id) => {
 
 router.get('/', (req, res, next) => {
   Order.findAll({
-    // where: {
-    //   userId: req.user.id
-    // }
   })
     .then(orders => res.json(orders))
     .catch(next);
@@ -42,6 +39,19 @@ router.put('/:id', (req, res, next) => {
     })
     .catch(next);
 });
+
+/**
+ * Get line items associated with this order
+ */
+router.get('/:id/items', (req, res, next) => {
+  LineItem.findAll({
+    where: {
+      orderId : req.params.id
+    }
+  })
+  .then(itemInOrder => res.json(itemInOrder))
+  .catch(next)
+})
 
 router.delete('/:id', (req, res, next) => {
   req.requestedOrder
