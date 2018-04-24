@@ -38,10 +38,9 @@ class EditProduct extends Component {
     handleChange = ( event, {value}) => { 
     console.log(this.props.currentProduct, "current product")
         const name = event.target.name;
-        //const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+
         this.setState( { [name]: event.target.value})
-        console.log(this.categories)
-    }
+
     addCategories = (event, {value}) =>{
         if(!this.categories.includes(value)){
             this.categories.push(value)
@@ -65,8 +64,7 @@ class EditProduct extends Component {
         const product = this.props.currentProduct;
         const categories = this.props.categories;
         const { value } = this.state
-      
-        console.log(this.categories, 'current categories selected')
+
         if(!product) return(<div />)
         return (
             <Container text>
