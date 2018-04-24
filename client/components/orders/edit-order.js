@@ -49,15 +49,17 @@ class EditOrder extends Component {
         const isAdmin = this.props.user.isAdmin;
         return (
             <Modal.Content>
-                <Modal.Header>
+                <Modal.Header as="h2" inline>
                     {`Order #${order.id}`}
-                    <Button icon labelPosition="left" floated="right" color={this.pickColor()} disabled={!isAdmin} onClick={() => this.props.onToggleStatusClicked(order)}>
-                        <Icon name={this.pickIcon()} />
-                        {order.status}
-                    </Button>
                 </Modal.Header>
                 <Modal.Content>
                     <Form>
+                        <Form.Group>
+                            <Button icon labelPosition="left" color={this.pickColor()} disabled={!isAdmin} onClick={() => this.props.onToggleStatusClicked(order)}>
+                                <Icon name={this.pickIcon()} />
+                                {order.status}
+                            </Button>
+                        </Form.Group>
                         <Form.Group widths="equal">
                             <Form.Field
                                 control={Input}
@@ -65,7 +67,7 @@ class EditOrder extends Component {
                                 name="orderFirstName"
                                 value={order.orderFirstName}
                                 onChange={this.handleChange}
-                                readOnly={!isAdmin}
+                                readOnly
                             />
                             <Form.Field
                                 control={Input}
@@ -73,7 +75,7 @@ class EditOrder extends Component {
                                 name="orderLastName"
                                 value={order.orderLastName}
                                 onChange={this.handleChange}
-                                readOnly={!isAdmin}
+                                readOnly
                             />
                         </Form.Group>
                         <Divider />
@@ -84,7 +86,7 @@ class EditOrder extends Component {
                             name="billingStreet"
                             value={order.billingStreet}
                             onChange={this.handleChange}
-                            readOnly={!isAdmin}
+                            readOnly
                         />
                         <Form.Group widths="equal">
                             <Form.Field
@@ -93,7 +95,7 @@ class EditOrder extends Component {
                                 name="billingCity"
                                 value={order.billingCity}
                                 onChange={this.handleChange}
-                                readOnly={!isAdmin}
+                                readOnly
                             />
                             <Form.Field
                                 control={Input}
@@ -101,7 +103,7 @@ class EditOrder extends Component {
                                 name="billingState"
                                 value={order.billingState}
                                 onChange={this.handleChange}
-                                readOnly={!isAdmin}
+                                readOnly
                             />
                             <Form.Field
                                 control={Input}
@@ -109,7 +111,7 @@ class EditOrder extends Component {
                                 name="billingZipCode"
                                 value={order.billingZipCode}
                                 onChange={this.handleChange}
-                                readOnly={!isAdmin}
+                                readOnly
                             />
                         </Form.Group>
                         <Divider />
@@ -120,7 +122,7 @@ class EditOrder extends Component {
                             name="shippingStreet"
                             value={order.shippingStreet}
                             onChange={this.handleChange}
-                            readOnly={!isAdmin}
+                            readOnly
                         />
                         <Form.Group widths="equal">
                             <Form.Field
@@ -129,7 +131,7 @@ class EditOrder extends Component {
                                 name="shippingCity"
                                 value={order.shippingCity}
                                 onChange={this.handleChange}
-                                readOnly={!isAdmin}
+                                readOnly
                             />
                             <Form.Field
                                 control={Input}
@@ -137,7 +139,7 @@ class EditOrder extends Component {
                                 name="shippingState"
                                 value={order.shippingState}
                                 onChange={this.handleChange}
-                                readOnly={!isAdmin}
+                                readOnly
                             />
                             <Form.Field
                                 control={Input}
@@ -145,7 +147,7 @@ class EditOrder extends Component {
                                 name="shippingZipCode"
                                 value={order.shippingZipCode}
                                 onChange={this.handleChange}
-                                readOnly={!isAdmin}
+                                readOnly
                             />
                         </Form.Group>
                     </Form>
@@ -157,7 +159,7 @@ class EditOrder extends Component {
 
 const mapState = ({ user }) => ({ user })
 const mapDispatch = (dispatch) => {
-    return { onToggleStatusClicked: (order) => dispatch(toggleOrderStatus(order))}
+    return { onToggleStatusClicked: (order) => dispatch(toggleOrderStatus(order)) }
 }
 
 export default connect(mapState, mapDispatch)(withRouter(EditOrder))
