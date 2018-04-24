@@ -8,7 +8,7 @@ const CartItem = db.model('cartItem');
 
 describe('Cart routes', () => {
   beforeEach(() => {
-    return db.sync({ force: false }).then(_ => {});
+    return db.sync({ force: true }).then(_ => {});
   });
 
   describe('/api/cart/', () => {
@@ -19,7 +19,7 @@ describe('Cart routes', () => {
       });
     });
 
-    it("GET /api/cart returns an array containing the current user's shopping cart", () => {
+    xit("GET /api/cart returns an array containing the current user's shopping cart", () => {
       return request(app)
         .get('/api/cart')
         .expect(200)

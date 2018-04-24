@@ -12,18 +12,18 @@ import {
   OrderList,
   ProductList,
   Signup,
+  SingleProduct,
   SearchResults,
+  UserList,
   UserHome,
   UserReviews
 } from './components';
 
-import SingleProduct from './components/products/single-product'
 import EditProduct   from './components/products/edit-product'
 import ReviewForm    from './components/reviews/review-form'
 import AddProduct   from './components/products/add-product'
 import AdminProductList from './components/admin/admin-product'
 import AdminSidebar from './components/admin/admin-sidebar'
-import UserList from './components/users/all-users'
 
 import { me } from './store';
 
@@ -37,7 +37,7 @@ class Routes extends Component {
 
   render() {
     const { isLoggedIn } = this.props;
-    
+
     return (
      
       <Switch>
@@ -61,11 +61,14 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
             <Route path="/user/:id/reviews" component={UserReviews} />
             <Route path="/user/:id/assignCategories" component={AssignCategories} />
+            <Route exact path="/users" component={UserList} />
             <Route exact path="/review" component={ReviewForm} />
+
           
           
             <Route exact path="/user/:id/admin" component={AdminSidebar}/>
             
+
           </Switch>
           
           </div>

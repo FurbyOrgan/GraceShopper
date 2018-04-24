@@ -8,50 +8,60 @@ import {
   Form,
   Header,
   Icon,
-  Input,
   Item,
   Segment,
-  Divider
+  Divider,
+  Message
 } from 'semantic-ui-react';
-import { Control, LocalForm as ReduxForm, actions } from 'react-redux-form';
+import withManagedForm from '../common/managed-form';
 import { makeOrder } from '../../store';
 import { withRouter } from 'react-router-dom';
 
-// Valdiators
-const required = str => str && str.length;
-const isEmail = str => /\S+@\S+\.\S+/.test(str);
-const validators = {
-  orderFirstName: { required },
-  orderLastName: { required },
-  orderEmail: { required, isEmail },
-  shippingStreet: { required },
-  shippingCity: { required },
-  shippingState: { required },
-  shippingZipCode: { required },
-  billingStreet: { required },
-  billingCity: { required },
-  billingState: { required },
-  billingZipCode: { required }
+// ManagedForm
+const required = { test: str => str && str.length, message: 'This field is required.' };
+const isEmail = { test: str => /\S+@\S+\.\S+/.test(str), message: 'Must be a valid email address.' };
+const formSchema = {
+  orderFirstName: { validators: [required] },
+  orderLastName: { validators: [required] },
+  orderEmail: { validators: [required, isEmail] },
+  shippingStreet: { validators: [required] },
+  shippingCity: { validators: [required] },
+  shippingState: { validators: [required] },
+  shippingZipCode: { validators: [required] },
+  billingStreet: { validators: [required] },
+  billingCity: { validators: [required] },
+  billingState: { validators: [required] },
+  billingZipCode: { validators: [required] }
 };
 
 class CheckoutForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      step: 0
+      step: 0,
+      errorAlert: ''
     };
+
+    // Load user profile info if logged in
+    if (props.user.id) {
+      props.formHelpers.setFieldValue('orderFirstName', props.user.firstName);
+      props.formHelpers.setFieldValue('orderLastName', props.user.lastName);
+      props.formHelpers.setFieldValue('orderEmail', props.user.email);
+    }
   }
 
+  // Load user profile info if login state changes after CheckoutForm has been created
   componentWillReceiveProps(props) {
-    console.log('componentWillReceiveProps', props)
     if (props.user.id) {
-      this.formDispatch(actions.change('checkout.orderFirstName', props.user.firstName));
-      this.formDispatch(actions.change('checkout.orderLastName', props.user.lastName));
-      this.formDispatch(actions.change('checkout.orderEmail', props.user.email));
+      if (!props.formData.orderFirstName.touched) props.formHelpers.setFieldValue('orderFirstName', props.user.firstName);
+      if (!props.formData.orderFirstName.touched) props.formHelpers.setFieldValue('orderLastName', props.user.lastName);
+      if (!props.formData.orderFirstName.touched) props.formHelpers.setFieldValue('orderEmail', props.user.email);
     }
   }
 
   render() {
+    const ManagedForm = this.props.formComponents.ManagedForm;
+    console.log(this.props.formComponents);
     return (
       <Container>
         <Header as="h2">
@@ -60,34 +70,39 @@ class CheckoutForm extends React.Component {
         </Header>
         <Segment>
           {this.renderBreadcrumb()}
-          <ReduxForm
+          {this.state.errorAlert ? this.renderErrorMessage() : null}
+          {/* We're overwriting ManagedForm's onSubmit handler to work around a react issue where
+              onSubmit is fired every time the form's contents change, even if the submit button
+              was not clicked. */}
+          <ManagedForm
             component={Form}
-            model="checkout"
-            onUpdate={form => this.onFormUpdate(form)}
-            onChange={values => this.onFormChange(values)}
-            getDispatch={dispatch => (this.formDispatch = dispatch)}
-          >
+            onSubmit={event => event.preventDefault()}
+            handleSubmit={this.onFormSubmit}
+            handleValidationFailed={this.onFormSubmitFailed}>
             {this.renderCheckoutStep()}
             <Divider horizontal />
             {this.renderButtons()}
-          </ReduxForm>
+          </ManagedForm>
         </Segment>
       </Container>
     );
   }
 
-  onFormSubmit = checkoutData => {
-    console.log('onFormSubmit')
-    this.props.doMakeOrder(checkoutData, this.props.cart);
-    console.trace();
+  onFormSubmit = formData => {
+    const postData = {};
+    for (const field in formData) {
+      if (formData.hasOwnProperty(field)) {
+        const fieldData = formData[field];
+        postData[field] = fieldData.value
+      }
+    }
+    this.props.doMakeOrder(postData, this.props.cart);
   };
 
-  onFormChange = data => {
-
-  };
-
-  onFormUpdate = data => {
-
+  onFormSubmitFailed = () => {
+    this.setState({
+      errorAlert: 'Some fields have errors.  Please go back and fix them before submitting your order.'
+    });
   };
 
   renderBreadcrumb() {
@@ -122,6 +137,17 @@ class CheckoutForm extends React.Component {
     );
   }
 
+  renderErrorMessage() {
+    return (
+      <Message
+        negative
+        onDismiss={() => this.setState({ errorAlert: '' })}
+        header="Error"
+        content={this.state.errorAlert}
+      />
+    );
+  }
+
   renderCheckoutStep() {
     switch (this.state.step) {
       case 0:
@@ -137,24 +163,8 @@ class CheckoutForm extends React.Component {
     }
   }
 
-  makeSemanticReduxInput = (labelName, modelName) => {
-    const formField = props => {
-      return <Form.Input label={labelName} placeholder={labelName} {...props} />;
-    };
-    return (
-      <Control
-        mapProps={{
-          error: ({ fieldValue }) => (!fieldValue.pristine || fieldValue.touched) && !fieldValue.valid
-        }}
-        component={formField}
-        validators={validators[modelName.substring(1)]}
-        model={modelName}
-        id={modelName}
-      />
-    );
-  };
-
   renderProfileStep() {
+    const ManagedInput = this.props.formComponents.ManagedInput;
     return (
       <div>
         {this.props.user.id ? (
@@ -164,9 +174,9 @@ class CheckoutForm extends React.Component {
         )}
         <div>
           <Form.Group widths="equal">
-            {this.makeSemanticReduxInput('First Name', '.orderFirstName')}
-            {this.makeSemanticReduxInput('Last Name', '.orderLastName')}
-            {this.makeSemanticReduxInput('Email', '.orderEmail')}
+            <ManagedInput component={Form.Input} name="orderFirstName" label="First Name" />
+            <ManagedInput component={Form.Input} name="orderLastName" label="Last Name" />
+            <ManagedInput component={Form.Input} name="orderEmail" label="Email" />
           </Form.Group>
         </div>
       </div>
@@ -174,26 +184,28 @@ class CheckoutForm extends React.Component {
   }
 
   renderShippingStep() {
+    const ManagedInput = this.props.formComponents.ManagedInput;
     return (
       <div>
-        {this.makeSemanticReduxInput('Shipping Address', '.shippingStreet')}
+        <ManagedInput component={Form.Input} name="shippingStreet" label="Shipping Street Address" />
         <Form.Group widths="equal">
-          {this.makeSemanticReduxInput('City', '.shippingCity')}
-          {this.makeSemanticReduxInput('State', '.shippingState')}
-          {this.makeSemanticReduxInput('ZIP Code', '.shippingZipCode')}
+          <ManagedInput component={Form.Input} name="shippingCity" label="City" />
+          <ManagedInput component={Form.Input} name="shippingState" label="State" />
+          <ManagedInput component={Form.Input} name="shippingZipCode" label="ZIP Code" />
         </Form.Group>
       </div>
     );
   }
 
   renderBillingStep() {
+    const ManagedInput = this.props.formComponents.ManagedInput;
     return (
       <div>
-        {this.makeSemanticReduxInput('Billing Address', '.billingStreet')}
+        <ManagedInput component={Form.Input} name="billingStreet" label="Billing Street Address" />
         <Form.Group widths="equal">
-          {this.makeSemanticReduxInput('City', '.billingCity')}
-          {this.makeSemanticReduxInput('State', '.billingState')}
-          {this.makeSemanticReduxInput('ZIP Code', '.billingZipCode')}
+          <ManagedInput component={Form.Input} name="billingCity" label="City" />
+          <ManagedInput component={Form.Input} name="billingState" label="State" />
+          <ManagedInput component={Form.Input} name="billingZipCode" label="ZIP Code" />
         </Form.Group>
       </div>
     );
@@ -222,14 +234,13 @@ class CheckoutForm extends React.Component {
           Back
         </Button>
         {this.state.step === 3 ? (
-          <Button onClick={() => console.log('Submit Clicked')} type="submit">
+          <Button onClick={this.props.formEvents.onSubmit} type="submit">
             Submit
           </Button>
         ) : (
           <Button
             disabled={this.state.step === 3}
-            onClick={() => this.setState({ step: this.state.step + 1 })}
-          >
+            onClick={() => this.setState({ step: this.state.step + 1 })}>
             Proceed
           </Button>
         )}
@@ -264,4 +275,4 @@ const mapDispatch = (dispatch, ownProps) => ({
   }
 });
 
-export default withRouter(connect(mapState, mapDispatch)(CheckoutForm));
+export default withRouter(withManagedForm(formSchema, connect(mapState, mapDispatch)(CheckoutForm)));

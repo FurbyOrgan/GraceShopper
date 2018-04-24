@@ -48,7 +48,6 @@ export const makeOrder = (data, items, history) => {
 };
 
 export default function reducer(orders = initialOrdersState, action) {
-  console.log('action:', action)
   switch (action.type) {
     case LOAD_ORDERS:
       return action.payload;
