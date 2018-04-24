@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Order, LineItem } = require('../db/models');
+const { Order, Product, LineItem } = require('../db/models');
 
 module.exports = router;
 
@@ -14,17 +14,55 @@ router.param('id', (req, res, next, id) => {
 });
 
 router.get('/', (req, res, next) => {
-  Order.findAll({
-  })
+  Order.findAll()
     .then(orders => res.json(orders))
     .catch(next);
 });
 
-router.post('/', (req, res, next) => {
-  Order.create(req.body)
-    .then(order => res.status(201))
-    .json(order)
-    .catch(next);
+// POST body from an incoming order will include a data object, which has fields such as shipping
+// address, billing address, and so forth, as well as an items array, which contains a list of item
+// IDs and quantities.  This list should be transformed into a list of LineItems before being
+// inserted into the database.
+router.post('/', async (req, res, next) => {
+  try {
+    const { orderFirstName, orderLastName, orderEmail } = req.body.data;
+    const { shippingStreet, shippingCity, shippingState, shippingZipCode } = req.body.data;
+    const { billingStreet, billingCity, billingState, billingZipCode } = req.body.data;
+
+    let newOrder = Order.build({
+      date: new Date(),
+      status: 'processing',
+      orderFirstName,
+      orderLastName,
+      orderEmail,
+      shippingStreet,
+      shippingCity,
+      shippingState,
+      shippingZipCode,
+      billingStreet,
+      billingCity,
+      billingState,
+      billingZipCode
+    });
+    if (req.user) {newOrder.setUser(req.user, { save: false });}
+    newOrder = await newOrder.save();
+
+    // Lookup products and their current prices based on the list of productIds sent by the client
+    const lineItems = req.body.items.map(async item => {
+      const product = await Product.findById(item.productId);
+      const newLineItem = LineItem.build({
+        quantity: item.quantity,
+        price: product.price
+      });
+      newLineItem.setProduct(product, { save: false });
+      newLineItem.setOrder(newOrder, { save: false });
+      return newLineItem.save();
+    });
+    await Promise.all(lineItems);
+    res.status(201).json(await newOrder.save());
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get('/:id', (req, res, next) => {

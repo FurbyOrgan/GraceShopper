@@ -12,6 +12,7 @@ class EditProduct extends Component {
         super(props)
         this.state = {
             
+            
         }
         this.categories = []
     }
@@ -29,7 +30,10 @@ class EditProduct extends Component {
     //     console.log("ownprops: ", ownProps)
     //     // if (nextProps.currentProduct !== prevState.currentProduct)
     // }
-
+    componentDidMount = () => {
+        this.setState(this.props.currentProduct)
+        console.log('state now', this.state)
+    }
     handleChange = ( event, {value}) => { 
     console.log(this.props.currentProduct, "current product")
         const name = event.target.name;
@@ -58,15 +62,14 @@ class EditProduct extends Component {
         const product = this.props.currentProduct;
         const categories = this.props.categories;
         const { value } = this.state
-        //console.log('state: ', this.state, 'currentProd', this.props.currentProduct)
         if(!product) return(<div />)
         return (
             <Container text>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Group>
-                        <Form.Field control={Input} label="Title" placeholder={product.title} name='title' value={this.state.value} onChange={this.handleChange} />
+                        <Form.Field control={Input} label="Title" placeholder={product.title} name='title' value={this.state.title} onChange={this.handleChange} />
                         <Form.Field control={Input} label="Price" placeholder={product.price} name='price' value={this.state.price} onChange={this.handleChange}/>
-                        <Form.Field control={Input} label="Inventory" placeholder={product.inventory} name='inventory' value={this.state.value} onChange={this.handleChange}/>
+                        <Form.Field control={Input} label="Inventory" placeholder={product.inventory} name='inventory' value={this.state.inventory} onChange={this.handleChange}/>
                     </Form.Group>
                     <Form.Group inline>
                         <label>Categories</label>
@@ -74,7 +77,7 @@ class EditProduct extends Component {
                         {categories.length? categories.map(category => <Form.Field control={Checkbox} label={category.name} name='categoryId' value={category.id}  onChange={this.addCategories} key ={category.id}/>):<div/>}
                         </ul>
                     </Form.Group>
-                    <Form.Field control={TextArea} label="Description" placeholder={product.description} name='description' value={this.state.value} onChange={this.handleChange}/>
+                    <Form.Field control={TextArea} label="Description" placeholder={product.description} name='description' value={this.state.description} onChange={this.handleChange}/>
                     <Form.Group inline>
                         <Form.Field control={Button} content='Confirm' />
                         <Form.Field control={Button} content='Cancel' />

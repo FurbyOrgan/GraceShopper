@@ -68,7 +68,7 @@ export const grabUsersReviews = (id) => dispatch => {
 
 
 export const addReview = (id, review) => dispatch => {
-    axios.post(`/api/users/${id}/reviews`, review)
+    axios.post(`/api/products/${id}/reviews`, review)
          .then(res => dispatch(create(res.data)))
          .catch(err => console.error(`Creating review: ${review} unsuccessful`, err));
   };

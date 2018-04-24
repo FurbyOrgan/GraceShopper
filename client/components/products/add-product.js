@@ -42,6 +42,7 @@ class AddProduct extends Component {
         const categories = this.props.categories;
         const { value } = this.state
         return (
+            
             <Container text>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Group>
@@ -52,7 +53,7 @@ class AddProduct extends Component {
                     <Form.Group inline>
                         <label>Categories</label>
                         <ul>
-                        {categories.length? categories.map(category => <Form.Field control={Checkbox} label={category.name} name='categoryId' value={category.id}  onChange={this.addCategories} key ={category.id} error/>):<div/>}
+                        {categories.length? categories.map(category => <Form.Field control={Checkbox} label={category.name} name='categoryId' value={category.id}  onChange={this.addCategories} key ={category.id} />):<div/>}
                         </ul>
                     </Form.Group>
                     <Form.Field control={TextArea} label="Description" placeholder="" name='description' value={this.state.value} onChange={this.handleChange}/>

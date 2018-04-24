@@ -1,14 +1,14 @@
 import axios from 'axios';
 import history from '../history';
 
-import { updateQuantity } from './index';
+import { updateQuantity, showAlert } from './index';
 
 // Initial State
 const initialOrdersState = [];
 
 // Action Types
-const FETCH_ALL_ORDERS = 'FETCH_ALL_ORDERS'
-const FETCH_SINGLE_ORDER = 'FETCH_SINGLE_ORDER'
+const FETCH_ALL_ORDERS = 'FETCH_ALL_ORDERS';
+const FETCH_SINGLE_ORDER = 'FETCH_SINGLE_ORDER';
 const LOAD_ORDERS = 'LOAD_ORDERS';
 const UPDATE_ORDER = 'UPDATE_ORDER';
 const GET_LINE_ITEMS = 'GET_LINE_ITEMS'
@@ -18,7 +18,7 @@ const GET_LINE_ITEMS = 'GET_LINE_ITEMS'
 const fetch = orders => ({
   type: FETCH_ALL_ORDERS,
   orders
-})
+});
 
 const update = order => ({
   type: UPDATE_ORDER,
@@ -51,8 +51,8 @@ export const fetchAllOrders = () => {
     axios
       .get('/api/orders')
       .then(res => dispatch(fetch(res.data)))
-      .catch(err => console.log(err))
-}
+      .catch(err => console.log(err));
+};
 
 export const refreshOrdersList = () => {
   return (dispatch, getState) =>
@@ -63,14 +63,16 @@ export const refreshOrdersList = () => {
 };
 
 export const makeOrder = (data, items, history) => {
-  console.log('Posting...', JSON.stringify({ data, items }));
+  console.log('Posting order...', JSON.stringify({ data, items }));
   return (dispatch, getState) => {
+    const user = getState().user;
     axios
-      .post(`/api/users/${getState().user.id}/orders`, { data, items })
+      .post(`/api/orders`, { data, items })
       .then(response => {
-        console.log('Order placed');
         getState().cart.forEach(cartItem => dispatch(updateQuantity(cartItem.productId, 0)));
-        history.push('/');
+        if (user.id) {dispatch(refreshOrdersList());}
+        dispatch(showAlert(`Order #${response.data.id} submitted!`, 'Your order has been successfully placed.  Thanks for shopping with us!'))
+        history.push('/products');
       })
       .catch(err => console.log(err));
   };
@@ -99,7 +101,7 @@ export default function reducer(orders = initialOrdersState, action) {
     case LOAD_ORDERS:
       return action.payload;
     case FETCH_ALL_ORDERS:
-      return action.orders
+      return action.orders;
     case UPDATE_ORDER:
       return orders.map(order => (
         action.order.id === order.id ? action.order : order
