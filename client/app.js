@@ -28,17 +28,20 @@ class App extends React.Component {
   }
 
   render() {
+    console.log(this.props, 'navbar props')
     return (
       <div>
         <Navbar />
+        {this.props.user.isAdmin? <AdminSidebar/>: <div/>}
         <Routes />
+        
       </div>
     );
   }
 }
 
 
-
+const mapState = ({user}) => ({user})
 const mapDispatch = dispatch => ({
   fetchInitialData: () => {
     dispatch(refreshProductList())
@@ -48,4 +51,4 @@ const mapDispatch = dispatch => ({
   }
 });
 
-export default withRouter(connect(null, mapDispatch)(App));
+export default withRouter(connect(mapState, mapDispatch)(App));

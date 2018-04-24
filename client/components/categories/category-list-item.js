@@ -11,6 +11,7 @@ const CategoryListItem = ({ category }) => {
       	<h3>{category.name}</h3>
       </Item.Header>
       <Item.Description>{category.description}</Item.Description>
+      
       </Item.Content>
     </Item>
   );

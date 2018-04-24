@@ -13,14 +13,10 @@ import {removeProduct} from '../../store/products'
          
         }
     
-    
-   
-     //handleSubmit = () => {this.props.removeProduct(this.props.product.id) }
   
 
     render (){ 
         const product = this.props.product
-        console.log(this.props, 'props')
   return (
     <Item>
       <Item.Image src={product.imageUrl} />

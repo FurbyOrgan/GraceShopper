@@ -43,8 +43,8 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/cart"                   component={CartList} />
-        <Route exact path="/categories"             component={CategoryList} />
-        <Route exact path="/categories/:categoryId" component={CategoryProductList} />
+   
+   
         <Route exact path="/checkout"               component={CheckoutForm} />
         <Route exact path="/orders"                 component={OrderList} />
         <Route exact path="/products"               component={ProductList} />
@@ -62,8 +62,8 @@ class Routes extends Component {
             <Route path="/user/:id/reviews" component={UserReviews} />
             <Route path="/user/:id/assignCategories" component={AssignCategories} />
             <Route exact path="/review" component={ReviewForm} />
-            <Route exact path="/products/:id/edit" component={EditProduct} />
-            <Route exact path="/add-product" component={AddProduct} />
+          
+          
             <Route exact path="/user/:id/admin" component={AdminSidebar}/>
             <Route exact path="/users" component={UserList}/>
           </Switch>
