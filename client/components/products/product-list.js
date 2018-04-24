@@ -10,13 +10,13 @@ import ProductListItem from './product-list-item';
 import CategoryLabel from '../categories/category-label'
 
 
-const ProductList = ({ products }) => {
+const ProductList = ({ products, reviews }) => {
   return (
     <Container text>
       {!products.length? <h3>No products available</h3>: <div/>}
       <Item.Group divided>
         {products.map(productElement =>
-          <ProductListItem key={productElement.id} product={productElement} />
+          <ProductListItem key={productElement.id} product={productElement} review={reviews}/>
         )}
       </Item.Group>
     </Container>
@@ -25,9 +25,9 @@ const ProductList = ({ products }) => {
 
 const mapStateToProps = (state, ownProps) => {
   if (ownProps.filteredProducts) {
-    return { products: ownProps.filteredProducts };
+    return { products: ownProps.filteredProducts, reviews: state.reviews };
   } else {
-    return { products: state.products };
+    return { products: state.products, reviews: state.reviews };
   }
 };
 export default connect(mapStateToProps, null)(ProductList);

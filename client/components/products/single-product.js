@@ -12,7 +12,7 @@ import {
   Item,
   Label,
   Segment,
-  Divider
+  Divider, Rating
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import CartAddButton from '../cart/cart-add-button';
@@ -26,6 +26,8 @@ class SingleProduct extends Component {
   render() {
     const product = this.props.currentProduct;
     const reviews = this.props.productReviews;
+    const totalRating = reviews.reduce(function( sum, review){ return sum += review.rating}, 0)
+    const avgRating = totalRating/reviews.length
     if (!product) return <div />;
     return (
       <div>
@@ -52,12 +54,15 @@ class SingleProduct extends Component {
             </Item.Content>
           </Item>
           <Divider horizontal />
-          <Header>Reviews ({reviews.length})</Header>
+          <Header>Reviews ({reviews.length}) </Header>
+          <Rating icon='star' defaultRating={avgRating} maxRating={5} disabled='true' size='large' disabled='true'/>
           <Item.Group>
             {reviews.map(review => (
               <Item key={review.id}>
                 <Item.Content>
                   <Item.Header>{review.subject}</Item.Header>
+                  <br/>
+                  <Rating icon='star' defaultRating={review.rating} maxRating={5} disabled='true'/>
                   <Item.Description>{review.body}</Item.Description>
                 </Item.Content>
               </Item>
@@ -78,6 +83,7 @@ const mapStateToProps = (state, ownProps) => {
     productReviews: state.reviews.filter(review => {
       return review.productId === Number(ownProps.match.params.productId);
     })
+
   };
 };
 
