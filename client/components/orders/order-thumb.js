@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-
+import { Link, withRouter } from 'react-router-dom';
 import {
+    Button,
+    Divider,
     Form,
     Icon,
     Input,
@@ -8,10 +10,11 @@ import {
     Modal,
 } from 'semantic-ui-react';
 
-class OrderThumb extends Component {
+import EditOrder from './edit-order'
 
-    pickColor() {
-        switch (this.props.order.status) {
+const OrderThumb = (props) => {
+    const pickColor = (props) => {
+        switch (props.order.status) {
             case 'processing':
                 return 'yellow'
             case 'shipped':
@@ -23,46 +26,39 @@ class OrderThumb extends Component {
         }
     }
 
-    pickIcon() {
-        switch (this.props.order.status) {
+    const pickIcon = (props) => {
+        switch (props.order.status) {
             case 'processing':
                 return 'settings'
             case 'shipped':
-                return 'shipping'
+                return 'check'
             case 'cancelled':
                 return 'ban'
             default:
                 return 'first order'
         }
     }
-
-    render() {
-        console.log('order', this.props.order)
-        const order = this.props.order
-        return (
-            <Modal trigger={
-                <Message
-                    icon={this.pickIcon()}
-                    header={`Order #${order.id}`}
-                    color={this.pickColor()}
-                />
-            }>
-                <Modal.Header>{`Order #${order.id}`}</Modal.Header>
-                <Modal.Content>
-                    <Form>
-                        <Form.Group widths="equal">
-                            <Form.Field control={Input} label='First Name' placeholder={order.orderFirstName} />
-                            <Form.Field control={Input} label='Last Name' placeholder={order.orderLastName} />
-                        </Form.Group>
-                        <Form.Group inline>
-                        </Form.Group>
-                    </Form>
-                </Modal.Content>
-            </Modal>
-
-        )
-    }
-
+    const order = props.order
+    return (
+        <Modal trigger={
+            <Message
+            onClick={() => props.history.push(`/orders/${order.id}`)}
+                icon={pickIcon(props)}
+                header={`Order #${order.id}`}
+                color={pickColor(props)}
+            />
+        }>
+            <EditOrder order={order} />
+        </Modal>
+    )
 }
 
-export default OrderThumb;
+export default withRouter(OrderThumb);
+// handleChange = (event, { value }) => {
+//     if (event.target.tagName === 'LABEL'){
+//         this.setState({ status: event.target.value})
+//     } else {
+//         const name = event.target.name;
+//         this.setState({ [name]: event.target.value })
+//     }
+// }
