@@ -11,7 +11,7 @@ const OrderList = (props) => {
     const orders = props.orders
     return (
         <Container text>
-            <Header as='h2'>Orders</Header>
+            <Header as='h2'>{orders.length } Orders</Header>
             {orders.map(order =>
                 <OrderThumb
                     key={order.id}
