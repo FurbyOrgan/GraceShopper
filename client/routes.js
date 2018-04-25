@@ -49,14 +49,20 @@ class Routes extends Component {
         <Route exact path="/checkout"               component={CheckoutForm} />
         <Route path="/orders"                 component={OrderList} />
         {/* <Route exact path="/orders/:id"             component={EditOrder} /> */}
-        <Route exact path="/products"               component={ProductList} />
-        <Route exact path="/products/:productId"    component={SingleProduct} />
+    
         <Route path="/search/:searchQuery"          component={SearchResults} />
         <Route exact path="/login"                  component={Login} />
         <Route exact path="/signup"                 component={Signup} />
-        <Route exact path="/categories/:categoryId" component={CategoryProductList} />
-        <Route exact path="/categories"             component={CategoryList} />
+       
+        {this.props.isAdmin? <div/>: 
+          <div>
+          <Route exact path="/categories/:categoryId" component={CategoryProductList} />
+          <Route exact path="/categories"             component={CategoryList} />
+          <Route exact path="/products"               component={ProductList} />
+          <Route exact path="/products/:productId"    component={SingleProduct} />
         
+          </div>
+        }
         
         {isLoggedIn && (
           <div>
