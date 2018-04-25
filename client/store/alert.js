@@ -7,7 +7,7 @@ const DISMISS_ALERT = 'DISMISS_ALERT';
 /**
  * INITIAL STATE
  */
-const initialAlertState = { visible: true, title: 'No message', message: "There's nothing here." };
+const initialAlertState = { visible: false, title: 'No message', message: "There's nothing here." };
 
 /**
  * ACTION CREATORS
