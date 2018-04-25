@@ -35,7 +35,7 @@ handleSubmit =  () => {
 
 render (){
     return(
-        <Container text>
+        <Container text className="viewHeight">
         <Form onSubmit={this.handleSubmit}>
             
                 <Form.Field control={Input} label="Category Name" placeholder="" name='name' value={this.state.value} onChange={this.handleChange} />

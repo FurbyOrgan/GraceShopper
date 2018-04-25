@@ -9,7 +9,7 @@ import {Link} from 'react-router-dom'
 export const UserHome = (props) => {
   const {email} = props
   const {user} = props
-  console.log(props,"propssss")
+
 
   return (
     <div>

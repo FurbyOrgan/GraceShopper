@@ -45,7 +45,7 @@ class AddProduct extends Component {
         const { value } = this.state
         return (
             
-            <Container text>
+            <Container text className="viewHeight">
                 <Form onSubmit={this.handleSubmit} error>
                     <Form.Group>
                         <Form.Field control={Input} label="Title" placeholder="" name='title' value={this.state.value} onChange={this.handleChange} />

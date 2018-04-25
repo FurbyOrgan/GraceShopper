@@ -22,3 +22,7 @@ nav a {
 .cart-qty-input {
   width: 5em !important;
 }
+
+.viewHeight {
+  min-height: 100vh
+}

@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import ProductList from '../products/product-list';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Container, Item, Header, Icon } from 'semantic-ui-react'
 
 const CategoryProductList = ({ category, result }) => {
   return (
-    <div>
-      <h2>Products in {category.name}</h2>
-      <p>{category.description}</p>
+    <div textAlign='center'>
+    <Header as='h2' icon textAlign='center'>
+    <Icon name='tag' circular />
+      Products in {category.name}
+    </Header>
+    
       <hr />
       <ProductList filteredProducts={result} />
     </div>

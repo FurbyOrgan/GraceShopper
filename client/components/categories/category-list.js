@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import CategoryListItem from './category-list-item';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Container, Item } from 'semantic-ui-react'
+import { Container, Item, Header, Icon } from 'semantic-ui-react'
 import AddCategory from './add-categories'
 
 const CategoryList = ({ categories, user}) => {
   return (
-    <Container text>
-      <h2>Categories</h2>
+    <Container text className="viewHeight">
+      
+    <Header as='h2' icon textAlign='center'>
+    <Icon name='tag' circular />
+      Categories
+    </Header>
       
       <Item.Group divided>
         {categories.map(categoryElement => <CategoryListItem key={categoryElement.id} category={categoryElement} />)}
