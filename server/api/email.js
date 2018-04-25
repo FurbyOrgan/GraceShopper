@@ -14,11 +14,11 @@ const nodeMailer = require('nodemailer');
     to: 'email@example.com',
     subject: "RANDOM OBJECTS ORDER CONFIRMED",
     text:
-      "Thank you for ordering paper products at Paper.com. Your order is being processed and we will let you know when your order has been shipped "
+      "Thank you for ordering random objects. Your order is being processed and we will let you know when your order has been shipped "
   };
 
   const mailOptionsOrderShipped = {
-    from: '"Paper" <randomobjects12345@gmail.com>',
+    from: '"Random Objects" <randomobjects12345@gmail.com>',
     to: 'email',
     subject: "YOUR RANDOM OBJECTS HAVE SHIPPED",
     text:
@@ -26,7 +26,7 @@ const nodeMailer = require('nodemailer');
   };
   
   const mailOptionsOrderDelivered = {
-    from: '"Paper" <randomobjects12345@gmail.com>',
+    from: '"Random Objects" <randomobjects12345@gmail.com>',
     to: 'email',
     subject: "YOUR RANDOM OBJECTS HAVE BEEN DELIVERED",
     text:
