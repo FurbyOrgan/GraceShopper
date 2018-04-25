@@ -14,7 +14,7 @@ export const UserHome = (props) => {
   return (
     <div>
       <h3>Welcome, {user.firstName} at {email}</h3>
-      {user.isAdmin? <h4>You are an admin!<Link to={`/user/${user.id}/admin`} userId={user.id}>Admin Product</Link></h4>: <h4>Welcome! Enjoy your shopping experience!</h4>}
+      {user.isAdmin? <h4>You are an admin!<Link to={`/`} userId={user.id}>Admin Home</Link></h4>: <h4>Welcome! Enjoy your shopping experience!</h4>}
       
     </div>
   )

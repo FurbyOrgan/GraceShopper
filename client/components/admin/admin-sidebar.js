@@ -10,12 +10,18 @@ import CategoryList from '../../components/categories/category-list'
 import CategoryProductList from '../../components/categories/category-product-list'
 import UserList from '../../components/users/all-users'
 import EditProduct from '../../components/products/edit-product'
+import ProductList from '../../components/products/product-list'
+import SingleProduct from '../../components/products/single-product'
+import AddCategory from '../../components/categories/add-categories'
+
 
 
 class AdminSidebar extends Component {
   state = { visible: true }
 
-  
+  checkPath = () =>{
+
+  }
 
   render() {
     const { visible } = this.state
@@ -24,13 +30,14 @@ class AdminSidebar extends Component {
        
         <Sidebar.Pushable as={Segment}>
           <Sidebar as={Menu} animation='push' width='thin' visible={visible} icon='labeled' vertical inverted>
-            <Menu.Item name='home'>
-              <Icon name='home' as={Link} to={`/`}/>
+            
+            <Menu.Item name='home' as={Link} to={`/`}>
+              <Icon name='home'/>
               All Products
             </Menu.Item>
-            <Menu.Item name='categories' as={Link} to={`/categories`}>
+            <Menu.Item name='categories' as={Link} to={`/add-category`}>
               <Icon name='tags' />
-              Categories
+              Add Categories
             </Menu.Item>
             <Menu.Item name='add-product' as={Link} to={`/add-product`}>
               <Icon name='cart arrow down' />
@@ -53,11 +60,15 @@ class AdminSidebar extends Component {
             <Route exact path="/" component={AdminProductList} />
             <Route exact path="/add-product" component={AddProduct}/>
             <Route exact path="/products/:id/edit" component={EditProduct} />
+            <Route exact path="/products/:productId"    component={SingleProduct} />
             <Route exact path='/orders' component={OrderList}/>
+            <Route exact path="/products" component={ProductList} />
            
             <Route exact path ='/users' component={UserList}/>
             <Route exact path="/categories/:categoryId" component={CategoryProductList} />
             <Route exact path ='/categories' component={CategoryList}/>
+            <Route exact path="/add-category" component={AddCategory}/>
+           
            
           </Switch>
            

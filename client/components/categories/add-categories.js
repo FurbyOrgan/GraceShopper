@@ -15,6 +15,7 @@ class AddCategories extends Component {
         this.state = {
     
         }
+        
     }
 
 handleChange = ( event, {value}) => { 
@@ -22,6 +23,7 @@ handleChange = ( event, {value}) => {
         const name = event.target.name;
         this.setState( { [name]: event.target.value})
         console.log('state: ', this.state)
+        
 }
 
 handleSubmit =  () => {
@@ -42,7 +44,7 @@ render (){
             
             <Form.Group inline>
                 <Form.Field control={Button} content='Add Category' />
-                <Form.Field control={Button} content='Cancel' />
+               
             </Form.Group>
         </Form>
     </Container>
