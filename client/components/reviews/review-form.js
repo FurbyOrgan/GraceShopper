@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Control, Form, actions } from 'react-redux-form';
-import { Rating } from 'semantic-ui-react';
+import { Rating, Container } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import { addReview } from '../../store/review';
 
@@ -24,8 +24,13 @@ class ReviewForm extends React.Component {
   };
 
   render() {
+    console.log(this.props.user)
     return (
+
+      <Container className="viewHeight">
+      
       <Form model="review" onSubmit={val => this.handleSubmit(val)} className="ui form">
+
         <div className="field">
           <label>Subject:</label>
           <Control.text model=".subject" id="review.subject" />
@@ -46,6 +51,7 @@ class ReviewForm extends React.Component {
         <br />
         <button className="ui button">Submit!</button>
       </Form>
+      </Container>
     );
   }
 }

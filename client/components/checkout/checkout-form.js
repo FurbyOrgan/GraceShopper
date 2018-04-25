@@ -230,15 +230,15 @@ class CheckoutForm extends React.Component {
   renderButtons() {
     return (
       <div>
-        <Button disabled={this.state.step === 0} onClick={() => this.setState({ step: this.state.step - 1 })}>
+        <Button color='teal' disabled={this.state.step === 0} onClick={() => this.setState({ step: this.state.step - 1 })}>
           Back
         </Button>
         {this.state.step === 3 ? (
-          <Button onClick={this.props.formEvents.onSubmit} type="submit">
+          <Button onClick={this.props.formEvents.onSubmit} type="submit" color='teal'>
             Submit
           </Button>
         ) : (
-          <Button
+          <Button color='teal'
             disabled={this.state.step === 3}
             onClick={() => this.setState({ step: this.state.step + 1 })}>
             Proceed

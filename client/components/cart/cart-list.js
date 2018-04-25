@@ -21,7 +21,7 @@ const CartList = ({ cart }) => {
       </Item.Group>
       <hr />
       <h3>Subtotal: ${getSubtotal(cart)}</h3>
-      <Button as={Link} to="/checkout" name="checkout">Checkout</Button>
+      <Button as={Link} to="/checkout" name="checkout" color='teal'>Checkout</Button>
     </Container>
   );
 };
