@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import { ProductList } from '../';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
+import { Container, Item, Header, Icon } from 'semantic-ui-react'
 
 const SearchResults = props => {
   console.log(props.match);
   return (
-    <div>
-      <h2>Search Results</h2>
+    <div className="viewHeight">
+    <Header as='h2' icon textAlign='center'>
+    <Icon name='search' circular />
+      Search Results
+    </Header>
+      
       {props.results.length === 0 ? (
         <strong>No results found.</strong>
       ) : (
