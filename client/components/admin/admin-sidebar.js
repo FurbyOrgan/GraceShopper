@@ -17,6 +17,7 @@ import CartList from '../../components/cart/cart-list'
 import CheckoutForm from '../../components/checkout/checkout-form'
 import ReviewForm    from '../../components/reviews/review-form'
 import EditOrder from '../../components/orders/edit-order'
+import OrderThumb from '../../components/orders/order-thumb'
 
 
 
@@ -67,7 +68,9 @@ class AdminSidebar extends Component {
             <Route exact path="/products/:id/edit" component={EditProduct} />
             <Route exact path="/products/:productId"    component={SingleProduct} />
             <Route exact path='/orders/:id' component={EditOrder}/>
+            <Route exact path='/orders/edit-order' component={OrderThumb}/>
             <Route exact path='/orders' component={OrderList}/>
+            
            
             
             
