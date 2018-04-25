@@ -9,7 +9,6 @@ const CategoryList = ({ categories, user}) => {
   return (
     <Container text>
       <h2>Categories</h2>
-      {user.isAdmin? <AddCategory/>: <div/>}
       
       <Item.Group divided>
         {categories.map(categoryElement => <CategoryListItem key={categoryElement.id} category={categoryElement} />)}
