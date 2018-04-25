@@ -11,7 +11,7 @@ const OrderList = (props) => {
     const orders = props.orders
     return (
         <Container text>
-            <Header as='h2'>{orders.length } Orders</Header>
+            <Header as="h2">{orders.length } Orders</Header>
             {orders.map(order =>
                 (<OrderThumb
                     key={order.id}
@@ -25,9 +25,9 @@ const OrderList = (props) => {
 const mapStateToProps = (state, ownProps) => {
     if (state.user.id && !state.user.isAdmin) {
         return {
-          orders: state.orders.filter(order => order.userId === state.user.id)
+          orders: state.orders.filter(order => order.userId === state.user.id).sort((a, b) => (a.id > b.id ? 1 : -1))
         };
       }
-      return { orders: state.orders, products: state.products };
+      return { orders: state.orders.sort((a, b) => (a.id > b.id ? 1 : -1)), products: state.products };
 }
 export default connect(mapStateToProps, null)(OrderList);

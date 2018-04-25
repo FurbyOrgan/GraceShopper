@@ -67,9 +67,7 @@ class AdminSidebar extends Component {
             <Route exact path="/products/:productId"    component={SingleProduct} />
 
 
-            <Route exact path="/orders" component={OrderList} />
-
-
+            <Route path="/orders" component={OrderList} />
 
 
             <Route exact path="/products" component={ProductList} />

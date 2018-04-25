@@ -30,7 +30,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.props, 'navbar props');
     return (
       <div>
         {this.props.user.id && this.props.user.needsPasswordReset ? this.renderPasswordResetModal() : null}

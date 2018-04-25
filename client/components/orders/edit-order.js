@@ -49,16 +49,18 @@ class EditOrder extends Component {
     }
 
     componentWillMount = () => {
-
-        this.props.onLoad()
+        this.props.onLoad();
     }
 
     orderTotal = (lineItems) => {
         if (!lineItems) {
-            lineItems=[]
+            lineItems = []
             return 0.00
         } else {
-            return lineItems.reduce(lineItem => (Number(lineItem.price.slice(1, -1))*lineItem.quantity).toFixed(2))
+            return lineItems.reduce((total, lineItem) => total += lineItem.price * lineItem.quantity, 0).toFixed(2);
+
+
+            // return lineItems.reduce(lineItem => (Number(lineItem.price.slice(1, -1)) * lineItem.quantity).toFixed(2), 0)
         }
     }
 
@@ -66,10 +68,9 @@ class EditOrder extends Component {
         const order = this.props.order
         const isAdmin = this.props.user.isAdmin;
         const lineItems = this.props.lineItems
-        console.log(lineItems)
         return (
             <Modal.Content>
-                <Modal.Header as="h2" inline>
+                <Modal.Header as="h2">
                     {`Order #${order.id}`}
                 </Modal.Header>
                 <Modal.Content>
