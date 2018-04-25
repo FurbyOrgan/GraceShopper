@@ -13,6 +13,9 @@ import EditProduct from '../../components/products/edit-product'
 import ProductList from '../../components/products/product-list'
 import SingleProduct from '../../components/products/single-product'
 import AddCategory from '../../components/categories/add-categories'
+import CartList from '../../components/cart/cart-list'
+import CheckoutForm from '../../components/checkout/checkout-form'
+
 
 
 
@@ -68,6 +71,11 @@ class AdminSidebar extends Component {
             <Route exact path="/categories/:categoryId" component={CategoryProductList} />
             <Route exact path ='/categories' component={CategoryList}/>
             <Route exact path="/add-category" component={AddCategory}/>
+            <Route exact path="/cart"                   component={CartList} />
+   
+   
+        <Route exact path="/checkout"               component={CheckoutForm} />
+       
            
            
           </Switch>

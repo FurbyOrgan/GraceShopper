@@ -43,11 +43,7 @@ class Routes extends Component {
      
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route exact path="/cart"                   component={CartList} />
-   
-   
-        <Route exact path="/checkout"               component={CheckoutForm} />
-        <Route path="/orders"                 component={OrderList} />
+       
         {/* <Route exact path="/orders/:id"             component={EditOrder} /> */}
        
         <Route path="/search/:searchQuery"          component={SearchResults} />
@@ -60,6 +56,11 @@ class Routes extends Component {
           <Route exact path="/categories"             component={CategoryList} />
           <Route exact path="/products"               component={ProductList} />
           <Route exact path="/products/:productId"    component={SingleProduct} />
+          <Route exact path="/cart"                   component={CartList} />
+   
+   
+        <Route exact path="/checkout"               component={CheckoutForm} />
+        <Route path="/orders"                 component={OrderList} />
          
         
           </div>

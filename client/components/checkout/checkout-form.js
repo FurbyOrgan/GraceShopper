@@ -63,7 +63,7 @@ class CheckoutForm extends React.Component {
     const ManagedForm = this.props.formComponents.ManagedForm;
     console.log(this.props.formComponents);
     return (
-      <Container>
+      <Container className="viewHeight">
         <Header as="h2">
           <Icon name="payment" />
           <Header.Content>Checkout</Header.Content>
