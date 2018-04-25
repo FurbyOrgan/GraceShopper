@@ -45,6 +45,29 @@ describe('Orders model', () => {
         it('has an email field', () => {
             expect(order.orderEmail).to.be.equal('johndoe@example.com')
         })
-
+        it('has an shipping street field', () => {
+            expect(order.shippingStreet).to.be.equal('405 W Superior street')
+        })
+        it('has an shipping city field', () => {
+            expect(order.shippingCity).to.be.equal('Chicago')
+        })
+        it('has an shipping state field', () => {
+            expect(order.shippingState).to.be.equal('IL')
+        })
+        it('has an shipping zipcode field', () => {
+            expect(order.shippingZipCode).to.be.equal('60654')
+        })
+        it('has an billing street field', () => {
+            expect(order.billingStreet).to.be.equal('405 W Superior street')
+        })
+        it('has an billing city field', () => {
+            expect(order.billingCity).to.be.equal('Chicago')
+        })
+        it('has an billing state field', () => {
+            expect(order.billingState).to.be.equal('IL')
+        })
+        it('has an billing zipcode field', () => {
+            expect(order.billingZipCode).to.be.equal('60654')
+        })
     })
 })
