@@ -13,7 +13,7 @@ class UsersList extends Component {
   render() {
     const users = this.props.users;
     return (
-      <Container>
+      <Container >
         <Header as="h2">All Users</Header>
         <Card.Group>{users.map(user => <UserItem key={user.id} user={user} />)}</Card.Group>
       </Container>

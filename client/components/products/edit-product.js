@@ -69,7 +69,7 @@ class EditProduct extends Component {
 
         if(!product) return(<div />)
         return (
-            <Container text>
+            <Container text className="viewHeight">
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Group>
                         <Form.Field control={Input} label="Title" placeholder={product.title} name='title' value={this.state.title} onChange={this.handleChange} />
@@ -79,7 +79,7 @@ class EditProduct extends Component {
                     <Form.Group inline>
                         <label>Categories</label>
                         <ul>
-                        {categories.length? categories.map(category => <Form.Field control={Checkbox} label={category.name} name='categoryId' value={category.id}  onChange={this.addCategories} key ={category.id} checked={!this.categories.includes(category.id)? false: true }/>):<div/>}
+                        {categories.length? categories.map(category => <Form.Field control={Checkbox} label={category.name} name='categoryId' value={category.id}  onChange={this.addCategories} key ={category.id} checked={!this.categories.includes(category.id)? false: true } />):<div/>}
                         </ul>
                     </Form.Group>
                     <Form.Field control={TextArea} label="Description" placeholder={product.description} name='description' value={this.state.description} onChange={this.handleChange}/>

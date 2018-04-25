@@ -7,7 +7,7 @@ import AddCategory from './add-categories'
 
 const CategoryList = ({ categories, user}) => {
   return (
-    <Container text>
+    <Container text className="viewHeight">
       <h2>Categories</h2>
       
       <Item.Group divided>
