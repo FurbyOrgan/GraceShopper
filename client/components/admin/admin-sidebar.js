@@ -18,6 +18,7 @@ import CheckoutForm from '../../components/checkout/checkout-form'
 import ReviewForm    from '../../components/reviews/review-form'
 import EditOrder from '../../components/orders/edit-order'
 import OrderThumb from '../../components/orders/order-thumb'
+import SearchResults from '../../components/common/search-results'
 
 
 class AdminSidebar extends Component {
@@ -79,6 +80,7 @@ class AdminSidebar extends Component {
             <Route exact path="/cart"                   component={CartList} />
             <Route exact path="/checkout"               component={CheckoutForm} />
             <Route exact path="/products/:id/reviews" component={ReviewForm} />
+            <Route path="/search/:searchQuery"          component={SearchResults} />
 
 
           </Switch>

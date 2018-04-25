@@ -10,7 +10,7 @@ class AddProduct extends Component {
     
         }
         this.categories = []
-        this.isNotDirty = true;
+        this.isDirty = false;
     }
 
 
@@ -19,7 +19,7 @@ class AddProduct extends Component {
         const name = event.target.name;
         //const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
         this.setState( { [name]: event.target.value})
-        this.isNotDirty = false;
+        this.isDirty = false;
     }
     addCategories = (event, {value}) =>{
         if(!this.categories.includes(value)){
@@ -36,6 +36,7 @@ class AddProduct extends Component {
     handleSubmit =  () => {
         console.log(this.state)
        this.props.addProduct(this.state)
+       this.isDirty = true;
     }
 
 
