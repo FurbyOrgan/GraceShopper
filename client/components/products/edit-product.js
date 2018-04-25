@@ -14,6 +14,7 @@ class EditProduct extends Component {
             
             
         }
+        this.isNotDirty = true;
         this.categories = []
     }
 
@@ -40,7 +41,7 @@ class EditProduct extends Component {
         const name = event.target.name;
 
         this.setState( { [name]: event.target.value})
-
+    }
     addCategories = (event, {value}) =>{
         if(!this.categories.includes(value)){
             this.categories.push(value)
@@ -50,6 +51,7 @@ class EditProduct extends Component {
         }
         
         this.setState( {'categoriesId' : this.categories} )
+        this.isDirty = true
         
 
     }
@@ -83,7 +85,7 @@ class EditProduct extends Component {
                     <Form.Field control={TextArea} label="Description" placeholder={product.description} name='description' value={this.state.description} onChange={this.handleChange}/>
                     <Form.Group inline>
                         <Form.Field control={Button} content='Confirm' />
-                        <Form.Field control={Button} content='Cancel' />
+                       
                     </Form.Group>
                 </Form>
             </Container>

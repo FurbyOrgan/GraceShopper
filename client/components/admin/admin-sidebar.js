@@ -10,12 +10,16 @@ import CategoryList from '../../components/categories/category-list'
 import CategoryProductList from '../../components/categories/category-product-list'
 import UserList from '../../components/users/all-users'
 import EditProduct from '../../components/products/edit-product'
+import ProductList from '../../components/products/product-list'
+
 
 
 class AdminSidebar extends Component {
   state = { visible: true }
 
-  
+  checkPath = () =>{
+
+  }
 
   render() {
     const { visible } = this.state
@@ -54,10 +58,12 @@ class AdminSidebar extends Component {
             <Route exact path="/add-product" component={AddProduct}/>
             <Route exact path="/products/:id/edit" component={EditProduct} />
             <Route exact path='/orders' component={OrderList}/>
+            <Route exact path="/products" component={ProductList} />
            
             <Route exact path ='/users' component={UserList}/>
             <Route exact path="/categories/:categoryId" component={CategoryProductList} />
             <Route exact path ='/categories' component={CategoryList}/>
+           
            
           </Switch>
            

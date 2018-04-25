@@ -54,6 +54,9 @@ class Routes extends Component {
         <Route path="/search/:searchQuery"          component={SearchResults} />
         <Route exact path="/login"                  component={Login} />
         <Route exact path="/signup"                 component={Signup} />
+        <Route exact path="/categories/:categoryId" component={CategoryProductList} />
+        <Route exact path="/categories"             component={CategoryList} />
+        
         
         {isLoggedIn && (
           <div>

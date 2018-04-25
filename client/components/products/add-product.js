@@ -10,6 +10,7 @@ class AddProduct extends Component {
     
         }
         this.categories = []
+        this.isNotDirty = true;
     }
 
 
@@ -18,6 +19,7 @@ class AddProduct extends Component {
         const name = event.target.name;
         //const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
         this.setState( { [name]: event.target.value})
+        this.isNotDirty = false;
     }
     addCategories = (event, {value}) =>{
         if(!this.categories.includes(value)){
@@ -65,7 +67,7 @@ class AddProduct extends Component {
                     <Form.Field control={TextArea} label="Description" placeholder="" name='description' value={this.state.value} onChange={this.handleChange}/>
                     <Form.Group inline>
                         <Form.Field control={Button} content='Confirm' />
-                        <Form.Field control={Button} content='Cancel' />
+                        
                     </Form.Group>
                 </Form>
         
