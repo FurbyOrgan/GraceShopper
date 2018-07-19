@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import {
     Button,
     Divider,
     Form,
     Icon,
     Input,
-    Message,
     Modal,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
@@ -14,14 +13,8 @@ import {
     toggleOrderStatus,
     fetchOrderItems
 } from '../../store';
-import ProductListItem from '../index'
 
 class EditOrder extends Component {
-
-    constructor() {
-        super()
-    }
-
     pickColor = () => {
         switch (this.props.order.status) {
             case 'processing':
@@ -58,16 +51,11 @@ class EditOrder extends Component {
             return 0.00
         } else {
             return lineItems.reduce((total, lineItem) => total += lineItem.price * lineItem.quantity, 0).toFixed(2);
-
-
-            // return lineItems.reduce(lineItem => (Number(lineItem.price.slice(1, -1)) * lineItem.quantity).toFixed(2), 0)
         }
     }
 
     render() {
-        const order = this.props.order
-        const isAdmin = this.props.user.isAdmin;
-        const lineItems = this.props.lineItems
+        const { isAdmin, lineItems, order } = this.props
         return (
             <Modal.Content>
                 <Modal.Header as="h2">
@@ -187,9 +175,7 @@ class EditOrder extends Component {
 }
 
 const mapState = ({ user, products }, ownProps) => {
-    const result = {
-        user,
-    }
+    const result = { user }
     if (ownProps.order.lineItems) {
         const ordersLineItems = ownProps.order.lineItems.map(item => {
             const productWeWant = products.filter(product => product.id === item.productId)[0]
@@ -200,11 +186,9 @@ const mapState = ({ user, products }, ownProps) => {
     return result
 }
 
-const mapDispatch = (dispatch, ownProps) => {
-    return {
-        onToggleStatusClicked: (order) => dispatch(toggleOrderStatus(order)),
-        onLoad: () => dispatch(fetchOrderItems(ownProps.order))
-    }
-}
+const mapDispatch = (dispatch, ownProps) => ({
+    onToggleStatusClicked: (order) => dispatch(toggleOrderStatus(order)),
+    onLoad: () => dispatch(fetchOrderItems(ownProps.order))
+})
 
 export default connect(mapState, mapDispatch)(withRouter(EditOrder))

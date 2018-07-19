@@ -1,22 +1,19 @@
-import React, { Component } from 'react';
-import ProductList from '../products/product-list';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Container, Item, Header, Icon } from 'semantic-ui-react'
+import React from 'react'
+import { connect } from 'react-redux'
+import { Header, Icon } from 'semantic-ui-react'
 
-const CategoryProductList = ({ category, result }) => {
-  return (
-    <div textAlign='center'>
-    <Header as='h2' icon textAlign='center'>
-    <Icon name='tag' circular />
+import ProductList from '../products/product-list'
+
+const CategoryProductList = ({ category, result }) => (
+  <div textAlign="center">
+    <Header as="h2" icon textAlign="center">
+      <Icon name="tag" circular />
       Products in {category.name}
     </Header>
-    
-      <hr />
-      <ProductList filteredProducts={result} />
-    </div>
-  );
-};
+    <hr />
+    <ProductList filteredProducts={result} />
+  </div>
+)
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -25,10 +22,10 @@ const mapStateToProps = (state, ownProps) => {
       let includesCategory = false;
       categories.forEach(
         category => (category.id == ownProps.match.params.categoryId ? (includesCategory = true) : false)
-      );
+      )
       return includesCategory;
     }),
     category: state.categories.filter(category => category.id == ownProps.match.params.categoryId)[0]
-  };
-};
-export default connect(mapStateToProps, null)(CategoryProductList);
+  }
+}
+export default connect(mapStateToProps, null)(CategoryProductList)

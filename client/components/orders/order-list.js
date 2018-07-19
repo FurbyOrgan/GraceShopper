@@ -8,9 +8,9 @@ import {
 
 import OrderThumb from './order-thumb'
 
-class OrderList extends React.Component {
-    constructor(props) {
-        super(props)
+class OrderList extends Component {
+    constructor() {
+        super()
         this.state = {
             statusFilter: 'all'
         }
@@ -21,10 +21,12 @@ class OrderList extends React.Component {
     }
 
     render() {
-        const filters = [{ text: 'All', value: 'all' },
+        const filters = [
+            { text: 'All', value: 'all' },
             { text: 'Processing', value: 'processing' },
-        { text: 'Shipped', value: 'shipped' }]
-        const orders = this.props.orders
+            { text: 'Shipped', value: 'shipped' }
+        ]
+        const { orders } = this.props
         return (
             <Container text>
                 <Header as="h2">{orders.length} Orders</Header>
@@ -40,12 +42,10 @@ class OrderList extends React.Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    if (state.user.id && !state.user.isAdmin) {
-        return {
-          orders: state.orders.filter(order => order.userId === state.user.id).sort((a, b) => (a.id > b.id ? 1 : -1))
-        };
-      }
-      return { orders: state.orders.sort((a, b) => (a.id > b.id ? 1 : -1)), products: state.products };
-}
+const mapStateToProps = state => (
+    state.user.id && !state.user.isAdmin
+    ? { orders: state.orders.filter(order => order.userId === state.user.id).sort((a, b) => (a.id > b.id ? 1 : -1)) }
+    : { orders: state.orders.sort((a, b) => (a.id > b.id ? 1 : -1)), products: state.products }
+)
+
 export default connect(mapStateToProps, null)(OrderList);

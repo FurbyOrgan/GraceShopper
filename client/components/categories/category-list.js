@@ -1,26 +1,33 @@
-import React, { Component } from 'react';
-import CategoryListItem from './category-list-item';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Container, Item, Header, Icon } from 'semantic-ui-react'
-import AddCategory from './add-categories'
+import PropTypes   from 'prop-types'
+import React       from 'react'
+import { connect } from 'react-redux'
 
-const CategoryList = ({ categories, user}) => {
-  return (
-    <Container text className="viewHeight">
-      
-    <Header as='h2' icon textAlign='center'>
-    <Icon name='tag' circular />
+import {
+  Container,
+  Icon,
+  Item,
+  Header
+} from 'semantic-ui-react'
+
+import CategoryListItem from './category-list-item'
+
+const CategoryList = ({ categories }) => (
+  <Container text className="viewHeight">
+    <Header as="h2" icon textAlign="center">
+      <Icon name="tag" circular />
       Categories
     </Header>
-      
-      <Item.Group divided>
-        {categories.map(categoryElement => <CategoryListItem key={categoryElement.id} category={categoryElement} />)}
-      </Item.Group>
-      
-    </Container>
-  );
-};
+    <Item.Group divided>
+      {categories.map(categoryElement => <CategoryListItem key={categoryElement.id} category={categoryElement} />)}
+    </Item.Group>
+  </Container>
+)
+
+CategoryList.propTypes = {
+  categories: PropTypes.arrayOf(PropTypes.object)
+}
 
 const mapStateToProps = ({ user, categories }) => ({ user, categories })
-export default connect(mapStateToProps, null)(CategoryList);
+
+export default connect(mapStateToProps, null)(CategoryList)
+

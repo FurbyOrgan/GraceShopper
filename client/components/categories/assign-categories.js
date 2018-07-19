@@ -1,33 +1,15 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React       from 'react'
+import { connect } from 'react-redux'
+
 import CategoryList from './category-list'
 
-
-
-
-
-
-class AssignCategories extends Component {
-
-
-
-
-render (){
-    return(
-        <div>
+const AssignCategories = () => (
+    <div>
         <h2>Assign Categories</h2>
-        <CategoryList/>
-        </div>
-    )
-}
+        <CategoryList />
+    </div>
+)
 
-}
+const mapState = ({ user, categories }) => ({ user, categories })
 
-
-
-
-const mapState = ({user, categories }) =>( {user, categories });
-
-const mapDispatch = null
-
-export default connect(mapState, mapDispatch)(AssignCategories )
+export default connect(mapState, null)(AssignCategories)

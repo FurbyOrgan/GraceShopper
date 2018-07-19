@@ -1,64 +1,51 @@
-import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import {
-    Button,
-    Divider,
-    Form,
-    Icon,
-    Input,
-    Message,
-    Modal,
-} from 'semantic-ui-react';
+import PropTypes          from 'prop-types'
+import React              from 'react';
+import { withRouter }     from 'react-router-dom';
+import { Message, Modal } from 'semantic-ui-react';
 
 import EditOrder from './edit-order'
 
-const OrderThumb = (props) => {
-    const pickColor = (props) => {
-        switch (props.order.status) {
-            case 'processing':
-                return 'yellow'
-            case 'shipped':
-                return 'green'
-            case 'cancelled':
-                return 'red'
-            default:
-                return 'grey'
-        }
+const pickColor = ({ status }) => {
+    switch (status) {
+        case 'processing':
+            return 'yellow'
+        case 'shipped':
+            return 'green'
+        case 'cancelled':
+            return 'red'
+        default:
+            return 'grey'
     }
-
-    const pickIcon = (props) => {
-        switch (props.order.status) {
-            case 'processing':
-                return 'settings'
-            case 'shipped':
-                return 'check'
-            case 'cancelled':
-                return 'ban'
-            default:
-                return 'first order'
-        }
-    }
-    const order = props.order
-    return (
-        <Modal trigger={
-            <Message
-            onClick={() => props.history.push(`/orders/${order.id}`)}
-                icon={pickIcon(props)}
-                header={`Order #${order.id}`}
-                color={pickColor(props)}
-            />
-        }>
-            <EditOrder order={order} />
-        </Modal>
-    )
 }
 
-export default withRouter(OrderThumb);
-// handleChange = (event, { value }) => {
-//     if (event.target.tagName === 'LABEL'){
-//         this.setState({ status: event.target.value})
-//     } else {
-//         const name = event.target.name;
-//         this.setState({ [name]: event.target.value })
-//     }
-// }
+const pickIcon = ({ status }) => {
+    switch (status) {
+        case 'processing':
+            return 'settings'
+        case 'shipped':
+            return 'check'
+        case 'cancelled':
+            return 'ban'
+        default:
+            return 'first order'
+    }
+}
+
+const OrderThumb = ({ order }) => (
+    <Modal trigger={
+        <Message
+            onClick={() => order.history.push(`/orders/${order.id}`)}
+            icon={pickIcon(order)}
+            header={`Order #${order.id}`}
+            color={pickColor(order)}
+        />
+    }>
+        <EditOrder order={order} />
+    </Modal>
+)
+
+OrderThumb.PropTypes = {
+    order: PropTypes.object
+}
+
+export default withRouter(OrderThumb)
