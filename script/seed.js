@@ -245,4 +245,3 @@ seed()
     db.close()
     console.log('db connection closed')
   })
-  
