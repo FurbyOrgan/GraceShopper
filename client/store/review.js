@@ -21,7 +21,7 @@ export const fetch = reviews => ({type: FETCH_PRODUCT_REVIEWS, reviews})
 export const grab = reviews => ({type: GRAB_USER_REVIEWS, reviews})
 export const create = review => ({type: CREATE_REVIEW, review})
 export const update = review => ({type: UPDATE_REVIEW, review})
-export const remove = id =>({type: REMOVE_REVIEW, id})
+export const remove = id => ({type: REMOVE_REVIEW, id})
 
 
 

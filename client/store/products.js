@@ -25,11 +25,9 @@ export default function reducer(products = initialProductState, action) {
     case ADD_PRODUCT:
       return [action.product, ...products]
     case UPDATE_PRODUCT:
-      return products.map(product =>(
+      return products.map(product => (
         action.id === product.id ? action.product :product
       ));
-    case ADD_PRODUCT:
-      return [action.product, ...products]
     case REMOVE_PRODUCT:
       return products.filter(product => product.id !== action.id);
     default:

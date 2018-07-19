@@ -42,9 +42,9 @@ function randomCartItem(products, users) {
   const maxQuantity = 5
 
   return CartItem.build({
-    quantity  : Math.floor(Math.random() * Math.floor(maxQuantity)),
-    userId    : user.id,
-    productId : product.id,
+    quantity:  Math.floor(Math.random() * Math.floor(maxQuantity)),
+    userId:    user.id,
+    productId: product.id,
   })
 }
 
@@ -62,8 +62,8 @@ function createCartItems(products, users) {
  */
 function randomCategory() {
   return Category.build({
-    name        : faker.lorem.word(),
-    description : faker.lorem.sentence(),
+    name:        faker.commerce.department(),
+    description: faker.lorem.sentence(),
   })
 }
 
@@ -110,20 +110,20 @@ function randomOrder(users) {
   const user   = chance.pick(users)
 
   return Order.build({
-    date            : faker.date.recent(),
-    status          : status,
-    orderFirstName  : user.firstName,
-    orderLastName   : user.lastName,
-    orderEmail      : user.email,
-    userId          : user.id,
-    shippingStreet  : faker.address.streetAddress(),
-    shippingCity    : faker.address.city(),
-    shippingState   : faker.address.stateAbbr(),
-    shippingZipCode : faker.address.zipCode(),
-    billingStreet   : faker.address.streetAddress(),
-    billingCity     : faker.address.city(),
-    billingState    : faker.address.stateAbbr(),
-    billingZipCode  : faker.address.zipCode(),
+    date: faker.date.recent(),
+    status:          status,
+    orderFirstName:  user.firstName,
+    orderLastName:   user.lastName,
+    orderEmail:      user.email,
+    userId:          user.id,
+    shippingStreet:  faker.address.streetAddress(),
+    shippingCity:    faker.address.city(),
+    shippingState:   faker.address.stateAbbr(),
+    shippingZipCode: faker.address.zipCode(),
+    billingStreet:   faker.address.streetAddress(),
+    billingCity:     faker.address.city(),
+    billingState:    faker.address.stateAbbr(),
+    billingZipCode:  faker.address.zipCode(),
   })
 }
 
@@ -143,11 +143,11 @@ function randomProduct() {
   const maxInventory = 99
 
   return Product.build({
-    title            : faker.commerce.productName(),
-    description      : faker.lorem.sentence(),
-    price            : faker.commerce.price(),
-    inventory        : Math.floor(Math.random() * Math.floor(maxInventory)),
-    imageUrl         : faker.image.abstract(),
+    title:       faker.commerce.productName(),
+    description: faker.lorem.sentence(),
+    price:       faker.commerce.price(),
+    inventory:   Math.floor(Math.random() * Math.floor(maxInventory)),
+    imageUrl:    faker.image.abstract(),
   })
 }
 
@@ -169,11 +169,11 @@ function randomReview(products, users) {
   const user    = chance.pick(users)
 
   return Review.build({
-    subject   : faker.lorem.sentence(),
-    body      : faker.lorem.paragraph(),
-    rating    : Math.floor(Math.random() * Math.floor(4) + 1),
-    productId : product.id,
-    userId    : user.id,
+    subject:   faker.lorem.sentence(),
+    body:      faker.lorem.paragraph(),
+    rating:    Math.floor(Math.random() * Math.floor(4) + 1),
+    productId: product.id,
+    userId:    user.id,
   })
 }
 
@@ -191,11 +191,11 @@ function createReviews(products, users) {
  */
 function randomUser() {
   return User.build({
-    firstName : faker.name.firstName(),
-    lastName  : faker.name.lastName(),
-    email     : faker.internet.email(),
-    isAdmin   : false,
-    password  : 'password',
+    firstName: faker.name.firstName(),
+    lastName:  faker.name.lastName(),
+    email:     faker.internet.email(),
+    isAdmin:   false,
+    password:  'password',
   })
 }
 
@@ -203,11 +203,11 @@ function generateUsers() {
   const numUsers = 100
   const users = doTimes(numUsers, randomUser)
   users.push(User.build({
-    firstName : 'Adam',
-    lastName  : 'Admin',
-    email     : 'adam@admin.com',
-    isAdmin   : true,
-    password  : 'password',
+    firstName: 'Adam',
+    lastName:  'Admin',
+    email:     'adam@admin.com',
+    isAdmin:   true,
+    password:  'password',
   }))
   return users
 }
@@ -221,14 +221,14 @@ function createUsers() {
  */
 async function seed() {
   await db.sync({force: true})
-    const categories           = await createCategories()
-    const users                = await createUsers()
-    const orders               = await createOrders(users)
-    const products             = await createProducts(categories)
-    const cartItems            = await createCartItems(products, users)
-    const lineItems            = await createLineItems(orders, products)
-    const reviews              = await createReviews(products, users)
-    const addCategoryToProduct = await Promise.all(products.map(product => {
+    const categories = await createCategories()
+    const users      = await createUsers()
+    const orders     = await createOrders(users)
+    const products   = await createProducts(categories)
+    await createCartItems(products, users)
+    await createLineItems(orders, products)
+    await createReviews(products, users)
+    await Promise.all(products.map(product => {
       return product.addCategory(chance.pick(categories))
     }))
     
@@ -245,3 +245,4 @@ seed()
     db.close()
     console.log('db connection closed')
   })
+  
